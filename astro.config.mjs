@@ -4,9 +4,11 @@ import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import remarkMermaid from './remark-mermaid.mjs';
 
+const BASE = '/silicon-strides/';
+
 export default defineConfig({
   site: 'https://yadayanxue.github.io/silicon-strides/',
-  base: '/silicon-strides/',
+  base: BASE,
   markdown: {
     remarkPlugins: [remarkMermaid, remarkMath],
     rehypePlugins: [rehypeKatex],
@@ -29,14 +31,14 @@ export default defineConfig({
         {
           tag: 'script',
           attrs: {
-            src: '/mermaid-loader.js',
+            src: BASE + 'mermaid-loader.js',
             type: 'module',
           },
         },
         {
           tag: 'script',
           attrs: {
-            src: '/mermaid-zoom.js',
+            src: BASE + 'mermaid-zoom.js',
             defer: true,
           },
         },
