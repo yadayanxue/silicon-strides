@@ -161,3 +161,13 @@ import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.mi
 - **提取 `public/mermaid-loader.js`**：head 内联 20 行 Mermaid 加载逻辑外置，添加 unpkg 回退 CDN
 - **`editLink.text` 设为中文**：`'编辑此页'`
 - **复测 `unified()` API**：Astro 6.4.6 + Starlight 0.40 下仍然静默丢弃所有 remark/rehype 插件（KaTeX + Mermaid 均 0 渲染），该 bug 未修复。Deprecation warning 暂时无解。
+
+### 9. GitHub Pages 部署：`base` 路径 + HTML 链接陷阱
+
+**症状**：部署到 `username.github.io/repo/` 后所有内部链接缺少 `/repo/` 前缀。
+
+**根因**：Astro 需要 `base: '/repo/'` 为所有资源添加路径前缀。Markdown 链接 `[text](/path/)` 会被自动处理，但**Markdown 中的原始 HTML `<a href="/path/">` 不会被 `base` 转换**。
+
+**解决方案**：
+1. `astro.config.mjs` 添加 `base: '/silicon-strides/'`
+2. Markdown 中原始 `<a href>` 使用相对路径 `href="./00-lingxi/"` 而非绝对路径 ✅
