@@ -2,14 +2,14 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
-import { unified } from '@astrojs/markdown-remark';
+import remarkMermaid from './remark-mermaid.mjs';
 
 export default defineConfig({
   site: 'https://yadayanxue.github.io/silicon-strides/',
-  markdown: unified({
-    remarkPlugins: [remarkMath],
+  markdown: {
+    remarkPlugins: [remarkMermaid, remarkMath],
     rehypePlugins: [rehypeKatex],
-  }),
+  },
   integrations: [
     starlight({
       title: '硅步千里',
@@ -30,9 +30,26 @@ export default defineConfig({
             type: 'module',
           },
           content: `
-            import mermaid from 'mermaid';
-            mermaid.initialize({ startOnLoad: true });
+            import('https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs').then(function(mod) {
+              var mermaid = mod.default || mod;
+              mermaid.initialize({ startOnLoad: false, theme: 'default' });
+              var ready = function() { mermaid.run({ querySelector: '.mermaid' }); };
+              if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', ready);
+              } else {
+                ready();
+              }
+            }).catch(function() {
+              console.warn('Mermaid CDN 加载失败，流程图将不显示');
+            });
           `,
+        },
+        {
+          tag: 'script',
+          attrs: {
+            src: '/mermaid-zoom.js',
+            defer: true,
+          },
         },
       ],
       defaultLocale: 'root',

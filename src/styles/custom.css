@@ -3,11 +3,101 @@
 /* KaTeX 数学公式 */
 @import 'katex/dist/katex.css';
 
-/* Mermaid 图表居中 */
+/* Mermaid 图表居中 + 可缩放 */
 .mermaid {
   text-align: center;
   max-width: 100%;
   overflow-x: auto;
+  cursor: zoom-in;
+  position: relative;
+  border: 1px solid var(--sl-color-gray-5, #e2e8f0);
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  background: var(--sl-color-bg, #fff);
+  transition: box-shadow 0.2s;
+}
+.mermaid:hover {
+  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+}
+
+/* Mermaid 放大浮层 */
+.mermaid-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  animation: mermaid-fade-in 0.2s ease;
+}
+.mermaid-overlay svg {
+  max-width: 95vw;
+  max-height: 85vh;
+  background: #fff;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  transition: transform 0.15s ease;
+}
+.mermaid-overlay .mermaid-close {
+  position: fixed;
+  top: 1rem;
+  right: 1.5rem;
+  z-index: 10000;
+  font-size: 2rem;
+  color: #fff;
+  cursor: pointer;
+  line-height: 1;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+  user-select: none;
+}
+.mermaid-overlay .mermaid-close:hover {
+  opacity: 1;
+}
+/* 缩放控件 */
+.mermaid-zoom-controls {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10000;
+  display: flex;
+  gap: 0.75rem;
+  background: rgba(0,0,0,0.6);
+  border-radius: 2rem;
+  padding: 0.4rem 1rem;
+}
+.mermaid-zoom-controls button {
+  width: 2.5rem;
+  height: 2.5rem;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  font-size: 1.25rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+  user-select: none;
+}
+.mermaid-zoom-controls button:hover {
+  background: rgba(255,255,255,0.3);
+}
+.mermaid-zoom-controls .zoom-label {
+  color: #fff;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  min-width: 3rem;
+  justify-content: center;
+}
+@keyframes mermaid-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 /* 数学公式居中溢出 */

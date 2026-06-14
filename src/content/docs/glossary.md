@@ -19,6 +19,8 @@ tags: [glossary, reference]
 |------|------|----------|----------|
 | Bus | System Bus | 卷一 · 微尘 | 系统总线，连接 CPU、内存与外设的通信通道 |
 | Barrier | Memory Barrier | 卷三 · 乾坤 | 内存屏障，确保内存操作按指定顺序对其他处理器可见 |
+| 布尔代数 | Boolean Algebra | 卷一 · 微尘 | 定义在 {0,1} 上的代数体系，数字逻辑电路的理论基础 |
+| 保持时间 | Hold Time | 卷一 · 微尘 | 时钟沿后数据必须保持稳定的最短时间，违反将导致亚稳态 |
 
 ## C
 
@@ -28,6 +30,8 @@ tags: [glossary, reference]
 | Context Switch | Context Switch | 卷三 · 乾坤 | 上下文切换，操作系统从一个进程/线程切换到另一个的过程 |
 | Consensus | Distributed Consensus | 卷四 · 渊海 | 分布式共识，多个节点对某一数据值达成一致意见的协议族 |
 | Coroutine | Coroutine | 卷二 · 芥子 / 卷三 · 乾坤 | 协程，用户态轻量级并发原语，由程序而非内核控制调度 |
+| CMOS | Complementary MOS | 卷一 · 微尘 | 互补金属氧化物半导体，将 NMOS 和 PMOS 配对实现低功耗数字逻辑 |
+| 触发器 | Flip-Flop | 卷一 · 微尘 | 边沿触发的存储元件，在时钟沿采样输入，现代同步数字系统的基础 |
 
 ## D
 
@@ -77,6 +81,7 @@ tags: [glossary, reference]
 | 术语 | 英文 | 所属卷宗 | 简要定义 |
 |------|------|----------|----------|
 | Kernel | Operating System Kernel | 卷三 · 乾坤 | 内核，操作系统的核心，管理硬件资源并提供系统调用接口 |
+| 建立时间 | Setup Time | 卷一 · 微尘 | 时钟沿前数据必须稳定的最短时间，违反将导致亚稳态 |
 
 ## L
 
@@ -129,6 +134,8 @@ tags: [glossary, reference]
 | SIMD | Single Instruction Multiple Data | 卷一 · 微尘 | 单指令多数据，一条指令同时处理多个数据元素的并行计算模型 |
 | Scheduler | OS Scheduler | 卷三 · 乾坤 | 调度器，内核决定下一个获得 CPU 时间的进程/线程的子系统 |
 | Semaphore | Semaphore | 卷三 · 乾坤 | 信号量，用于控制多个进程/线程对共享资源访问的同步原语 |
+| 时序逻辑 | Sequential Logic | 卷一 · 微尘 | 输出取决于当前输入和历史状态的电路，包含存储器件的反馈路径 |
+| 锁存器 | Latch | 卷一 · 微尘 | 电平敏感的存储元件，使能有效时输出跟随输入变化 |
 
 ## T
 
@@ -143,12 +150,16 @@ tags: [glossary, reference]
 | 术语 | 英文 | 所属卷宗 | 简要定义 |
 |------|------|----------|----------|
 | Vectorization | SIMD Vectorization | 卷一 · 微尘 / 卷六 · 须弥 | 向量化，将标量运算自动或手动转换为 SIMD 并行运算的优化技术 |
+| Verilog | Verilog HDL | 卷一 · 微尘 | 硬件描述语言，通过代码描述数字电路的结构与行为 |
 
 ## W-X-Y-Z
 
 | 术语 | 英文 | 所属卷宗 | 简要定义 |
 |------|------|----------|----------|
+| 亚稳态 | Metastability | 卷一 · 微尘 | 触发器输出悬停在非 0 非 1 电平的不确定状态，由建立/保持时间违反引起 |
+| 有限状态机 | Finite State Machine | 卷一 · 微尘 | 由有限状态、转移规则和输出函数组成的时序行为模型 |
 | Zero-copy | Zero-copy | 卷三 · 乾坤 | 零拷贝，数据在内核态与用户态之间传递时不发生实际内存复制的优化技术 |
+| 组合逻辑 | Combinational Logic | 卷一 · 微尘 | 输出仅取决于当前输入的电路，不含存储元件反馈路径 |
 
 ---
 
