@@ -91,15 +91,18 @@ Read `.gitignore` before any operation to understand which files are build artif
 
 ## 8. Agent Quick Start (新会话必读)
 
+**IMPORTANT**: This file (`AGENTS.md`) is auto-injected into your context. `llms.txt` and `PROGRESS.md` are **NOT** — you must actively load them.
+
 When you are a fresh agent joining the project, follow this exact sequence:
 
-1. **Read `PROGRESS.md`** — it's the source of truth for what's done and what's next
-2. **Choose a task**: pick the first `📋` chapter in the current Phase, or ask the user which topic
-3. **Locate the file** — all chapter files already exist under `src/content/docs/` with `draft: true`
-4. **Write content** following Section 3 (Writing Standards) and Section 4 (Cross-Referencing)
-5. **Verify**: `npm run build` must pass with zero warnings
-6. **Update `PROGRESS.md`**: change status to `✅`, fill dates, update completion rate
-7. **Commit**: use conventional commits like `docs: 撰写半导体物理章节`
+1. **Load `llms.txt`** — complete 60-file index, tech stack, and conventions summary
+2. **Load `PROGRESS.md`** — source of truth for what's done and what's next; find the first `📋` chapter
+3. **Choose a task**: pick the first `📋` chapter in the current Phase, or ask the user which topic
+4. **Locate the file** — all chapter files already exist under `src/content/docs/` with `draft: true`
+5. **Write content** following Section 3 (Writing Standards) and Section 4 (Cross-Referencing)
+6. **Verify**: `npm run build` must pass with zero warnings
+7. **Update `PROGRESS.md`**: change status to `✅`, fill dates, update completion rate
+8. **Commit**: use conventional commits like `docs: 撰写半导体物理章节`
 
 ### Current Phase
 
