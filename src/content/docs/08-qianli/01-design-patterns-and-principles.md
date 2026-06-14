@@ -4,8 +4,6 @@ tags: [design-patterns, solid, gof, functional-design, architecture]
 draft: true
 ---
 
-# 设计模式与原则
-
 > 面向变化的代码组织之道。
 
 <!-- TODO: SOLID 原则与组合优于继承、GoF 创建型/结构型/行为型模式、函数式设计（纯函数/不可变性/Monad/代数效应）、领域驱动设计 DDD -->
