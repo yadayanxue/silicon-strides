@@ -7,58 +7,97 @@
 - **Repo**: https://github.com/yadayanxue/silicon-strides
 - **Tech Stack**: Astro + Starlight, Mermaid.js, KaTeX, Pagefind
 
-## Docs Structure
+## Agent Files — Read First
+- **[AGENTS.md](AGENTS.md)**: Writing constitution (role, standards, formatting, forbidden actions, quick start)
+- **[PROGRESS.md](PROGRESS.md)**: Progress tracker with 49-chapter table, Phase roadmap, completion checklist
+
+## Docs Structure (60 files total)
 
 ### Core Pages
-- [Home](src/content/docs/index.md): Landing page with card-grid navigation across all volumes.
-- [Glossary](src/content/docs/glossary.md): Cross-volume CS terminology reference table.
+- [Home](src/content/docs/index.md): Landing page with card-grid navigation.
+- [Glossary](src/content/docs/glossary.md): 48 CS terms, A–Z sections.
 
-### Eight Scrolls (八卷宗)
+### Scroll 0 · Lingxi (灵犀) — Theory & Algorithms (7 files)
+- [Index](src/content/docs/00-lingxi/index.md)
+- [01 数学基础](src/content/docs/00-lingxi/01-mathematical-foundations.md)
+- [02 形式逻辑](src/content/docs/00-lingxi/02-formal-logic.md)
+- [03 计算理论](src/content/docs/00-lingxi/03-theory-of-computation.md)
+- [04 算法理论](src/content/docs/00-lingxi/04-algorithm-theory.md)
+- [05 编译原理](src/content/docs/00-lingxi/05-compiler-theory.md)
+- [06 密码学数学](src/content/docs/00-lingxi/06-cryptographic-mathematics.md)
 
-#### Scroll 0 · Lingxi (灵犀) — Theory & Algorithms
-- [Index](src/content/docs/00-lingxi/index.md): Mathematics, formal logic, algorithm theory.
-- Topics: Set theory, linear algebra, probability, complexity analysis, graph algorithms.
+### Scroll 1 · Weichen (微尘) — Physics & Architecture (6 files)
+- [Index](src/content/docs/01-weichen/index.md)
+- [01 半导体物理](src/content/docs/01-weichen/01-semiconductor-physics.md)
+- [02 数字逻辑](src/content/docs/01-weichen/02-digital-logic.md)
+- [03 体系结构](src/content/docs/01-weichen/03-microarchitecture.md)
+- [04 存储层次](src/content/docs/01-weichen/04-memory-hierarchy.md)
+- [05 指令集架构](src/content/docs/01-weichen/05-instruction-set-architecture.md)
 
-#### Scroll 1 · Weichen (微尘) — Physics & Architecture
-- [Index](src/content/docs/01-weichen/index.md): Semiconductor physics, computer architecture, ISA.
-- Topics: MOSFET, CMOS, pipelining, cache hierarchy, RISC-V/x86/ARM.
+### Scroll 2 · Jiezi (芥子) — Embedded & Real-time (6 files)
+- [Index](src/content/docs/02-jiezi/index.md)
+- [01 裸机编程](src/content/docs/02-jiezi/01-bare-metal.md)
+- [02 中断与异常](src/content/docs/02-jiezi/02-interrupts.md)
+- [03 RTOS 基础](src/content/docs/02-jiezi/03-rtos-fundamentals.md)
+- [04 外设驱动](src/content/docs/02-jiezi/04-peripheral-drivers.md)
+- [05 低功耗设计](src/content/docs/02-jiezi/05-low-power-design.md)
 
-#### Scroll 2 · Jiezi (芥子) — Embedded & Real-time
-- [Index](src/content/docs/02-jiezi/index.md): Bare-metal, RTOS, firmware.
-- Topics: Startup code, interrupts, RTOS scheduling, peripheral drivers, low-power design.
+### Scroll 3 · Qiankun (乾坤) — OS & Networking (9 files)
+- [Index](src/content/docs/03-qiankun/index.md)
+- [01 进程与线程](src/content/docs/03-qiankun/01-process-and-thread.md)
+- [02 内存管理](src/content/docs/03-qiankun/02-memory-management.md)
+- [03 文件系统](src/content/docs/03-qiankun/03-filesystem.md)
+- [04 同步原语](src/content/docs/03-qiankun/04-synchronization.md)
+- [05 网络协议栈 I · TCP/IP](src/content/docs/03-qiankun/05-network-protocol-stack.md)
+- [06 网络协议栈 II · 传输层](src/content/docs/03-qiankun/06-transport-tcp-udp-quic.md)
+- [07 网络协议栈 III · 应用层](src/content/docs/03-qiankun/07-application-protocols.md)
+- [08 网络编程](src/content/docs/03-qiankun/08-network-programming.md)
 
-#### Scroll 3 · Qiankun (乾坤) — OS & Networking
-- [Index](src/content/docs/03-qiankun/index.md): Operating systems, kernels, network stacks.
-- Topics: Process/thread, virtual memory, filesystems, TCP/IP, synchronization.
+### Scroll 4 · Yuanhai (渊海) — Data & Distributed (6 files)
+- [Index](src/content/docs/04-yuanhai/index.md)
+- [01 关系型数据库](src/content/docs/04-yuanhai/01-relational-database.md)
+- [02 存储引擎](src/content/docs/04-yuanhai/02-storage-engine.md)
+- [03 分布式基础](src/content/docs/04-yuanhai/03-distributed-fundamentals.md)
+- [04 共识协议](src/content/docs/04-yuanhai/04-consensus-protocols.md)
+- [05 数据流水线](src/content/docs/04-yuanhai/05-data-pipelines.md)
 
-#### Scroll 4 · Yuanhai (渊海) — Data & Distributed
-- [Index](src/content/docs/04-yuanhai/index.md): Databases, distributed systems, storage.
-- Topics: SQL, storage engines, CAP theorem, Paxos/Raft, data pipelines.
+### Scroll 5 · Wanxiang (万象) — Graphics & Interaction (6 files)
+- [Index](src/content/docs/05-wanxiang/index.md)
+- [01 GPU 渲染管线](src/content/docs/05-wanxiang/01-gpu-rendering-pipeline.md)
+- [02 计算机图形学](src/content/docs/05-wanxiang/02-computer-graphics.md)
+- [03 前端工程](src/content/docs/05-wanxiang/03-frontend-engineering.md)
+- [04 数据可视化](src/content/docs/05-wanxiang/04-data-visualization.md)
+- [05 人机交互](src/content/docs/05-wanxiang/05-human-computer-interaction.md)
 
-#### Scroll 5 · Wanxiang (万象) — Graphics & Interaction
-- [Index](src/content/docs/05-wanxiang/index.md): Computer graphics, frontend, HCI.
-- Topics: GPU pipeline, rendering, CSS layout, data visualization, accessibility.
+### Scroll 6 · Xumi (须弥) — AI & Emergence (6 files)
+- [Index](src/content/docs/06-xumi/index.md)
+- [01 机器学习基础](src/content/docs/06-xumi/01-machine-learning-basics.md)
+- [02 深度学习](src/content/docs/06-xumi/02-deep-learning.md)
+- [03 Transformer 家族](src/content/docs/06-xumi/03-transformer-family.md)
+- [04 大语言模型](src/content/docs/06-xumi/04-large-language-models.md)
+- [05 AI Agent](src/content/docs/06-xumi/05-ai-agents.md)
 
-#### Scroll 6 · Xumi (须弥) — AI & Emergence
-- [Index](src/content/docs/06-xumi/index.md): Machine learning, deep learning, LLMs, agents.
-- Topics: Gradient descent, CNN/RNN, Transformer, RLHF, AI agents.
+### Scroll 7 · Tianshu (天枢) — Security & Defense (6 files)
+- [Index](src/content/docs/07-tianshu/index.md)
+- [01 对称加密](src/content/docs/07-tianshu/01-symmetric-cryptography.md)
+- [02 非对称加密](src/content/docs/07-tianshu/02-asymmetric-cryptography.md)
+- [03 哈希与签名](src/content/docs/07-tianshu/03-hash-and-signature.md)
+- [04 零知识证明](src/content/docs/07-tianshu/04-zero-knowledge-proofs.md)
+- [05 系统安全](src/content/docs/07-tianshu/05-system-security.md)
 
-#### Scroll 7 · Tianshu (天枢) — Security & Defense
-- [Index](src/content/docs/07-tianshu/index.md): Cryptography, system security, privacy.
-- Topics: AES, RSA/ECC, digital signatures, zk-proofs, sandboxing.
-
-#### Scroll 8 · Qianli (千里) — Engineering & Craft
-- [Index](src/content/docs/08-qianli/index.md): Software engineering, DevOps, architecture.
-- Topics: Design patterns, system design, CI/CD, observability, engineering culture.
-
-## Agent Instructions
-- See [AGENTS.md](AGENTS.md) for the full writing constitution (Silicon Archivist role).
+### Scroll 8 · Qianli (千里) — Engineering & Craft (6 files)
+- [Index](src/content/docs/08-qianli/index.md)
+- [01 设计模式与原则](src/content/docs/08-qianli/01-design-patterns-and-principles.md)
+- [02 系统设计](src/content/docs/08-qianli/02-system-design.md)
+- [03 DevOps 实践](src/content/docs/08-qianli/03-devops-practices.md)
+- [04 可观测性](src/content/docs/08-qianli/04-observability.md)
+- [05 工程文化](src/content/docs/08-qianli/05-engineering-culture.md)
 
 ## Conventions
-- YAML frontmatter with `title` (required) and `tags` (required) on all content pages.
-- Set `draft: true` in frontmatter to hide unfinished pages from production builds.
-- Cross-volume links use absolute paths from site root (e.g., `/01-weichen/`).
-- Glossary links: `[术语](/glossary/#a)` — anchor matches the letter section.
-- Mermaid diagrams require a `title` attribute.
-- Math: inline `$...$`, block `$$...$$`.
-- Admonitions: `:::tip[标题]`, `:::note[标题]`, `:::caution[标题]`, `:::danger[标题]`.
+- YAML frontmatter: `title` (required), `tags` (required), `draft` (hides page from production)
+- Cross-volume links: absolute paths from site root (e.g., `[MMU](/01-weichen/04-memory-hierarchy/)`)
+- Glossary links: `[术语](/glossary/#字母段)` — anchor matches the letter heading
+- Mermaid diagrams: require `title` attribute; loaded from npm package `mermaid`
+- Math: inline `$...$`, block `$$...$$` via KaTeX (`remark-math` + `rehype-katex`)
+- Admonitions: `:::tip[标题]`, `:::note[标题]`, `:::caution[标题]`, `:::danger[标题]`
+- Build: `npm run build` (generates `dist/` with Pagefind search index)

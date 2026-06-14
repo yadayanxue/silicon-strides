@@ -11,13 +11,11 @@ tags: [ai, deep-learning, llm, emergent-intelligence]
 
 ## 章节导览
 
-<!-- TODO: 随内容撰写逐步补充子页面链接 -->
-
-- **机器学习基础**：线性回归、梯度下降、正则化、交叉验证
-- **深度学习**：CNN、RNN、ResNet、归一化与初始化
-- **Transformer 家族**：自注意力、多头注意力、位置编码
-- **大语言模型**：预训练、SFT、RLHF、推理优化
-- **AI Agent**：工具调用、规划、记忆、多智能体协作
+- [**机器学习基础**](./01-machine-learning-basics/)：线性回归、梯度下降、正则化、交叉验证
+- [**深度学习**](./02-deep-learning/)：CNN、RNN、ResNet、归一化与初始化
+- [**Transformer 家族**](./03-transformer-family/)：自注意力、多头注意力、位置编码
+- [**大语言模型**](./04-large-language-models/)：预训练、SFT、RLHF、推理优化
+- [**AI Agent**](./05-ai-agents/)：工具调用、规划、记忆、多智能体协作
 
 :::tip[跨卷链接]
 GPU 并行计算 → [卷一 · 微尘](/01-weichen/) 中的 CUDA 与 Tensor Core

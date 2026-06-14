@@ -11,13 +11,11 @@ tags: [graphics, frontend, hci, visualization]
 
 ## 章节导览
 
-<!-- TODO: 随内容撰写逐步补充子页面链接 -->
-
-- **渲染管线**：顶点处理、光栅化、着色器、帧缓冲
-- **计算机图形学**：变换矩阵、光照模型、光线追踪
-- **前端工程**：DOM、CSS 布局、响应式设计、状态管理
-- **数据可视化**：D3.js、ECharts、信息设计原则
-- **人机交互**：可用性、无障碍设计、交互范式
+- [**GPU 渲染管线**](./01-gpu-rendering-pipeline/)：顶点处理、光栅化、着色器、帧缓冲
+- [**计算机图形学**](./02-computer-graphics/)：变换矩阵、光照模型、光线追踪
+- [**前端工程**](./03-frontend-engineering/)：DOM、CSS 布局、响应式设计、状态管理
+- [**数据可视化**](./04-data-visualization/)：D3.js、ECharts、信息设计原则
+- [**人机交互**](./05-human-computer-interaction/)：可用性、无障碍设计、交互范式
 
 :::tip[跨卷链接]
 GPU 渲染管线 → [卷一 · 微尘](/01-weichen/) 中的 GPU 微架构
