@@ -6,6 +6,7 @@ import remarkMermaid from './remark-mermaid.mjs';
 
 export default defineConfig({
   site: 'https://yadayanxue.github.io/silicon-strides/',
+  base: '/silicon-strides/',
   markdown: {
     remarkPlugins: [remarkMermaid, remarkMath],
     rehypePlugins: [rehypeKatex],
