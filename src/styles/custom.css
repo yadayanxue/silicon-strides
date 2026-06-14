@@ -13,7 +13,7 @@
   border: 1px solid var(--sl-color-gray-5, #e2e8f0);
   border-radius: 0.5rem;
   padding: 0.75rem;
-  background: var(--sl-color-bg, #fff);
+  background: #fff;
   transition: box-shadow 0.2s;
 }
 .mermaid:hover {
