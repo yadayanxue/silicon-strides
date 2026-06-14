@@ -1,0 +1,31 @@
+{
+  "name": "silicon-strides",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "从一粒硅沙，到数字宇宙的漫游指南",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yadayanxue/silicon-strides.git"
+  },
+  "keywords": [
+    "computer-science",
+    "documentation",
+    "starlight"
+  ],
+  "author": "Zhang Yongzhu",
+  "license": "MIT",
+  "dependencies": {
+    "@astrojs/starlight": "^0.40.0",
+    "astro": "^6.4.6",
+    "mermaid": "^11.15.0",
+    "rehype-katex": "^7.0.1",
+    "remark-math": "^6.0.0"
+  }
+}

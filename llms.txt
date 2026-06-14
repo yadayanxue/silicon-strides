@@ -1,0 +1,64 @@
+# Silicon Strides (硅步千里)
+> A comprehensive, full-stack computer science knowledge base structured around 8 philosophical volumes.
+> From a grain of silicon sand to the digital universe.
+
+## Project Info
+- **Author**: Zhang Yongzhu
+- **Repo**: https://github.com/yadayanxue/silicon-strides
+- **Tech Stack**: Astro + Starlight, Mermaid.js, KaTeX, Pagefind
+
+## Docs Structure
+
+### Core Pages
+- [Home](src/content/docs/index.md): Landing page with card-grid navigation across all volumes.
+- [Glossary](src/content/docs/glossary.md): Cross-volume CS terminology reference table.
+
+### Eight Scrolls (八卷宗)
+
+#### Scroll 0 · Lingxi (灵犀) — Theory & Algorithms
+- [Index](src/content/docs/00-lingxi/index.md): Mathematics, formal logic, algorithm theory.
+- Topics: Set theory, linear algebra, probability, complexity analysis, graph algorithms.
+
+#### Scroll 1 · Weichen (微尘) — Physics & Architecture
+- [Index](src/content/docs/01-weichen/index.md): Semiconductor physics, computer architecture, ISA.
+- Topics: MOSFET, CMOS, pipelining, cache hierarchy, RISC-V/x86/ARM.
+
+#### Scroll 2 · Jiezi (芥子) — Embedded & Real-time
+- [Index](src/content/docs/02-jiezi/index.md): Bare-metal, RTOS, firmware.
+- Topics: Startup code, interrupts, RTOS scheduling, peripheral drivers, low-power design.
+
+#### Scroll 3 · Qiankun (乾坤) — OS & Networking
+- [Index](src/content/docs/03-qiankun/index.md): Operating systems, kernels, network stacks.
+- Topics: Process/thread, virtual memory, filesystems, TCP/IP, synchronization.
+
+#### Scroll 4 · Yuanhai (渊海) — Data & Distributed
+- [Index](src/content/docs/04-yuanhai/index.md): Databases, distributed systems, storage.
+- Topics: SQL, storage engines, CAP theorem, Paxos/Raft, data pipelines.
+
+#### Scroll 5 · Wanxiang (万象) — Graphics & Interaction
+- [Index](src/content/docs/05-wanxiang/index.md): Computer graphics, frontend, HCI.
+- Topics: GPU pipeline, rendering, CSS layout, data visualization, accessibility.
+
+#### Scroll 6 · Xumi (须弥) — AI & Emergence
+- [Index](src/content/docs/06-xumi/index.md): Machine learning, deep learning, LLMs, agents.
+- Topics: Gradient descent, CNN/RNN, Transformer, RLHF, AI agents.
+
+#### Scroll 7 · Tianshu (天枢) — Security & Defense
+- [Index](src/content/docs/07-tianshu/index.md): Cryptography, system security, privacy.
+- Topics: AES, RSA/ECC, digital signatures, zk-proofs, sandboxing.
+
+#### Scroll 8 · Qianli (千里) — Engineering & Craft
+- [Index](src/content/docs/08-qianli/index.md): Software engineering, DevOps, architecture.
+- Topics: Design patterns, system design, CI/CD, observability, engineering culture.
+
+## Agent Instructions
+- See [AGENTS.md](AGENTS.md) for the full writing constitution (Silicon Archivist role).
+
+## Conventions
+- YAML frontmatter with `title` (required) and `tags` (required) on all content pages.
+- Set `draft: true` in frontmatter to hide unfinished pages from production builds.
+- Cross-volume links use absolute paths from site root (e.g., `/01-weichen/`).
+- Glossary links: `[术语](/glossary/#a)` — anchor matches the letter section.
+- Mermaid diagrams require a `title` attribute.
+- Math: inline `$...$`, block `$$...$$`.
+- Admonitions: `:::tip[标题]`, `:::note[标题]`, `:::caution[标题]`, `:::danger[标题]`.

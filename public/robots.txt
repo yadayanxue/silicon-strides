@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://yadayanxue.github.io/silicon-strides/sitemap-index.xml

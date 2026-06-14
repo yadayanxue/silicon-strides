@@ -1,0 +1,28 @@
+/* 硅步千里 - 自定义样式 */
+
+/* KaTeX 数学公式 */
+@import 'katex/dist/katex.css';
+
+/* Mermaid 图表居中 */
+.mermaid {
+  text-align: center;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+/* 数学公式居中溢出 */
+.arithmatex {
+  overflow-x: auto;
+}
+
+/* 术语表表格优化 */
+.sl-markdown-content table {
+  font-size: 0.875rem;
+  border-radius: 0.4rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+/* 圆角优化 */
+.sl-markdown-content pre {
+  border-radius: 0.4rem;
+}
