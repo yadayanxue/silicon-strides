@@ -19,6 +19,7 @@ export default defineConfig({
       pagefind: true,
       editLink: {
         baseUrl: 'https://github.com/yadayanxue/silicon-strides/edit/main/',
+        text: '编辑此页',
       },
       customCss: [
         './src/styles/custom.css',
@@ -27,22 +28,9 @@ export default defineConfig({
         {
           tag: 'script',
           attrs: {
+            src: '/mermaid-loader.js',
             type: 'module',
           },
-          content: `
-            import('https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs').then(function(mod) {
-              var mermaid = mod.default || mod;
-              mermaid.initialize({ startOnLoad: false, theme: 'default' });
-              var ready = function() { mermaid.run({ querySelector: '.mermaid' }); };
-              if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', ready);
-              } else {
-                ready();
-              }
-            }).catch(function() {
-              console.warn('Mermaid CDN 加载失败，流程图将不显示');
-            });
-          `,
         },
         {
           tag: 'script',

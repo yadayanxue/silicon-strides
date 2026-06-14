@@ -14,10 +14,12 @@
 - [ ] Mermaid 标签/节点文本中不含 `→` (U+2192)，用 `>` 或中文描述替代
 - [ ] Mermaid 边标签不使用空字符串 `""`
 - [ ] KaTeX 公式 `$` 前后与中文之间有空格
-- [ ] `npm run build` 零 warning 通过
+- [ ] `npm run build` 通过（deprecation warning 可忽略，见 #1）
 - [ ] 所有 Mermaid 图通过 `grep 'class="mermaid"' dist/` 确认是原生 `<div>` 而非 Expressive Code
 - [ ] SVG 操作只用 `cloneNode(true)`，不用 `innerHTML`
 - [ ] 复杂 JS 逻辑放 `public/*.js`，不内联在 `astro.config.mjs`
+- [ ] `unist-util-visit` 已是直接依赖，新增插件可直接 `import { visit }`
+- [ ] Mermaid 加载用 `/mermaid-loader.js`（含 CDN 回退），zoom 用 `/mermaid-zoom.js`
 - [ ] mermaid 用 `import()` + `mermaid.run()`，不用 `startOnLoad: true`
 
 ---
@@ -148,3 +150,14 @@ import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.mi
 - 复杂交互逻辑放到 `public/*.js`，通过 `head` 的 `{ src: '/xxx.js', defer: true }` 引入
 - Mermaid 加载：`import('cdn-url').then()` 比 `startOnLoad: true` 可靠（ESM 竞态 + CDN 容错）
 - `mermaid.initialize({ startOnLoad: false })` + 显式 `mermaid.run()` 是唯一稳定方案
+
+---
+
+## 架构优化记录
+
+### 8. 2026-06-14：配置优化三项 ✅
+
+- **添加 `unist-util-visit` 为直接依赖**：`remark-mermaid.mjs` 不再依赖 Starlight 的传递依赖链
+- **提取 `public/mermaid-loader.js`**：head 内联 20 行 Mermaid 加载逻辑外置，添加 unpkg 回退 CDN
+- **`editLink.text` 设为中文**：`'编辑此页'`
+- **复测 `unified()` API**：Astro 6.4.6 + Starlight 0.40 下仍然静默丢弃所有 remark/rehype 插件（KaTeX + Mermaid 均 0 渲染），该 bug 未修复。Deprecation warning 暂时无解。
