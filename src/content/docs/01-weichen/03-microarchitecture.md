@@ -136,7 +136,7 @@ graph TD
     style MultiCycle fill:#e8f5e8
 ```
 
-**早期 RISC 处理器（如 MIPS R2000）普遍采用多周期方案**——面积限制优先于性能。
+**早期 RISC 处理器（如 MIPS R2000）率先采用 5 级流水线方案**——1986 年 MIPS R2000 是第一款商用的经典五级流水（IF/ID/EX/MEM/WB）RISC 处理器，IPC 接近 1，成为后续所有流水线设计的蓝本。
 
 ---
 
@@ -248,7 +248,7 @@ label: add r1, r2, r3
 - **动态分支预测**（2010s 主流）：
   - **局部历史（Local History）**：记录上次分支预测结果
   - **全局历史（Global History）**：TAGE 预测器使用多张不同历史长度的表（最长可达数百分支），结合近期分支模式 `[B,T,T,B,T,...]` 进行预测
-  - **饱和计数器（SATC）**：记录"连续取目标次数" $count = min(4, max(0, last-1))$
+  - **饱和计数器（Saturating Counter）**：2-bit 状态机记录分支倾向。每次分支 taken：$count = \min(3, count + 1)$；每次分支 not taken：$count = \max(0, count - 1)$。高位为 1 时预测 taken，为 0 时预测 not taken
 
 :::tip[分支预测准确率]
 现代高性能处理器的动态分支预测准确率通常在 **96-99%** 之间。例如 Intel Golden Cove（12 级乱序）和 AMD Zen 4 使用 TAGE + 感知器混合预测器，SPEC CPU 基准测试中达到约 98% 的准确率。但要注意：每 1% 的误预测率乘以 ~15 周期的误预测惩罚，意味着有效 CPI 增加约 0.15——在高 IPC 设计中，分支预测仍是最大的单点性能瓶颈之一。
@@ -286,7 +286,7 @@ label: add r1, r2, r3
 ## 乱序执行（Out-of-Order Execution）：Tomasulo 算法的巅峰
 
 :::tip[Tomasulo 算法（1966）]
-在单周期超标量处理器（如 VAX 11/780）中，Robert Tomasulo 提出了 **寄存器栈（Register Stack）** 和 **预约站（Reservation Stations）**，实现了乱序执行、无需编译器重排——这是现代处理器性能飞跃的奠基性思想。
+在 IBM System/360 Model 91 的浮点单元中，Robert Tomasulo 提出了 **保留站（Reservation Stations）** 和 **公共数据总线（CDB）**，实现了乱序执行、无需编译器重排——这是现代处理器性能飞跃的奠基性思想。
 :::
 
 ### 寄存器重命名：杀死 WAR/WAW 依赖
