@@ -79,7 +79,7 @@ Phase 6 — 理论收尾
 | # | 章节 | 文件 | 状态 | 开始日 | 完成日 | 备注 |
 |---|------|------|------|--------|--------|------|
 | 1.1 | 半导体物理 | `01-weichen/01-semiconductor-physics.md` | ✅ | 2026-06-14 | 2026-06-14 | |
-| 1.2 | 数字逻辑 | `01-weichen/02-digital-logic.md` | ✅ | 2026-06-14 | 2026-06-14 | 4 Mermaid + 45 KaTeX |
+| 1.2 | 数字逻辑 | `01-weichen/02-digital-logic.md` | ✅ | 2026-06-14 | 2026-06-16 | 7 Mermaid + CMOS 晶体管级门电路原理图 (NOT/NAND/NOR) |
 | 1.3 | 体系结构 | `01-weichen/03-microarchitecture.md` | ✅ | 2026-06-14 | 2026-06-16 | 5 Mermaid + 4 KaTeX，审阅修订 + 气泡重写 |
 | 1.4 | 存储层次 | `01-weichen/04-memory-hierarchy.md` | ✅ | 2026-06-16 | 2026-06-16 | 5 Mermaid + 29 KaTeX |
 | 1.5 | 指令集架构 | `01-weichen/05-instruction-set-architecture.md` | ✅ | 2026-06-16 | 2026-06-16 | 3 Mermaid + 汇编示例 |

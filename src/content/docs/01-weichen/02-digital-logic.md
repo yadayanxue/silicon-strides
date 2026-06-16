@@ -55,6 +55,115 @@ CMOS 工艺将布尔运算实现为物理门电路。下表汇总了七种基本
 
 每个逻辑门的 CMOS 实现都是上一章所述反相器的变体——将上拉网络 (PMOS) 和下拉网络 (NMOS) 配置为串联或并联组合。
 
+### CMOS 门电路实现
+
+理解逻辑门的关键不在于记忆真值表，而在于看清晶体管网络如何用**开关的串并联**表达布尔逻辑。以下是三种核心门电路的晶体管级原理图。
+
+#### 非门（反相器）：一切 CMOS 门的母体
+
+非门是 CMOS 逻辑的原子单元。它只有两个晶体管——一个 PMOS 作为上拉、一个 NMOS 作为下拉，共享输入栅极和输出端：
+
+```mermaid
+---
+title: CMOS 非门 (反相器) 晶体管级电路
+---
+graph TB
+    VDD["VDD (电源)"] --> P["PMOS<br/>IN=0 时导通"]
+    P --> OUT["OUT = ~IN"]
+    OUT --> N["NMOS<br/>IN=1 时导通"]
+    N --> GND["GND (地)"]
+    IN("IN") -.->|"栅极"| P
+    IN -.->|"栅极"| N
+
+    style VDD fill:#ffcdd2
+    style GND fill:#bbdefb
+    style OUT fill:#fff9c4
+    style P fill:#c8e6c9
+    style N fill:#ffe0b2
+```
+
+工作原理：当 $IN = 0$ 时，PMOS 导通、NMOS 截止，输出通过 PMOS 被上拉到 VDD（逻辑 1）；当 $IN = 1$ 时，PMOS 截止、NMOS 导通，输出通过 NMOS 被下拉到 GND（逻辑 0）。**关键特性：无论输入是 0 还是 1，VDD 到 GND 之间始终没有直流通路**——这是 CMOS 低静态功耗的根本原因。
+
+#### 与非门（NAND）：并联上拉、串联下拉
+
+NAND 是数字电路中使用频率最高的门，因为它的面积最小、速度最快。其 CMOS 实现将两个 PMOS **并联**（只要任一输入为 0，上拉网络就导通），两个 NMOS **串联**（必须两个输入都为 1，下拉网络才导通）：
+
+```mermaid
+---
+title: CMOS 与非门 (NAND) 晶体管级电路
+---
+graph TB
+    VDD["VDD"] --> PA["PMOS_A<br/>A=0 通"]
+    VDD --> PB["PMOS_B<br/>B=0 通"]
+    PA --> OUT["OUT = ~ A·B"]
+    PB --> OUT
+    OUT --> NA["NMOS_A<br/>A=1 通"]
+    NA --> NB["NMOS_B<br/>B=1 通"]
+    NB --> GND["GND"]
+
+    style VDD fill:#ffcdd2
+    style GND fill:#bbdefb
+    style OUT fill:#fff9c4
+    style PA fill:#c8e6c9
+    style PB fill:#c8e6c9
+    style NA fill:#ffe0b2
+    style NB fill:#ffe0b2
+```
+
+仔细观察：上拉网络中两个 PMOS **并联**——只要 A 或 B 有一个为 0，对应的 PMOS 导通，OUT 就被拉高。下拉网络中两个 NMOS **串联**——必须 A 和 B 同时为 1，两个 NMOS 都导通，OUT 才被拉低。这恰好实现了 $\overline{A \cdot B}$（与非）的逻辑。
+
+#### 或非门（NOR）：串联上拉、并联下拉
+
+NOR 的结构与 NAND 恰好**对偶**（Duality）——上拉网络改为两个 PMOS 串联，下拉网络改为两个 NMOS 并联：
+
+```mermaid
+---
+title: CMOS 或非门 (NOR) 晶体管级电路
+---
+graph TB
+    VDD["VDD"] --> PA["PMOS_A<br/>A=0 通"]
+    PA --> PB["PMOS_B<br/>B=0 通"]
+    PB --> OUT["OUT = ~(A+B)"]
+    OUT --> NA["NMOS_A<br/>A=1 通"]
+    OUT --> NB["NMOS_B<br/>B=1 通"]
+    NA --> GND["GND"]
+    NB --> GND
+
+    style VDD fill:#ffcdd2
+    style GND fill:#bbdefb
+    style OUT fill:#fff9c4
+    style PA fill:#c8e6c9
+    style PB fill:#c8e6c9
+    style NA fill:#ffe0b2
+    style NB fill:#ffe0b2
+```
+
+上拉网络中两个 PMOS **串联**——必须 A 和 B 同时为 0，两个 PMOS 都导通，OUT 才被拉高。下拉网络中两个 NMOS **并联**——只要 A 或 B 有一个为 1，对应的 NMOS 导通，OUT 就被拉低。这恰好实现了 $\overline{A + B}$（或非）的逻辑。
+
+#### CMOS 门设计规则：对偶原理
+
+从上述三个门可以提炼出 CMOS 门电路设计的**普适规则**：
+
+| 网络 | 晶体管类型 | 串联实现 | 并联实现 |
+|------|-----------|---------|---------|
+| **上拉网络** (PUN) | PMOS | AND 功能（全 0 才导通） | OR 功能（任一 0 即导通） |
+| **下拉网络** (PDN) | NMOS | AND 功能（全 1 才导通） | OR 功能（任一 1 即导通） |
+
+上拉网络与下拉网络始终保持**对偶**关系：一个用串联的地方，另一个用并联。这保证了 CMOS 门在任何输入组合下，VDD 到 GND 之间都不会形成短路路径——**上拉网络和下拉网络绝不会同时导通**。
+
+:::tip[与门和或门的实现]
+AND 和 OR 没有独立的 CMOS 实现——它们是在 NAND 和 NOR 后面各自串联一个反相器（NOT）构成的：
+
+- **AND = NAND + NOT**：先与非，再取反
+- **OR = NOR + NOT**：先或非，再取反
+
+这也是为什么实际数字电路中看到最多的是 NAND 和 NOR，而非"纯粹"的 AND 和 OR。每多加一个反相器，就意味着多两个晶体管和大约一个门延迟。
+:::
+
+:::note[与上一章的衔接]
+上述 PMOS/NMOS 开关行为的物理原理——沟道形成、阈值电压、导通电阻——请回顾[半导体物理](../../01-weichen/01-semiconductor-physics/#mosfet-晶体管)中 MOSFET 的相关讨论。数字逻辑设计者通常将晶体管视为理想开关，但高速电路设计中必须考虑[亚阈值泄漏和短沟道效应](../../01-weichen/01-semiconductor-physics/#cmos-反相器与功耗)对功耗和可靠性的影响。
+:::
+
 ```mermaid
 ---
 title: 逻辑门完备集
