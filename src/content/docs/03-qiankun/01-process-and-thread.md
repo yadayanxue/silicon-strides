@@ -1,9 +1,13 @@
 ---
 title: 进程与线程
 tags: [process, thread, scheduler, context-switch, ipc]
-draft: true
+draft: false
 ---
 
 > 操作系统调度万物的基本单位。
+
+:::caution[章节撰写中]
+本章内容正在撰写中，将在后续版本发布。下方 TODO 列出了计划覆盖的主题。
+:::
 
 <!-- TODO: 进程模型与 PCB、线程 vs 轻量级进程、上下文切换（寄存器/页表/FPU）、调度算法（CFS/EEVDF/实时）、进程间通信（管道/消息队列/共享内存/信号） -->

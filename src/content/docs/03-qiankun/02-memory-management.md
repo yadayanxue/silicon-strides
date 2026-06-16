@@ -1,9 +1,13 @@
 ---
 title: 内存管理
 tags: [virtual-memory, paging, mmu, tlb, page-fault]
-draft: true
+draft: false
 ---
 
 > 虚拟内存是最伟大的抽象之一。
+
+:::caution[章节撰写中]
+本章内容正在撰写中，将在后续版本发布。下方 TODO 列出了计划覆盖的主题。
+:::
 
 <!-- TODO: 分段 vs 分页、多级页表（x86-64 四级页表）、TLB 与地址翻译流程、缺页中断与页面置换算法、mmap 与内存映射文件、Huge Pages 与透明大页 -->
