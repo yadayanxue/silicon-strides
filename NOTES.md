@@ -14,6 +14,7 @@
 - [ ] Mermaid 标签/节点文本中不含 `→` (U+2192)，用 `>` 或中文描述替代
 - [ ] Mermaid 边标签不使用空字符串 `""`
 - [ ] KaTeX 公式 `$` 前后与中文之间有空格
+- [ ] Admonition 必须行首裸 `:::`，禁止 `> \`:::xxx\`` 包裹（见 #10）
 - [ ] `npm run build` 通过（deprecation warning 可忽略，见 #1）
 - [ ] 所有 Mermaid 图通过 `grep 'class="mermaid"' dist/` 确认是原生 `<div>` 而非 Expressive Code
 - [ ] SVG 操作只用 `cloneNode(true)`，不用 `innerHTML`
@@ -21,6 +22,7 @@
 - [ ] `unist-util-visit` 已是直接依赖，新增插件可直接 `import { visit }`
 - [ ] Mermaid 加载用 `/mermaid-loader.js`（含 CDN 回退），zoom 用 `/mermaid-zoom.js`
 - [ ] mermaid 用 `import()` + `mermaid.run()`，不用 `startOnLoad: true`
+- [ ] 替换 Mermaid 块时务必包含闭合 ` ``` `（见 #11 编辑篇）
 
 ---
 
@@ -171,3 +173,62 @@ import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.mi
 **解决方案**：
 1. `astro.config.mjs` 添加 `base: '/silicon-strides/'`
 2. Markdown 中原始 `<a href>` 使用相对路径 `href="./00-lingxi/"` 而非绝对路径 ✅
+
+---
+
+## 内容陷阱
+
+### 10. Admonition 被 `> \`:::\`` 包裹导致全部失效（03-microarchitecture.md 返工）
+
+**症状**：体系结构章节 9 处 `:::tip`/`:::note` 全部渲染为**行内代码 + 引用块**，而非 Starlight 的彩色提示框。`grep -c '^:::'` = 0，HTML 中无任何 `starlight-aside` 元素。
+
+**根因**：撰写时误将 admonition 写成引用块内的行内代码：
+```markdown
+> `:::note[标题]`     ← 反引号 + > 引用块，Starlight 视为普通文本
+```
+Starlight 的 admonition 解析要求 `:::` 出现在**行首、裸露、无任何包裹**。一旦被反引号或 `>` 前缀污染，directive 语法即被跳过，且**构建不报错**（静默失败，最危险）。
+
+**正确写法**（AGENTS.md §3.2）：
+```markdown
+:::note[标题]
+正文内容……
+:::
+```
+
+**验证方法**：构建后 `grep -c 'starlight-aside' dist/.../index.html` 应 > 0；`grep ':::' dist/.../index.html` 应为 0（directive 已被消费）。
+
+**通用规则（适用于所有章节）**：
+- 撰写完务必 `grep -c '^:::' chapter.md` 检查 admonition 数量，再对比 `grep -c 'starlight-aside' dist/.../index.html`
+- 静默失败是内容质量的最大敌人——Mermaid #2、KaTeX #1、admonition #10 都是同类问题：**语法错误不报错，只静默降级渲染**
+- 返工 03 章时还发现 Mermaid 节点标签内残留 `→`（#5 重现，如 `[TLB: 虚拟→物理]`）——证明 #5 的 `→` 陷阱易复发，需在速查清单中常驻 ✅
+
+---
+
+## 内容审阅记录
+
+### 11. 2026-06-16：卷一已完成三章全面审阅
+
+**审阅范围**：半导体物理（01）、数字逻辑（02）、体系结构（03）
+
+**体系结构章发现的问题**：
+
+1. **Mermaid 图全部缺 `title` 属性**（5 幅）：违反 AGENTS.md §3.2 撰写标准，构建不报错但图表缺少语义标注。所有图均已补全 `title` directive ✅
+2. **数据准确性严重问题**：
+   - 处理器演进图中 IBM 7094 标注为 "2.5GHz"（实际 ~0.7 MHz），RISC-V Hart 标注为 "0.25 IPC"（RISC-V 是 ISA 非具体实现）——已替换为 IBM System/360、MIPS R2000 等真实处理器 ✅
+   - 性能公式 `性能 = IPC × f × (命中L1缓存率)² × (命中L2缓存率)` 非标准形式——已替换为标准 CPU Time 公式 + CPI 展开 ✅
+   - "面积比单周期减少 1000 倍"（夸大，实际 3-5 倍）——已修正 ✅
+   - TAGE 预测器 "记录最近 4 个分支"（实际使用多张表，历史长度可达 100+）——已修正 ✅
+   - 分支预测准确率 "RISC-V 8级乱序 98% @ 3.1GHz"（无已知实现匹配）——已移除虚构数据 ✅
+3. **概念混淆**：将"乱序取指"与分支预测混为一谈——章节已重写为"推测取指与分支预测"，澄清取指阶段依赖分支预测而非"乱序" ✅
+4. **内容冗余**：独立"跨卷连接"章节与末尾 `:::tip[跨卷链接]` 大幅重复——末尾 admonition 已精简为卷内路径 + 精选跨卷链接 ✅
+5. **PROGRESS.md 统计不准确**：标注 "3 Mermaid + 10 KaTeX"，实际 5 Mermaid + 4 KaTeX ✅
+
+**半导体物理章**：内容质量优秀，无问题。
+**数字逻辑章**：内容质量优秀，无问题。
+
+**通用经验**：
+- 统计数据（如 IPC、时钟频率）应来自可查证的公开资料，避免"看起来合理"的虚构数字
+- 每个 Mermaid 图撰写完立即添加 `title` directive，将此步骤纳入撰写流程而非事后补救
+- 性能公式等核心数学内容务必使用标准/教科书形式，自定义公式会造成误导
+- **编辑篇：替换 Mermaid 块时务必包含闭合 ` ``` `**——本次修复 NoC 图时 old_string 包含了闭合反引号，但 new_string 不慎遗漏，导致后续 Mermaid 块被"吞入"未闭合代码块而静默丢失（构建不报错！）。此坑与 #2、#10 同属"静默降级"类别。修复后 5/5 渲染通过 ✅
+
