@@ -52,7 +52,10 @@ All content must adhere to the Eastern philosophical taxonomy of the "Eight Scro
 ## 4. Cross-Referencing Protocol
 Knowledge in *Silicon Strides* is a web, not a list. You MUST link related concepts across scrolls.
 
--   **Internal Links**: Use absolute paths from site root. Example: `[内核调度](/03-qiankun/)`.
+-   **Internal Links**: Use **relative paths** from the current document. **DO NOT use absolute paths** (`/01-weichen/...`) — Astro does not prepend `base` to absolute paths, causing 404s on GitHub Pages.
+    -   Within same scroll: `[裸机编程](./01-bare-metal/)` or `[中断与异常](../02-interrupts/)`
+    -   Cross-scroll (same depth): `../../01-weichen/02-digital-logic/`
+    -   Cross-scroll with fragment: `../../01-weichen/02-digital-logic/#建立时间与保持时间`
 -   **Concept Linking**: When mentioning a low-level concept in a high-level scroll, link back to its origin.
     -   *Example*: In Scroll 6 (AI), when discussing "Tensor Operations", link to Scroll 1 (Architecture) regarding SIMD instructions and GPU memory hierarchy.
 -   **Glossary**: If a term is used more than 3 times, add it to `src/content/docs/glossary.md` and link to it on first occurrence.
@@ -139,6 +142,7 @@ Always check `PROGRESS.md` for the current Phase. As of 2026-06-14:
 
 ### Key conventions
 - All chapters are `draft: true` by default. Set to `draft: false` ONLY when complete.
+- **Cross-volume links MUST use relative paths** (`../../01-weichen/02-digital-logic/`), NOT absolute (`/01-weichen/02-digital-logic/`). Astro does NOT prepend `base` to absolute path links (see NOTES.md #9, #14).
 - Never delete existing files — mark them `✅` in PROGRESS.md instead.
 - Sidebar links are maintained in `astro.config.mjs` — add entries there if creating new pages.
 
