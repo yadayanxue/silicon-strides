@@ -16,7 +16,7 @@ tags: [semiconductor, architecture, isa, hardware]
 - [**指令集架构**](./05-instruction-set-architecture/)：RISC-V、x86、ARM 的设计哲学与权衡
 
 :::tip[跨卷链接]
-Cache 一致性协议 → [卷三 · 乾坤](/03-qiankun/) 中的多核同步
-SIMD 向量指令 → [卷六 · 须弥](/06-xumi/) 中的张量运算加速
-中断与异常机制 → [卷二 · 芥子](/02-jiezi/) 中的裸机中断处理
+Cache 一致性协议 → [卷三 · 乾坤](../../03-qiankun/) 中的多核同步
+SIMD 向量指令 → [卷六 · 须弥](../../06-xumi/) 中的张量运算加速
+中断与异常机制 → [卷二 · 芥子](../../02-jiezi/) 中的裸机中断处理
 :::

@@ -16,7 +16,7 @@ tags: [graphics, frontend, hci, visualization]
 - [**人机交互**](./05-human-computer-interaction/)：可用性、无障碍设计、交互范式
 
 :::tip[跨卷链接]
-GPU 渲染管线 → [卷一 · 微尘](/01-weichen/) 中的 GPU 微架构
-变换矩阵与投影 → [卷零 · 灵犀](/00-lingxi/) 中的线性代数
-WebGL / WebGPU → [卷六 · 须弥](/06-xumi/) 中的浏览器端推理
+GPU 渲染管线 → [卷一 · 微尘](../../01-weichen/) 中的 GPU 微架构
+变换矩阵与投影 → [卷零 · 灵犀](../../00-lingxi/) 中的线性代数
+WebGL / WebGPU → [卷六 · 须弥](../../06-xumi/) 中的浏览器端推理
 :::

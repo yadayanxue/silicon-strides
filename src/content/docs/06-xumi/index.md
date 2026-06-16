@@ -16,7 +16,7 @@ tags: [ai, deep-learning, llm, emergent-intelligence]
 - [**AI Agent**](./05-ai-agents/)：工具调用、规划、记忆、多智能体协作
 
 :::tip[跨卷链接]
-GPU 并行计算 → [卷一 · 微尘](/01-weichen/) 中的 CUDA 与 Tensor Core
-交叉熵与信息论 → [卷零 · 灵犀](/00-lingxi/) 中的概率论基础
-模型服务化部署 → [卷四 · 渊海](/04-yuanhai/) 中的微服务与负载均衡
+GPU 并行计算 → [卷一 · 微尘](../../01-weichen/) 中的 CUDA 与 Tensor Core
+交叉熵与信息论 → [卷零 · 灵犀](../../00-lingxi/) 中的概率论基础
+模型服务化部署 → [卷四 · 渊海](../../04-yuanhai/) 中的微服务与负载均衡
 :::

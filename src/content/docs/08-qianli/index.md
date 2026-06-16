@@ -16,7 +16,7 @@ tags: [software-engineering, devops, architecture, culture]
 - [**工程文化**](./05-engineering-culture/)：Code Review、技术债、On-call、事后复盘
 
 :::tip[跨卷链接]
-容器底层原理 → [卷三 · 乾坤](/03-qiankun/) 中的 Namespace 与 Cgroup
-分布式系统设计 → [卷四 · 渊海](/04-yuanhai/) 中的架构模式
-AI 工程化 → [卷六 · 须弥](/06-xumi/) 中的 MLOps 与模型部署
+容器底层原理 → [卷三 · 乾坤](../../03-qiankun/) 中的 Namespace 与 Cgroup
+分布式系统设计 → [卷四 · 渊海](../../04-yuanhai/) 中的架构模式
+AI 工程化 → [卷六 · 须弥](../../06-xumi/) 中的 MLOps 与模型部署
 :::

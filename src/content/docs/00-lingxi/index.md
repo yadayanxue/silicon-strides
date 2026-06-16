@@ -14,10 +14,10 @@ tags: [mathematics, logic, algorithm, theory]
 - [**计算理论**](./03-theory-of-computation/)：图灵机、可计算性、P vs NP、自动机
 - [**算法理论**](./04-algorithm-theory/)：复杂度分析、图算法、动态规划、贪心与分治
 - [**编译原理**](./05-compiler-theory/)：词法/语法分析、类型系统、IR、优化、GC
-- [**密码学数学**](./06-cryptographic-mathematics/)：数论、有限域、椭圆曲线（链接至 [卷七 · 天枢](/07-tianshu/)）
+- [**密码学数学**](./06-cryptographic-mathematics/)：数论、有限域、椭圆曲线（链接至 [卷七 · 天枢](../../07-tianshu/)）
 
 :::tip[跨卷链接]
-线性代数中的矩阵运算 → [卷一 · 微尘](/01-weichen/) 中的 SIMD 向量指令
-图算法中的遍历与调度 → [卷三 · 乾坤](/03-qiankun/) 中的进程调度
-概率论与信息熵 → [卷六 · 须弥](/06-xumi/) 中的交叉熵损失函数
+线性代数中的矩阵运算 → [卷一 · 微尘](../../01-weichen/) 中的 SIMD 向量指令
+图算法中的遍历与调度 → [卷三 · 乾坤](../../03-qiankun/) 中的进程调度
+概率论与信息熵 → [卷六 · 须弥](../../06-xumi/) 中的交叉熵损失函数
 :::

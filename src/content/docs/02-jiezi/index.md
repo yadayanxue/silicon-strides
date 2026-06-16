@@ -16,7 +16,7 @@ tags: [embedded, rtos, bare-metal, firmware]
 - [**低功耗设计**](./05-low-power-design/)：睡眠模式、时钟门控、功耗状态机
 
 :::tip[跨卷链接]
-中断控制器硬件 → [卷一 · 微尘](/01-weichen/) 中的异常处理机制
-RTOS 调度策略 → [卷三 · 乾坤](/03-qiankun/) 中的 Linux 调度器
-FPGA 与软核 → [卷一 · 微尘](/01-weichen/) 中的可编程逻辑
+中断控制器硬件 → [卷一 · 微尘](../../01-weichen/) 中的异常处理机制
+RTOS 调度策略 → [卷三 · 乾坤](../../03-qiankun/) 中的 Linux 调度器
+FPGA 与软核 → [卷一 · 微尘](../../01-weichen/) 中的可编程逻辑
 :::

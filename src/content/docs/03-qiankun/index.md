@@ -19,7 +19,7 @@ tags: [os, kernel, networking, concurrency]
 - [**网络编程**](./08-network-programming/)：Socket、epoll、io_uring、DPDK
 
 :::tip[跨卷链接]
-虚拟地址翻译 → [卷一 · 微尘](/01-weichen/) 中的 MMU 与 TLB
-分布式一致性 → [卷四 · 渊海](/04-yuanhai/) 中的共识算法
-容器与隔离 → [卷八 · 千里](/08-qianli/) 中的 DevOps 实践
+虚拟地址翻译 → [卷一 · 微尘](../../01-weichen/) 中的 MMU 与 TLB
+分布式一致性 → [卷四 · 渊海](../../04-yuanhai/) 中的共识算法
+容器与隔离 → [卷八 · 千里](../../08-qianli/) 中的 DevOps 实践
 :::
