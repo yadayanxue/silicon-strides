@@ -126,7 +126,7 @@ $
 title: 多周期处理器状态机
 ---
 graph TD
-    subgraph MultiCycle[多周期处理器状态机]
+    subgraph MultiCycle["取指 → 译码 → 执行 → 写回"]
         A1[取指: PC 到 IR] --> A2[取操作数: RegFile 到 DataA,B]
         A2 --> A3[执行: ALU 到 Result]
         A3 --> A4[写回: Result 到 RegFile]
