@@ -16,17 +16,21 @@ ISA 设计的根本分歧可以归结为一个问题：**硬件应该多"聪明"
 ---
 title: CISC vs RISC 设计哲学对比
 ---
-graph LR
+flowchart LR
     subgraph CISC[CISC 哲学]
+        direction TB
         A1[复杂指令] --> A2[一条指令做多件事]
         A2 --> A3[微码 ROM 翻译]
-        A3 --> A4[硬件复杂<br/>编译器简单]
+        A3 --> A4["硬件复杂<br/>编译器简单"]
     end
     subgraph RISC[RISC 哲学]
+        direction TB
         B1[简单指令] --> B2[一条指令做一件事]
         B2 --> B3[硬连线控制]
-        B3 --> B4[硬件简单<br/>编译器复杂]
+        B3 --> B4["硬件简单<br/>编译器复杂"]
     end
+    
+    CISC ~~~ RISC
     
     style CISC fill:#ffecb3
     style RISC fill:#c8e6c9
