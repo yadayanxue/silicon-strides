@@ -55,9 +55,9 @@ Phase 6 — 理论收尾
 | 卷四 · 渊海 | 5 | 5 | 0 | 0 | 100% |
 | 卷五 · 万象 | 5 | 0 | 0 | 5 | 0% |
 | 卷六 · 须弥 | 5 | 0 | 0 | 5 | 0% |
-| 卷七 · 天枢 | 5 | 0 | 0 | 5 | 0% |
+| 卷七 · 天枢 | 5 | 5 | 0 | 0 | 100% |
 | 卷八 · 千里 | 5 | 0 | 0 | 5 | 0% |
-| **合计** | **49** | **29** | **0** | **20** | **59%** |
+| **合计** | **49** | **34** | **0** | **15** | **69%** |
 
 ---
 
@@ -141,11 +141,11 @@ Phase 6 — 理论收尾
 
 | # | 章节 | 文件 | 状态 | 开始日 | 完成日 | 备注 |
 |---|------|------|------|--------|--------|------|
-| 7.1 | 对称加密 | `07-tianshu/01-symmetric-cryptography.md` | 📋 | — | — | |
-| 7.2 | 非对称加密 | `07-tianshu/02-asymmetric-cryptography.md` | 📋 | — | — | |
-| 7.3 | 哈希与签名 | `07-tianshu/03-hash-and-signature.md` | 📋 | — | — | |
-| 7.4 | 零知识证明 | `07-tianshu/04-zero-knowledge-proofs.md` | 📋 | — | — | |
-| 7.5 | 系统安全 | `07-tianshu/05-system-security.md` | 📋 | — | — | |
+| 7.1 | 对称加密 | `07-tianshu/01-symmetric-cryptography.md` | ✅ | 2026-06-19 | 2026-06-19 | AES/GCM/ChaCha20 |
+| 7.2 | 非对称加密 | `07-tianshu/02-asymmetric-cryptography.md` | ✅ | 2026-06-19 | 2026-06-19 | RSA/ECC/DH/后量子 |
+| 7.3 | 哈希与签名 | `07-tianshu/03-hash-and-signature.md` | ✅ | 2026-06-19 | 2026-06-19 | SHA/ECDSA/EdDSA/Merkle Tree |
+| 7.4 | 零知识证明 | `07-tianshu/04-zero-knowledge-proofs.md` | ✅ | 2026-06-19 | 2026-06-19 | zk-SNARK/zk-STARK/递归证明 |
+| 7.5 | 系统安全 | `07-tianshu/05-system-security.md` | ✅ | 2026-06-19 | 2026-06-19 | seccomp/Landlock/TEE/漏洞分类 |
 
 ### 卷八 · 千里（工程与道法）
 
