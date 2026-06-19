@@ -3,6 +3,12 @@
 /* KaTeX 数学公式 */
 @import 'katex/dist/katex.css';
 
+/* 内容宽度：覆盖 Starlight 默认 45rem，对标首页 splash 的 67.5rem。
+   侧边栏占 18.75rem，68rem 内容区在 1440px 屏幕上与首页视觉宽度一致 */
+:root {
+  --sl-content-width: 68rem;
+}
+
 /* Mermaid 图表居中 + 可缩放 */
 .mermaid {
   text-align: center;
