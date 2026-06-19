@@ -1,6 +1,6 @@
 # 硅步千里 · 内容撰写进度
 
-> 最后更新：2026-06-19 11:04
+> 最后更新：2026-06-19 11:36
 
 ## 状态标记
 
@@ -49,15 +49,15 @@ Phase 6 — 理论收尾
 | 卷宗 | 总章节 | ✅ 已完稿 | ✍️ 撰写中 | 📋 待撰写 | 完成率 |
 |------|--------|-----------|-----------|-----------|--------|
 | 卷零 · 灵犀 | 6 | 0 | 0 | 6 | 0% |
-| 卷一 · 微尘 | 5 | 3 | 0 | 2 | 60% |
+| 卷一 · 微尘 | 5 | 5 | 0 | 0 | 100% |
 | 卷二 · 芥子 | 5 | 5 | 0 | 0 | 100% |
-| 卷三 · 乾坤 | 8 | 0 | 0 | 8 | 0% |
+| 卷三 · 乾坤 | 8 | 8 | 0 | 0 | 100% |
 | 卷四 · 渊海 | 5 | 0 | 0 | 5 | 0% |
 | 卷五 · 万象 | 5 | 0 | 0 | 5 | 0% |
 | 卷六 · 须弥 | 5 | 0 | 0 | 5 | 0% |
 | 卷七 · 天枢 | 5 | 0 | 0 | 5 | 0% |
 | 卷八 · 千里 | 5 | 0 | 0 | 5 | 0% |
-| **合计** | **49** | **10** | **0** | **39** | **20%** |
+| **合计** | **49** | **18** | **0** | **31** | **37%** |
 
 ---
 
@@ -98,14 +98,14 @@ Phase 6 — 理论收尾
 
 | # | 章节 | 文件 | 状态 | 开始日 | 完成日 | 备注 |
 |---|------|------|------|--------|--------|------|
-| 3.1 | 进程与线程 | `03-qiankun/01-process-and-thread.md` | 📋 | — | — | |
-| 3.2 | 内存管理 | `03-qiankun/02-memory-management.md` | 📋 | — | — | |
-| 3.3 | 文件系统 | `03-qiankun/03-filesystem.md` | 📋 | — | — | |
-| 3.4 | 同步原语 | `03-qiankun/04-synchronization.md` | 📋 | — | — | |
-| 3.5 | 网络协议栈 I · TCP/IP | `03-qiankun/05-network-protocol-stack.md` | 📋 | — | — | |
-| 3.6 | 网络协议栈 II · 传输层 | `03-qiankun/06-transport-tcp-udp-quic.md` | 📋 | — | — | |
-| 3.7 | 网络协议栈 III · 应用层 | `03-qiankun/07-application-protocols.md` | 📋 | — | — | |
-| 3.8 | 网络编程 | `03-qiankun/08-network-programming.md` | 📋 | — | — | |
+| 3.1 | 进程与线程 | `03-qiankun/01-process-and-thread.md` | ✅ | 2026-06-19 | 2026-06-19 | 2 Mermaid + PCB/CFS/IPC 详解 |
+| 3.2 | 内存管理 | `03-qiankun/02-memory-management.md` | ✅ | 2026-06-19 | 2026-06-19 | 1 Mermaid + 四级页表/TLB/缺页中断 |
+| 3.3 | 文件系统 | `03-qiankun/03-filesystem.md` | ✅ | 2026-06-19 | 2026-06-19 | 2 Mermaid + VFS/ext4/日志/Page Cache |
+| 3.4 | 同步原语 | `03-qiankun/04-synchronization.md` | ✅ | 2026-06-19 | 2026-06-19 | 1 Mermaid + 自旋锁/RCU/futex/CAS |
+| 3.5 | 网络协议栈 I · TCP/IP | `03-qiankun/05-network-protocol-stack.md` | ✅ | 2026-06-19 | 2026-06-19 | 1 Mermaid + 分层模型/IP路由/ARP/NAT |
+| 3.6 | 网络协议栈 II · 传输层 | `03-qiankun/06-transport-tcp-udp-quic.md` | ✅ | 2026-06-19 | 2026-06-19 | 1 Mermaid + TCP拥塞控制/QUIC/BBR |
+| 3.7 | 网络协议栈 III · 应用层 | `03-qiankun/07-application-protocols.md` | ✅ | 2026-06-19 | 2026-06-19 | DNS/HTTP 1.1-3/TLS 1.3/WebSocket |
+| 3.8 | 网络编程 | `03-qiankun/08-network-programming.md` | ✅ | 2026-06-19 | 2026-06-19 | 1 Mermaid + epoll/io_uring/DPDK/XDP |
 
 ### 卷四 · 渊海（数据与分布式）
 
