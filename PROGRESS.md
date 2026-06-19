@@ -98,14 +98,14 @@ Phase 6 — 理论收尾
 
 | # | 章节 | 文件 | 状态 | 开始日 | 完成日 | 备注 |
 |---|------|------|------|--------|--------|------|
-| 3.1 | 进程与线程 | `03-qiankun/01-process-and-thread.md` | ✅ | 2026-06-19 | 2026-06-19 | 2 Mermaid + PCB/CFS/IPC 详解 |
-| 3.2 | 内存管理 | `03-qiankun/02-memory-management.md` | ✅ | 2026-06-19 | 2026-06-19 | 1 Mermaid + 四级页表/TLB/缺页中断 |
-| 3.3 | 文件系统 | `03-qiankun/03-filesystem.md` | ✅ | 2026-06-19 | 2026-06-19 | 2 Mermaid + VFS/ext4/日志/Page Cache |
-| 3.4 | 同步原语 | `03-qiankun/04-synchronization.md` | ✅ | 2026-06-19 | 2026-06-19 | 1 Mermaid + 自旋锁/RCU/futex/CAS |
-| 3.5 | 网络协议栈 I · TCP/IP | `03-qiankun/05-network-protocol-stack.md` | ✅ | 2026-06-19 | 2026-06-19 | 1 Mermaid + 分层模型/IP路由/ARP/NAT |
-| 3.6 | 网络协议栈 II · 传输层 | `03-qiankun/06-transport-tcp-udp-quic.md` | ✅ | 2026-06-19 | 2026-06-19 | 1 Mermaid + TCP拥塞控制/QUIC/BBR |
-| 3.7 | 网络协议栈 III · 应用层 | `03-qiankun/07-application-protocols.md` | ✅ | 2026-06-19 | 2026-06-19 | DNS/HTTP 1.1-3/TLS 1.3/WebSocket |
-| 3.8 | 网络编程 | `03-qiankun/08-network-programming.md` | ✅ | 2026-06-19 | 2026-06-19 | 1 Mermaid + epoll/io_uring/DPDK/XDP |
+| 3.1 | 进程与线程 | `03-qiankun/01-process-and-thread.md` | ✅ | 2026-06-19 | 2026-06-19 | 3 Mermaid + 进程状态机/PCB/CFS/EEVDF/fork-clone/IPC |
+| 3.2 | 内存管理 | `03-qiankun/02-memory-management.md` | ✅ | 2026-06-19 | 2026-06-19 | 5 Mermaid + 四级页表+KPTI+AArch64+RISC-V MMU/THP/EAT 公式/NUMA+Auto-NUMA/缺页/时钟算法/Overcommit+OOM/伙伴+Slab |
+| 3.3 | 文件系统 | `03-qiankun/03-filesystem.md` | ✅ | 2026-06-19 | 2026-06-19 | 2 Mermaid + VFS/ext4 extent 树/inode 字段/硬链接软链接/日志三模式/Page Cache |
+| 3.4 | 同步原语 | `03-qiankun/04-synchronization.md` | ✅ | 2026-06-19 | 2026-06-19 | 4 Mermaid + 总线锁/缓存锁MESI/LL-SC硬件原理/读写锁/死锁+银行家/RCU/futex/内存屏障/CAS/ABA |
+| 3.5 | 网络协议栈 I · TCP/IP | `03-qiankun/05-network-protocol-stack.md` | ✅ | 2026-06-19 | 2026-06-19 | 1 Mermaid + 以太网帧格式/IPv4头部/ICMP报文/ARP报文/最长前缀匹配/NAT |
+| 3.6 | 网络协议栈 II · 传输层 | `03-qiankun/06-transport-tcp-udp-quic.md` | ✅ | 2026-06-19 | 2026-06-19 | 2 Mermaid + TCP头部+选项/UDP头部/TCP状态机/RTO/SACK/BBR/QUIC |
+| 3.7 | 网络协议栈 III · 应用层 | `03-qiankun/07-application-protocols.md` | ✅ | 2026-06-19 | 2026-06-19 | 1 Mermaid + DNS报文线格式+记录类型/HTTP状态码+HTTP2帧格式/TLS记录格式+证书链 |
+| 3.8 | 网络编程 | `03-qiankun/08-network-programming.md` | ✅ | 2026-06-19 | 2026-06-19 | 1 Mermaid + 阻塞vs非阻塞/EPOLLET/reactor-proactor/epoll/io_uring/DPDK/XDP |
 
 ### 卷四 · 渊海（数据与分布式）
 
