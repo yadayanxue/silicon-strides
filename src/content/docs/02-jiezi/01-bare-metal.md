@@ -191,7 +191,7 @@ graph LR
 
 ARM Cortex-M 的典型启动流程（以 STM32 为例）：
 
-```armasm
+```asm
 .section .isr_vector, "a"
 g_pfnVectors:
     .word _estack             /* 向量表[0]: 初始栈顶 */
