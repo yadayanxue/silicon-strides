@@ -118,12 +118,12 @@
 ### 19. Mermaid 渲染延迟导致锚点偏移
 **症状**：fragment 正确但锚点位置每次刷新不一致。
 **根因**：`.mermaid` 初始高度为 0，SVG 异步渲染撑高后浏览器首次 hash 滚动位置已过时。
-**方案**：未解决。JS 追滚和 CSS 预留高度方案均不可靠，暂不处理。
+**方案**：`astro.config.mjs` 注入内联脚本拦截 hash，`mermaid-loader.js` 渲染完成后恢复。一次定位到位。 ✅
 
 ### 20. 错误修改 heading 以迁就 slug 美观
 **症状**：为消除 slug 中的 `--` 双连字符，把 heading 里的 `——` `→` `+` `/` 改成 `：`，破坏了原文风格。
 **根因**：slug 由 build 自动生成，`check-cross-links.py` 自动验证对应关系。改 heading 是本末倒置。
-**方案**：heading 永远保持原样不动。fragment 用 build 后 dist 中的实际 `id`，脚本自动校验。 ✅
+**方案**：heading 永远保持原样不动。fragment 用 build 后 dist 中的实际 `id`，脚本自动校验。 ✅ 已回退所有误改。
 
 ### 21. 规则有但无人执行——自动化断层
 **症状**：NOTES.md 规则靠人手工 grep，导致 `../../../`、缺 fragment 等问题反复出现。
