@@ -594,7 +594,7 @@ flowchart LR
 
 ### 体系结构 ↔ AI Agent（卷六 · 须弥）
 
-- [Agent 架构](../../06-xumi/05-ai-agents/#agent-架构)：大模型推理需要**向量单元（Vector ALU）**而非标量加法器，SIMD/张量核是吞吐率的来源
+- [Agent 架构（Agent 核心循环）](../../06-xumi/05-ai-agents/#agent-核心循环)：大模型推理需要**向量单元（Vector ALU）**而非标量加法器，SIMD/张量核是吞吐率的来源
 - [深度学习](../../06-xumi/02-deep-learning/)：Transformer 解码器需要**高带宽缓存层次**存储 KV 缓存，访存往往成为瓶颈
 - 多核 Agent 协同需要**多核同步原语**（锁、屏障），详见 [卷三 · 同步原语](../../03-qiankun/04-synchronization/)
 

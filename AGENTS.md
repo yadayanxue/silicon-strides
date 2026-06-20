@@ -72,16 +72,43 @@ Every content page MUST include YAML frontmatter. Available fields:
 
 | `lastUpdated` | No | Override last modification date. Set `false` to hide. | `2025-01-15` |
 
-## 6. Agent Workflow
-When generating or editing content:
+## 6. Agent Workflow: Writing New Chapters（Phase A：撰写新章）
+
+> 当前项目已无 📋 待撰写章节（49/49 已完稿）。此工作流保留供未来新增章节参考。
+
+When **creating** a brand-new chapter (status: `📋` in PROGRESS.md):
 1.  **Analyze**: Determine which "Scroll" the topic belongs to.
 2.  **Contextualize**: Identify at least one upstream (lower-level) and one downstream (higher-level) dependency.
 3.  **Draft**: Write content following the "Writing Standards".
 4.  **Verify**: Check for broken links and ensure Mermaid syntax is valid.
 5.  **Tag**: Add metadata tags in the YAML frontmatter: `tags: [hardware, ai, optimization]`.
-6.  **Journal**: Track every problem in `NOTES.md` — see Section 6.1.
+6.  **Journal**: Track every problem in `NOTES.md` — see Section 6.2.
 
-### 6.1 问题日志协议（Problem Journal Protocol）
+### 6.1 Continuous Improvement Workflow（Phase B：持续改进）
+
+> 当前主工作流。所有 49 章已完稿，工作重心是逐章深化、逐点完善。
+
+**触发时机**：
+- 用户要求"检查内容完善度"、"补充 XX 章节"、"优化某概念"
+- 用户引用 `PROGRESS.md` 中的"内容完善度评估"指标
+- 用户要求"按优先级逐步改进"
+
+**执行步骤**：
+
+1. **确定目标**：从 `PROGRESS.md`「内容完善度评估」中读取当前最薄弱的指标（Mermaid 缺失、KaTeX 缺失、行数偏薄）
+2. **一次一章**：每轮只改进一个章节，不批量操作
+3. **先读后改**：Read 目标文件的当前完整内容
+4. **精准切入**：
+   - 缺 Mermaid → 找到最自然的"流程/架构/关系"点，插入 Mermaid 图
+   - 缺 KaTeX → 找到最核心的"公式/定理/定量关系"，插入 `$$` 块
+   - 缺深度 → 找到最"一句话带过"的大概念，展开为 3-5 段 + 表格/列表
+   - 缺跨卷链接 → 扫描本章关键概念，在相应卷中找"同构问题"
+5. **只增不删**：用 `Edit` 在现有段落之间插入新内容，保留所有已有内容
+6. **三检通过**：`npm run build` + `check-cross-links.py` + 手动确认指标未退化
+7. **更新进度**：在 `PROGRESS.md` 的改进记录表中追加一行
+8. **询问下一步**：呈现改进结果，询问用户是否继续下一章
+
+### 6.2 问题日志协议（Problem Journal Protocol）
 
 `NOTES.md` 不是事后总结，而是**实时问题日志**。遵循"遇坑即记、解决即补"原则：
 
@@ -122,23 +149,24 @@ Read `.gitignore` before any operation to understand which files are build artif
 - `node_modules/` — Dependencies, managed by `npm install`
 - `.astro/` — Astro runtime cache, auto-managed
 
-## 8. Agent Quick Start (新会话必读)
+## 8. Agent Quick Start（新会话必读）
 
-After loading the three files mandated at the top of this file (`llms.txt`, `PROGRESS.md`, `astro.config.mjs`):
+After loading the four files mandated at the top of this file (`llms.txt`, `PROGRESS.md`, `astro.config.mjs`, `NOTES.md`):
 
-1. **Choose a task**: pick the first `📋` chapter in the current Phase, or ask the user
-2. **Locate the file** — already exists under `src/content/docs/` with `draft: true`
-3. **Write content** following Section 3 (Writing Standards) and Section 4 (Cross-Referencing)
-4. **Verify**: `npm run build` must pass with zero warnings
-5. **Update `PROGRESS.md`**: change status to `✅`, fill dates, update completion rate
-6. **Commit**: use conventional commits like `docs: 撰写半导体物理章节`
+1. **确定模式**：
+   - 如果 `PROGRESS.md` 中所有章节为 `✅`，进入 **Phase B（持续改进）**——见 Section 6.1
+   - 如果存在 `📋` 章节，进入 **Phase A（撰写新章）**——见 Section 6
+2. **选择目标**：检查 `PROGRESS.md`「内容完善度评估」中的指标表格，找到最薄弱的章节
+3. **执行改进**：遵循 Section 9「增量编辑协议」——Read → Edit → 三检 → 更新 PROGRESS
+4. **Commit**: use conventional commits like `docs: 补充 XX 章节 Mermaid 图`
    - ⚠️ **NEVER auto-commit or auto-push.** Always wait for explicit user confirmation before `git commit` or `git push`.
 
 ### Current Phase
 
-Always check `PROGRESS.md` for the current Phase. As of 2026-06-14:
-- **Phase 1** in progress — start with Scroll 1 (微尘) or Scroll 3 (乾坤)
-- First chapter to write: **半导体物理** (`01-weichen/01-semiconductor-physics.md`)
+Always check `PROGRESS.md` for the current Phase. As of 2026-06-20:
+- **Phase B（持续改进）** — 49/49 章已完稿，工作重心为逐章深化
+- 改进优先级：见 `PROGRESS.md`「下一轮改进目标」表
+- 质量基线：见 Section 11「Quality Baseline」
 
 ### Key conventions
 - All chapters are `draft: true` by default. Set to `draft: false` ONLY when complete.
@@ -146,10 +174,96 @@ Always check `PROGRESS.md` for the current Phase. As of 2026-06-14:
 - Never delete existing files — mark them `✅` in PROGRESS.md instead.
 - Sidebar links are maintained in `astro.config.mjs` — add entries there if creating new pages.
 
-## 9. Forbidden Actions
+## 9. Incremental Editing Protocol（增量编辑协议）
+
+> **核心原则：每次编辑是"手术刀"而非"推土机"——精准切入，保留周围一切。**
+
+### 9.1 工具选择决策树
+
+```
+要修改已有文件？
+  ├─ 改动 < 20 行，且只涉及 1-2 处 → 用 Edit（old_string/new_string）
+  ├─ 新增整个小节（> 20 行），不删改已有内容 → 先 Read，定位插入点，用 Edit 插入
+  └─ 需要重写整个文件结构 → 先 Read，征得用户同意，再用 Write
+```
+
+- **Edit** 是默认选项。它能确保只有匹配的 `old_string` 被替换，其余内容原封不动。
+- **Write** 仅用于：创建新文件、或用户明确要求"重写这一章"。
+- **绝不**在未 Read 文件的情况下 Edit/Write——必须先 Read 确认当前内容。
+
+### 9.2 内容保护规则
+
+| 规则 | 说明 |
+|------|------|
+| **只增不删** | Mermaid 图数量、KaTeX 公式数量、跨卷链接数量——只能增加，不能减少 |
+| **保留 heading** | 不改动已有 heading 文本（即使它不美观）——fragment 依赖它。只能在现有 heading 下新增子节 |
+| **保留链接文本** | 跨卷链接的格式 `概念名（目标 heading 原文）` 必须保持——两端信息都不丢失 |
+| **先读后改** | 每次 Edit/Write 前必须 Read 目标文件的当前状态 |
+
+### 9.3 编辑后必检清单
+
+每次编辑完成后，立即执行：
+
+- [ ] `npm run build` 通过，零警告
+- [ ] `python3 scripts/check-cross-links.py` 通过
+- [ ] 被编辑文件的 Mermaid/KaTeX/跨卷链接数量不低于编辑前
+- [ ] `grep -r "TODO\|待补充\|占位" src/content/docs/` 数量未增加
+- [ ] 如有新增 fragment，确认目标 heading 存在且 slug 匹配
+
+---
+
+## 10. Web Research Protocol（网络调研协议）
+
+> 技术数字必须可查证。以下场景触发联网调研。
+
+### 10.1 触发条件
+
+| 场景 | 工具 | 示例 |
+|------|------|------|
+| 引用性能数据（频率、带宽、延迟） | `WebSearch` → datasheet/论文 | "H100 的显存带宽是多少？" |
+| 引用协议参数（默认端口、超时值） | `WebSearch` → RFC/官方文档 | "Raft 默认选举超时范围？" |
+| 引用版本号、发布时间 | `WebSearch` → release notes | "K8s 哪个版本废弃了 PSP？" |
+| 引用算法最优值（最新 SOTA） | `WebSearch` → paperswithcode/arXiv | "ImageNet 当前最高 Top-1 准确率？" |
+| 获取代码示例的 API 签名 | `WebFetch` → 官方文档 | "io_uring 的 `io_uring_submit` 签名" |
+
+### 10.2 权威源优先级
+
+1. **官方文档**（kernel.org、man pages、厂商 datasheet）— 最高权威
+2. **标准文档**（RFC、IEEE、NIST、JEDEC）
+3. **同行评审论文**（arXiv、ACM DL、USENIX）
+4. **官方发布说明**（GitHub release notes、项目 CHANGELOG）
+5. **维基百科** — 仅作交叉验证，不作为单一来源
+
+### 10.3 调研后的行动
+
+- 在章节中以注释或脚注形式标注数据来源
+- 在 `NOTES.md` 中记录关键的调研发现（便于后续会话复用）
+- 如果数据与现有内容冲突，**保留旧数据并标注矛盾**，而非直接覆盖——等待用户判断
+
+---
+
+## 11. Quality Baseline（质量基线）
+
+> 每次改进必须维持或提升以下指标。`PROGRESS.md` 中的"内容完善度评估"是活文档。
+
+| 指标 | 当前基线（2026-06-20） | 最低要求 |
+|------|----------------------|---------|
+| Mermaid 覆盖 | 49/49 | 49/49（不减） |
+| KaTeX `$$` 覆盖 | 27/49 | 27/49（不减） |
+| 跨卷 fragment 校验 | 94 条全部通过 | 100% 通过 |
+| TODO 占位符 | 0 | 0（不增） |
+| `draft: true` 残留 | 0 | 0 |
+| `npm run build` | 零警告 | 零警告 |
+
+---
+
+## 12. Forbidden Actions
 -   Do not generate placeholder text like "Lorem Ipsum" or "To be added". Use `<!-- TODO: ... -->` instead.
 -   Do not use external images. All diagrams must be generated via Mermaid or SVG code embedded in the repo.
 -   Do not break the "Eight Scrolls" hierarchy.
 -   Do not modify files listed in `.gitignore` — these are auto-generated or managed externally.
 -   Do NOT rename or move existing `.md` files inside `src/content/docs/` without updating sidebar in `astro.config.mjs` AND all cross-volume links in other scrolls.
 -   **Do NOT auto-execute `git commit` or `git push`.** Always present changes for user review and wait for explicit confirmation.
+-   **Do NOT bulk-replace an entire chapter** without explicit user request (`Write` over existing file without prior Read).
+-   **Do NOT delete or shrink existing content sections** — only expand or refine.
+-   **Do NOT change existing heading text** — it breaks fragment links from other scrolls.
