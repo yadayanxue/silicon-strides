@@ -10,6 +10,9 @@
 
 ## 速查清单
 
+> **定位**：本清单是 AGENTS.md 规则的实操速查卡，非独立规范。如有冲突，以 **AGENTS.md** 为准。
+> 项目 Agent `silicon-archivist`（`.pi/agents/silicon-archivist.md`）已预载全部约束，子 Agent 调用时无需重复粘贴。
+
 ### 每次编辑后必检
 
 - [ ] `npm run build` 通过，零警告
@@ -17,31 +20,22 @@
 - [ ] Mermaid/KaTeX/跨卷链接数量不低于编辑前（只增不减）
 - [ ] 无新增 TODO 或占位符
 
-### 格式规则
+### 关键格式（详见 AGENTS.md Section 3.2 + NOTES.md #4-#6-#22）
 
-- [ ] 跨卷链接格式 `概念名（目标 heading 原文）`，缺 fragment 的补充
-- [ ] 相对路径：上溯到共同父目录的 `../` + 目标路径。`grep -rn '\.\./\.\./\.\./' src/content/docs/` 为空
-- [ ] heading 自然书写，不改动以迁就 slug
-- [ ] Mermaid 不含 `title` 关键字做节点 ID，边标签不用 `""`
-- [ ] Admonition 行首裸 `:::`
-- [ ] KaTeX `$` 前后与中文间有空格
-- [ ] 替换 Mermaid 块时包含闭合 ` ``` `
-- [ ] Mermaid 标签中的泛型尖括号用 `#60;` / `#62;`（不用 `<>`，会被浏览器 HTML 解析器吞掉）
-- [ ] 链接用相对路径，不用绝对 `/01-weichen/...`
+- [ ] 跨卷链接格式 `概念名（目标 heading 原文）`
+- [ ] 相对路径 `../../`（禁止 `../../../` 和绝对路径）
+- [ ] heading 不改动（fragment 依赖）
+- [ ] Mermaid 含 `title` 属性，节点 ID 不用 `title` 关键字，标签泛型用 `#60;` / `#62;`
+- [ ] KaTeX `$` 与中文间有空格
+- [ ] Admonition `:::` 顶格
+- [ ] 替换 Mermaid 块时包含完整 ` ```mermaid...``` `
 
-### 增量编辑规则
+### 编辑规则（详见 AGENTS.md Section 9 + Section 12）
 
-- [ ] 优先用 `Edit`，非必要不用 `Write`
-- [ ] 先 `Read` 再编辑——确认当前内容
-- [ ] 只增不删：新内容用 `Edit` 插入，不覆盖已有段落
-- [ ] 不改动已有 heading 文本（fragment 依赖它）
-
-### 网络调研规则
-
-- [ ] 性能数据（频率/带宽/延迟）→ WebSearch 查 datasheet/论文
-- [ ] 协议参数（端口/超时/默认值）→ WebSearch 查 RFC/官方文档
-- [ ] 版本信息 → WebSearch 查 release notes
-- [ ] 调研结果标注来源，与现有内容冲突时保留二者并标注矛盾
+- [ ] 一次只改一个章节文件
+- [ ] 先 Read 再 Edit，只增不删
+- [ ] 不改已有 heading 文本
+- [ ] 不执行 `git commit` / `git push`
 
 ## 问题记录
 
@@ -154,3 +148,23 @@
 **症状**：`fn<T>(x: T)` 在渲染后变为 `fn<t>(x: T)`（`<T>` 被当作 HTML 标签），Mermaid 解析失败，图不显示。
 **根因**：remark-mermaid 将 Mermaid 源码嵌入 `<div class="mermaid">`，浏览器 HTML 解析器将标签内的 `<T>` 等模式当作 HTML 标签，lowercase 处理并破坏文本。Astro 在处理 `type: 'html'` 节点时完全解码所有 HTML 实体，因此 `&lt;` `&amp;lt;` 等转义均无效。
 **方案**：在 .md 源文件中使用 Mermaid 的 Unicode escape 语法 `#60;` 替代 `<`，`#62;` 替代 `>`。例如 `fn#60;T#62;(x: T)`。Mermaid 渲染为 `<` `>` 字符，但 HTML 源码中不含尖括号，浏览器不误解析。仅适用于 Mermaid 节点标签中的泛型尖括号等非 HTML 语义的 `<>`——Mermaid 原生 HTML 标签（`<br/>` `<sub>` `<sup>`）不需要转义。 ✅
+
+### 23. 一次改多章 = 多章都浅——缺少作用域闸门
+**症状**：用户说"改进卷四"时，Agent 试图一次性处理 5 章，每章只撒胡椒面（加一两句话/一个图），质量远差于一次一章的深度改进。
+**根因**：AGENTS.md 虽有"一次一章"规则（Section 6.1），但缺少强制执行机制——无编辑前闸门、无违反检测、无回退流程。Agent 上下文窗口装不下 5 章 × 200+ 行的深度编辑。
+**方案**：在 AGENTS.md 中增加三层约束：① Section 9.0「作用域闸门」——编辑前声明目标文件、复核范围、提取优先级；② Section 12 Forbidden Actions 增加"单 session 不碰多内容文件"禁止项；③ Section 8 Quick Start 将闸门嵌入启动流程。多章请求转为"取优先级第一 → 做完再问"的串行模式。 ✅
+
+### 24. 多章改进缺少自动化编排——父 Agent 手工逐章效率低
+**症状**：父 Agent 手工逐章改进时，每章都需要重新加载 AGENTS.md/NOTES.md/PROGRESS.md 上下文并手工构造编辑指令，重复劳动多且容易遗漏步骤。
+**根因**：AGENTS.md 有"一次一章"约束和增量编辑协议，但没有多章自动化编排机制。子 Agent 天然隔离 + 一次一章，但缺少标准化的调用模板。
+**方案**：在 AGENTS.md 新增 Section 6.3「子 Agent 编排工作流」——三阶段（计划 → 串行执行 → 收尾），提供完整的子 Agent 任务模板。父 Agent 从 PROGRESS.md 自动提取优先级章节目录，按模板为每章生成 worker task，异步启动、验收、更新进度、询问下一章。每个子 Agent 只改一个文件，自动执行三检。 ✅
+
+### 25. 子 Agent 任务模板冗长——规则内联导致重复和臃肿
+**症状**：AGENTS.md Section 6.3 的"子 Agent 任务模板"包含完整的规则内联文本（硬约束 6 条 + 格式规则 + 启动文件清单），每次调用都要粘贴大段重复指令，污染父 Agent 上下文。
+**根因**：所有约束通过 task 参数手工传递，没有持久化的项目 Agent。AGENTS.md 中 Section 6.3 的内容组织方式与文档 Section 的命名风格一致（"作用域闸门""编排工作流"），缺少独立、简洁的配置层。
+**方案**：① 创建 `.pi/agents/silicon-archivist.md`——预载全部约束（Role/Startup/Rules/Format/Edit/Links/Validate/Report 八段短名结构），用 `systemPromptMode: add` 叠加到 worker 上；② AGENTS.md Section 6.3 缩减为编排指令（引用 `silicon-archivist` agent、父 Agent 验收清单），不再内联规则文本。子 Agent task 只需指定目标和报告格式。 ✅
+
+### 26. 三文件间指标过时 + 验收清单重复 + 速查清单冗余
+**症状**：① AGENTS.md Section 11 KaTeX 写 27/49 实际 42/49，fragment 写 94 实际 100；② Section 6.3"父 Agent 验收清单"与 Section 9.3"编辑后必检清单"内容一致但不互引用；③ NOTES.md 速查清单是 AGENTS.md Sections 3-4-9 的压缩版，缺少权威声明和子 Agent 引用。
+**根因**：多轮增量编辑后三个文件各自演化，未做系统性一致性审查。
+**方案**：① Section 11 指标更新为实测值；② 6.3 验收清单改为引用 9.3 + 补充 cross-links 和计数检查；③ NOTES.md 速查清单添加"以 AGENTS.md 为准"声明 + "关键格式/编辑规则"引用具体 Section，同时声明 `silicon-archivist` agent 已预载约束。从 4 节 24 条 checklist → 3 节 15 条，去重 9 条。 ✅

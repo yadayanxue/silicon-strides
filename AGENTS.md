@@ -96,7 +96,7 @@ When **creating** a brand-new chapter (status: `📋` in PROGRESS.md):
 **执行步骤**：
 
 1. **确定目标**：从 `PROGRESS.md`「内容完善度评估」中读取当前最薄弱的指标（Mermaid 缺失、KaTeX 缺失、行数偏薄）
-2. **一次一章**：每轮只改进一个章节，不批量操作
+2. **一次一章（硬约束，不可违反）**：每轮只改进**一个**章节，不批量操作。若用户要求"改进某卷"（如"改进卷四"），提取该卷的优先级章节表，选择排名第一的章节，明确告知用户后将其余章节排入队列——**本轮只改一章**。一次改多章 = 每章都浅 = 无效工作。参见 Section 9.0「作用域闸门」
 3. **先读后改**：Read 目标文件的当前完整内容
 4. **精准切入**：
    - 缺 Mermaid → 找到最自然的"流程/架构/关系"点，插入 Mermaid 图
@@ -129,6 +129,63 @@ When **creating** a brand-new chapter (status: `📋` in PROGRESS.md):
 
 > 此协议确保每次踩坑经验都能被后续会话通过加载 `NOTES.md` 自动继承。
 
+### 6.3 子 Agent 编排工作流（Subagent Orchestration）
+
+> 项目 Agent `silicon-archivist` 已预载所有写作规范、增量编辑协议、跨卷链接格式和已知陷阱。父 Agent 调用它时只需指定改进目标，无需重复粘贴规则。
+
+**架构**：
+- **`silicon-archivist`**（`.pi/agents/silicon-archivist.md`）：项目专用编辑 Agent，system prompt 含全部约束
+- **父 Agent**：只负责计划 + 分发 + 验收，不执行编辑
+- **串行模式**：一次一个 `silicon-archivist`，避免 worktree 冲突
+
+**工作流（三阶段）**：
+
+#### 阶段 1：计划
+
+1. 读取 `PROGRESS.md`「下一轮改进目标」表，提取范围内的章节
+2. 按优先级排序，为每章确定 1-3 个具体改进目标
+3. 展示计划并获用户确认
+
+#### 阶段 2：串行执行
+
+对每个章节：
+
+1. **启动 async subagent**：
+   ```
+   subagent({
+     agent: "silicon-archivist",
+     task: "目标：[章节名] ([文件路径])
+
+     改进任务：
+     1. [具体目标 1，如：在 ## B+Tree 节后插入 fanout 公式 $$ 块]
+     2. [具体目标 2，如：为插入/搜索算法新增 Mermaid 流程图]
+     3. [具体目标 3，如：在末尾新增 ## 查询优化 子节]
+
+     报告格式：编辑位置、行数变化、新增 Mermaid/KaTeX/链接数、build 状态",
+     async: true
+   })
+   ```
+
+2. **等待完成**，接收报告
+3. **验收**：`npm run build` + `check-cross-links.py`
+4. **更新** `PROGRESS.md`
+5. **询问**是否继续下一章
+
+#### 阶段 3：收尾
+
+- 更新 `PROGRESS.md` 全局指标
+- 更新「下一轮改进目标」表
+- 汇总报告
+- 询问是否 commit
+
+#### 父 Agent 验收清单
+
+每章子 Agent 完成后，父 Agent 执行 **Section 9.3 编辑后必检清单**的全部项目，并额外确认：
+- `check-cross-links.py` fragment 100% 通过（路径深度 + fragment 存在性）
+- 本章的 Mermaid/KaTeX/跨卷链接数量不低于改进前
+
+如果验收失败，回退到子 Agent 修复（`resume` 同一次运行，传具体错误信息）。
+
 ## 7. Project Anatomy
 Read `.gitignore` before any operation to understand which files are build artifacts versus source content. The project has two categories:
 
@@ -156,9 +213,10 @@ After loading the four files mandated at the top of this file (`llms.txt`, `PROG
 1. **确定模式**：
    - 如果 `PROGRESS.md` 中所有章节为 `✅`，进入 **Phase B（持续改进）**——见 Section 6.1
    - 如果存在 `📋` 章节，进入 **Phase A（撰写新章）**——见 Section 6
-2. **选择目标**：检查 `PROGRESS.md`「内容完善度评估」中的指标表格，找到最薄弱的章节
-3. **执行改进**：遵循 Section 9「增量编辑协议」——Read → Edit → 三检 → 更新 PROGRESS
-4. **Commit**: use conventional commits like `docs: 补充 XX 章节 Mermaid 图`
+2. **选择目标**：检查 `PROGRESS.md`「下一轮改进目标」表，挑选优先级最高的**单个**章节。如果用户请求涉及多章或整卷，提取优先级列表并告知用户只改排第一的章节
+3. **通过作用域闸门**：执行 Section 9.0——声明目标文件、确认范围、获得用户确认
+4. **执行改进**：遵循 Section 9「增量编辑协议」——Read → Edit → 三检 → 更新 PROGRESS
+5. **Commit**: use conventional commits like `docs: 补充 XX 章节 Mermaid 图`
    - ⚠️ **NEVER auto-commit or auto-push.** Always wait for explicit user confirmation before `git commit` or `git push`.
 
 ### Current Phase
@@ -177,6 +235,20 @@ Always check `PROGRESS.md` for the current Phase. As of 2026-06-20:
 ## 9. Incremental Editing Protocol（增量编辑协议）
 
 > **核心原则：每次编辑是"手术刀"而非"推土机"——精准切入，保留周围一切。**
+
+### 9.0 作用域闸门（Scope Gate）
+
+> **编辑前必须通过此闸门。未通过 = 不可开始编辑。**
+
+每次修改内容文件（`src/content/docs/**/*.md`）前，Agent 必须：
+
+1. **声明目标**：明确说出"我将修改 `路径/文件.md`（XX 章），且本轮仅修改此文件"
+2. **复核范围**：用 `bash` 确认 `git status` 或头脑中确认，本轮不会触及任何其他 `src/content/docs/` 下的 `.md` 文件
+3. **用户确认**：如果用户请求涉及多章（如"改进卷四"），Agent 必须从 `PROGRESS.md` 提取该卷优先级最高的**一章**并告知用户：
+   > "卷四共 5 章，按优先级先改 **4.1 关系型数据库**（当前行数 170）。完成后你再决定是否继续下一章。"
+4. **违反识别**：如果在同一次响应中已经开始修改第二个章节文件，**立即停止**，报告给用户，并回退到上一章的三检流程
+
+> **为什么？** 一卷 5-8 章 × 每章 100-600 行 = 500-3000 行深度内容。一次性处理相当于"推土机"——每章只能撒胡椒面。一次一章是"手术刀"——才能挖到概念的本质、插入有深度的公式和图表。
 
 ### 9.1 工具选择决策树
 
@@ -249,8 +321,8 @@ Always check `PROGRESS.md` for the current Phase. As of 2026-06-20:
 | 指标 | 当前基线（2026-06-20） | 最低要求 |
 |------|----------------------|---------|
 | Mermaid 覆盖 | 49/49 | 49/49（不减） |
-| KaTeX `$$` 覆盖 | 27/49 | 27/49（不减） |
-| 跨卷 fragment 校验 | 94 条全部通过 | 100% 通过 |
+| KaTeX `$$` 覆盖 | 42/49 | 42/49（不减） |
+| 跨卷 fragment 校验 | 100 条全部通过 | 100% 通过 |
 | TODO 占位符 | 0 | 0（不增） |
 | `draft: true` 残留 | 0 | 0 |
 | `npm run build` | 零警告 | 零警告 |
@@ -267,3 +339,4 @@ Always check `PROGRESS.md` for the current Phase. As of 2026-06-20:
 -   **Do NOT bulk-replace an entire chapter** without explicit user request (`Write` over existing file without prior Read).
 -   **Do NOT delete or shrink existing content sections** — only expand or refine.
 -   **Do NOT change existing heading text** — it breaks fragment links from other scrolls.
+-   **Do NOT modify content files from more than one chapter in a single response/session.** A "scroll" contains 5-8 chapters; improving a scroll means processing chapters **one at a time**, not all at once. If the user requests multi-chapter work (e.g., "改进卷四"), extract the priority list from `PROGRESS.md` and start with **only the first one**. After completing it, ask before proceeding to the next. See Section 9.0「作用域闸门」for the mandatory scope gate.
