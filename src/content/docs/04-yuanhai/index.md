@@ -16,7 +16,7 @@ tags: [database, distributed, storage, consensus]
 - [**数据流水线**](./05-data-pipelines/)：Kafka、Flink、流批一体
 
 :::tip[跨卷链接]
-B+ Tree 与内存页 → [卷三 · 乾坤](../../03-qiankun/) 中的虚拟内存页面管理
+B+ Tree 与内存页 → [卷三 · 乾坤](../../../03-qiankun/) 中的虚拟内存页面管理
 向量时钟与逻辑时钟 → [卷零 · 灵犀](../../00-lingxi/) 中的偏序关系
 分布式训练数据管道 → [卷六 · 须弥](../../06-xumi/) 中的数据并行策略
 :::

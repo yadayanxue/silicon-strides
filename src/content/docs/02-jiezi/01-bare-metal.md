@@ -392,6 +392,40 @@ void SysTick_Handler(void) {
 
 ---
 
+## 裸机中断的上下半部设计
+
+向量表将中断信号路由到 ISR，但 ISR 本身的架构同样关键。裸机编程的黄金法则是**ISR 必须短**——原因在 [中断延迟分析](../02-interrupts/#中断延迟分析从信号到达-isr-第一行代码) 中已量化：ISR 的每一微秒都是对同优先级和更低优先级中断的延迟惩罚。
+
+裸机程序员将中断处理逻辑拆分为两部分：
+
+| 部分 | 执行位置 | 约束 | 负责 |
+|------|---------|------|------|
+| **上半部**（Top Half） | ISR 本体（硬中断上下文） | < 5 μs，不可阻塞，不可睡眠 | 读状态寄存器、清中断标志、拷贝数据到环形缓冲、置标志位通知主循环 |
+| **下半部**（Bottom Half） | 主循环（`main()` 或 RTOS 任务） | 可阻塞，可调用复杂函数 | 协议解析、数据处理、Flash 写入、外设重配置 |
+
+```c
+// 上半部 —— ISR（< 5 μs）
+void UART_RX_IRQHandler(void) {
+    if (UART->SR & UART_SR_RXNE) {
+        rx_buf[rx_head++] = UART->DR;          // 仅取走数据
+        rx_head %= BUF_SIZE;
+        new_data_ready = true;                 // 通知主循环
+    }
+}
+
+// 下半部 —— 主循环
+void process_uart_data(void) {
+    if (new_data_ready) {
+        parse_protocol(rx_buf);     // 可慢，不会阻塞中断
+        new_data_ready = false;
+    }
+}
+```
+
+这一模式向上延伸为操作系统的 [tasklet 与 workqueue 机制](../../03-qiankun/01-process-and-thread/#中断下半部taskletworkqueue-与-threaded-irq)——Linux 内核将"上半部/下半部"思想系统化为软中断、tasklet、workqueue 三级。裸机程序员写的 `new_data_ready = true` 标志位，就是操作系统中 `raise_softirq()` 的微观前身。
+
+---
+
 ## 完整的启动流程图
 
 将上述所有步骤串联起来，得到裸机启动的完整画面：

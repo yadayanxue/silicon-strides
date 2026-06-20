@@ -343,7 +343,7 @@ void DMA_IRQHandler(void) {
 ```
 
 :::tip[跨卷链接]
-DMA 与 Cache 的一致性问题是[存储层次的写策略](../../01-weichen/04-memory-hierarchy/#写策略write-policy)在嵌入式场景的直接体现。写回 Cache 使用脏位延迟写回 SRAM，而 DMA 绕过 Cache 直接访问 SRAM——二者之间没有硬件一致性协议（MOESI/MESI 常见于多核系统，但极少出现在 MCU 中）。嵌入式程序员必须通过软件显式管理一致性，这是 MCU 领域与桌面/服务器领域的关键差异之一。
+DMA 与 Cache 的一致性问题是[存储层次的写策略](../../01-weichen/04-memory-hierarchy/#写策略数据一致性的根源)在嵌入式场景的直接体现。写回 Cache 使用脏位延迟写回 SRAM，而 DMA 绕过 Cache 直接访问 SRAM——二者之间没有硬件一致性协议（MOESI/MESI 常见于多核系统，但极少出现在 MCU 中）。嵌入式程序员必须通过软件显式管理一致性，这是 MCU 领域与桌面/服务器领域的关键差异之一。
 :::
 
 ---
@@ -358,8 +358,8 @@ DMA 与 Cache 的一致性问题是[存储层次的写策略](../../01-weichen/0
 | UART 异步帧同步 | [时钟域交叉与亚稳态](../../01-weichen/02-digital-logic/#时钟域交叉) | [串行通信协议栈（SLIP/PPP）](../../03-qiankun/07-application-protocols/) |
 | SPI 四种模式（CPOL/CPHA） | [建立时间与保持时间](../../01-weichen/02-digital-logic/#建立时间与保持时间) | [高速外设驱动架构（SDIO、QSPI）](../../03-qiankun/) |
 | I²C 线与仲裁 | 开漏输出物理层 | [多主总线与分布式锁](../../04-yuanhai/03-distributed-fundamentals/) |
-| DMA 零拷贝传输 | [SRAM 带宽与总线矩阵仲裁](../../01-weichen/04-memory-hierarchy/#存储金字塔从寄存器到磁带的七重天) | [文件系统零拷贝 I/O](../../03-qiankun/03-filesystem/) |
-| DMA-Cache 一致性 | [写回 Cache 脏位与写策略](../../01-weichen/04-memory-hierarchy/#写策略write-policy) | [内核态 DMA 缓冲与用户态隔离](../../03-qiankun/02-memory-management/) |
+| DMA 零拷贝传输 | [SRAM 带宽与总线矩阵仲裁](../../01-weichen/04-memory-hierarchy/#存储金字塔每一纳秒都有代价) | [文件系统零拷贝 I/O](../../03-qiankun/03-filesystem/) |
+| DMA-Cache 一致性 | [写回 Cache 脏位与写策略](../../01-weichen/04-memory-hierarchy/#写策略数据一致性的根源) | [内核态 DMA 缓冲与用户态隔离](../../03-qiankun/02-memory-management/) |
 
 :::tip[卷二内部路径]
 - [**裸机编程**](../01-bare-metal/)：时钟树使能——外设模块工作的前提

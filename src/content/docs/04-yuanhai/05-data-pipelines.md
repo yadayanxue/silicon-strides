@@ -50,13 +50,75 @@ Kappa 的核心思想：**批处理只是从 offset 0 回放到最后 offset 的
 
 ---
 
+## 分布式任务调度：Flink JobManager 与 Task Slot
+
+流处理引擎不只是"处理数据"，它本质上是一个**分布式任务调度器**——将 DAG 中的算子分配到多台机器的多个 Slot 上，并持续监控故障和背压。
+
+```mermaid
+---
+title: Flink JobManager → TaskManager 分布式任务调度模型
+---
+graph TB
+    CLIENT["Client<br/>提交 JobGraph"]
+    JM["JobManager<br/>调度器 + 检查点协调器"]
+    TM1["TaskManager 1<br/>Slot 1 | Slot 2 | Slot 3"]
+    TM2["TaskManager 2<br/>Slot 1 | Slot 2 | Slot 3"]
+    TM3["TaskManager 3<br/>Slot 1 | Slot 2 | Slot 3"]
+
+    CLIENT -->|"提交 Jar"| JM
+    JM -->|"部署 Task"| TM1
+    JM -->|"部署 Task"| TM2
+    JM -->|"部署 Task"| TM3
+    TM1 -->|"心跳 / 背压指标"| JM
+    TM2 -->|"心跳 / 背压指标"| JM
+    TM3 -->|"心跳 / 背压指标"| JM
+
+    subgraph TASK_CHAIN["算子链与 Slot 分配"]
+        SRC["Source<br/>(Kafka)"]
+        MAP["Map"]
+        KEYBY["KeyBy"]
+        WIN["Window"]
+        SINK["Sink<br/>(HDFS)"]
+    end
+
+    SRC --> MAP --> KEYBY --> WIN --> SINK
+
+    style JM fill:#e3f2fd,stroke:#1565c0
+    style TM1 fill:#c8e6c9
+    style TM2 fill:#c8e6c9
+    style TM3 fill:#c8e6c9
+```
+
+Flink 任务调度的核心概念：
+
+| 概念 | 含义 | 类比 |
+|------|------|------|
+| **JobManager** | 中央调度器，负责 JobGraph → ExecutionGraph 转换、Slot 分配、检查点协调 | Kubernetes Scheduler |
+| **TaskManager** | 工作节点，提供 Task Slot 执行具体算子 | Kubernetes Kubelet |
+| **Task Slot** | TaskManager 内的资源隔离单元（内存 + 线程），一个 Slot 可运行算子链中的多个算子 | Linux CPU Core |
+| **算子链** (Operator Chain) | 相邻且无数据 shuffle 的多个算子合并为一个 Task——减少线程切换和网络序列化 | CPU 流水线指令融合 |
+| **Slot Sharing** | 同一 Job 的不同算子可以共享 Slot——均匀分摊各 Slot 的负载 | 线程池共享 |
+
+### 调度策略与 CFS 的跨卷呼应
+
+Flink 默认使用**轮询**（Round-Robin）策略在可用 TaskManager 间均匀分配 Slot——这与负载均衡的 Round Robin 策略完全同构。但 Flink 的调度器面临一个 CFS 不需要考虑的维度：**数据局部性**。
+
+当 Source 算子从 Kafka Partition 读取数据时，Flink 尽量将 Source Task 调度到 Kafka Leader 所在节点——减少网络传输。这一优化与 Linux [NUMA 调度器](../../01-weichen/04-memory-hierarchy/) 的"内存就近分配"原则同源：调度器追求"让计算靠近数据"，无论调度粒度是进程（Linux）、Pod（K8s）还是 Task（Flink）。
+
+:::tip[跨卷链接]
+Flink 的 Slot 分配逻辑是 [CFS 调度器 `vruntime` 公平性](../../../03-qiankun/01-process-and-thread/#调度算法cfs-与-eevdf) 在集群维度的推广——CFS 在 **单核时间分片** 上追求公平（`vruntime` 最小优先），Flink 在 **集群 Slot 资源** 上追求公平（已有 Task 最少的 Slot 优先分配）。两者在算法层面都使用最小堆（PriorityQueue），只是比较的键不同：vruntime vs slotUsageCount。
+:::
+
+---
+
 ## 跨卷连接
 
 | 概念 | 关联 |
 |------|------|
 | Kafka 分区日志 | [LSM Tree SSTable 分段追加](../02-storage-engine/) |
 | Exactly-Once | [WAL + 2PC 的两阶段提交](../03-distributed-fundamentals/) |
-| Flink 检查点 | [操作系统进程快照 CRIU](../03-qiankun/01-process-and-thread/) |
+| Flink 检查点 | [进程与线程的 CRIU 快照机制](../../../03-qiankun/01-process-and-thread/) |
+| Flink Slot 调度 | [CFS `vruntime` 公平调度算法](../../../03-qiankun/01-process-and-thread/#调度算法cfs-与-eevdf) |
 
 :::tip[卷四内部路径]
 - [**存储引擎**](../02-storage-engine/)：LSM Tree 压缩——Kafka Log Compaction

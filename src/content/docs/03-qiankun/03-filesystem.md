@@ -140,7 +140,7 @@ $ ls -li
 | ext4 extent 树 + 日志三模式 | [WAL 的 REDO Log 语义](../../04-yuanhai/02-storage-engine/) | [Raft 的 RSM 日志复制](../../04-yuanhai/04-consensus-protocols/) |
 | 硬链接 / 软链接 | [inode 引用计数——类似智能指针](../02-memory-management/) | [Docker OverlayFS 镜像分层——硬链接白名单](../../08-qianli/03-devops-practices/) |
 | COW 写时复制 | [虚拟内存 COW 语义](../02-memory-management/) | [Btrfs snapshot——文件系统级 COW](../../04-yuanhai/02-storage-engine/) |
-| 直接 I/O | [DMA 零拷贝传输](../02-jiezi/04-peripheral-drivers/) | [io_uring 内核旁路 I/O](../08-network-programming/) |
+| 直接 I/O | [DMA 零拷贝传输](../../02-jiezi/04-peripheral-drivers/) | [io_uring 内核旁路 I/O](../08-network-programming/) |
 
 :::tip[卷三内部路径]
 - [**内存管理**](../02-memory-management/)：Page Cache 与 mmap

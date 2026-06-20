@@ -476,6 +476,91 @@ graph TD
 
 ---
 
+## 硬件性能计数器：DWT、PMU 与 perf
+
+流水线、超标量、乱序执行——这些微架构机制的每一环节都内置了**硬件性能计数器**（Hardware Performance Counter），用于观测处理器内部的微观事件。它们是性能优化的"听诊器"。
+
+### DWT：Cortex-M 的轻量级周期计数器
+
+在 [中断延迟测量](../../02-jiezi/02-interrupts/#中断延迟分析从信号到达-isr-第一行代码) 中，裸机程序员依赖 DWT（Data Watchpoint and Trace）的 `CYCCNT` 寄存器精确测量代码段的时钟周期数：
+
+```c
+// DWT 周期计数器——裸机性能分析的基石
+DWT->CYCCNT = 0;          // 清零计数器
+DWT->CTRL |= DWT_CTRL_CYCCNTENA;  // 使能
+
+uint32_t start = DWT->CYCCNT;
+critical_function();
+uint32_t elapsed = DWT->CYCCNT - start;  // 精确到单周期
+```
+
+DWT 是 ARM CoreSight 调试体系中最轻量级的组件，专为 Cortex-M 系列 MCU 设计。与 PMU 不同，DWT 不需要操作系统支持——裸机代码直接访问内存映射寄存器。
+
+### PMU：超标量处理器的"黑匣子"
+
+通用处理器（Cortex-A、x86、RISC-V）配备完整的 PMU（Performance Monitoring Unit），可计数数十种硬件事件：
+
+| 事件类型 | ARM PMU 事件编号 | 分析价值 |
+|---------|-----------------|---------|
+| **指令退休** | `0x08` (INST_RETIRED) | IPC 计算：指令数 / 周期数 |
+| **分支误预测** | `0x10` (BR_MIS_PRED) | 分支预测器精度评估 |
+| **L1 D-Cache Miss** | `0x03` (L1D_CACHE_REFILL) | 数据局部性瓶颈 |
+| **流水线停顿** | `0x11` (STALL_FRONTEND) | 取指阶段的吞吐瓶颈 |
+| **总线访问** | `0x19` (BUS_ACCESS) | 内存带宽饱和度 |
+
+```mermaid
+---
+title: 硬件性能计数器分层——DWT / PMU / perf 工具链
+---
+graph TB
+    subgraph HW["处理器硬件层"]
+        DWT["DWT<br/>Cortex-M 周期计数器"]
+        PMU["PMU<br/>Cortex-A/x86/RISC-V<br/>事件计数器阵列"]
+    end
+
+    subgraph KERN["Linux 内核层"]
+        PERF_EVENT["perf_event 子系统<br/>系统调用接口"]
+        PMU_DRV["PMU 驱动<br/>arm_pmu / intel_pmu"]
+    end
+
+    subgraph TOOL["用户态工具层"]
+        CLI["perf stat / perf record"]
+        FLAME["火焰图 / perf report"]
+    end
+
+    PMU -->|"硬件事件采样"| PMU_DRV
+    PMU_DRV --> PERF_EVENT
+    PERF_EVENT -->|"perf_event_open()"| CLI
+    CLI --> FLAME
+
+    DWT -.->|"裸机直接访问<br/>无内核层"| APP["裸机 ISR<br/>延迟测量"]
+
+    style HW fill:#e3f2fd
+    style KERN fill:#c8e6c9
+    style TOOL fill:#fff3e0
+```
+
+### perf：Linux 性能剖析的统一入口
+
+`perf_event_open()` 系统调用封装了所有 PMU 硬件的访问细节。用户只需指定事件类型和采样周期：
+
+```bash
+# 统计整个程序的 IPC
+perf stat -e instructions,cycles ./my_program
+
+# 采样调用栈，生成火焰图
+perf record -e cycles:pp -g ./my_program
+perf report
+```
+
+`perf stat` 使用**计数模式**（Counting Mode）——PMU 配置为递增计数器，结束时读取总值。`perf record` 使用**采样模式**（Sampling Mode）——PMU 配置为每 N 个事件触发一次中断，内核在中断中记录当前 PC 和调用栈。后者是火焰图的技术基础。
+
+:::tip[跨卷链接]
+PMU 的采样中断本质上是一个 **NMI（不可屏蔽中断）**——它必须能打断内核的任意代码路径。这与 [中断系统中的 NVIC NMI 和 GIC 中断优先级](../../02-jiezi/02-interrupts/) 共享相同的中断抢占语义。而 `perf stat` 的计数模式无需中断——PMU 直接通过 `MSR`（x86）或 `PMCR`（ARM）寄存器读取，延迟仅数十纳秒，类似 [DWT CYCCNT 的裸机直接访问](#dwtcortex-m-的轻量级周期计数器)。
+:::
+
+---
+
 ## 跨卷连接：从逻辑到缓存
 
 ### 体系结构 ↔ 数字逻辑（卷一 · 微尘）

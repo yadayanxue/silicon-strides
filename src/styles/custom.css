@@ -9,6 +9,11 @@
   --sl-content-width: 68rem;
 }
 
+/* 锚点跳转偏移：为 sticky header 留出空间，防止标题被顶栏遮挡 */
+html {
+  scroll-padding-top: 5rem;
+}
+
 /* Mermaid 图表居中 + 可缩放 */
 .mermaid {
   text-align: center;

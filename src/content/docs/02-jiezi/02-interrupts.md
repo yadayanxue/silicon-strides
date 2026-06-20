@@ -496,6 +496,129 @@ void process_uart_data(void) {
 
 ---
 
+## ARM64 异常级与 RISC-V 特权模式：从 MCU 到 SoC 的关键一跃
+
+前面 NVIC/GIC/PLIC/APIC 的对比覆盖了**中断控制器**的差异，但"中断触发后 CPU 跳到哪个特权级、哪个向量、如何返回"——这些问题由 CPU 的**异常级架构**决定。ARM64 的 Exception Level 和 RISC-V 的 Privilege Mode 是两种截然不同的设计。
+
+### ARM64 异常级：EL0 与 EL1 的切换
+
+ARM64 定义了四个异常级（Exception Level），数字越大权限越高：
+
+| 异常级 | 简称 | 典型用途 |
+|--------|------|---------|
+| **EL0** | 用户态 | 应用程序、普通进程 |
+| **EL1** | 内核态 | Linux 内核、设备驱动 |
+| **EL2** | 虚拟化管理器 | Hypervisor（KVM/Xen） |
+| **EL3** | 安全监控器 | Secure Monitor（ARM TrustZone） |
+
+每次异常级切换，硬件自动完成一对操作——**保存上下文**到 EL1 专用寄存器，然后**跳转**到向量表。
+
+```mermaid
+---
+title: ARM64 EL0 → EL1 异常级切换——从 SVC 指令到 ERET 返回
+---
+sequenceDiagram
+    participant EL0 as EL0 用户态
+    participant HW as ARM64 硬件
+    participant EL1 as EL1 内核态
+
+    Note over EL0: 用户代码调用 open()
+    EL0->>HW: SVC #0 (系统调用)
+    HW->>HW: PSTATE 保存到 SPSR_EL1
+    HW->>HW: PC 保存到 ELR_EL1
+    HW->>HW: 取 VBAR_EL1 + 0x400 (EL0t Sync)
+    HW->>EL1: 跳转到 Linux el0t_64_sync
+    Note over EL1: 查 SCNo 表, 调用 do_el0_svc()
+    EL1->>EL1: 执行 sys_open()
+    HW->>EL1: 恢复 SPSR_EL1 → PSTATE
+    HW->>EL1: ERET: 跳回 ELR_EL1 地址
+    Note over EL0: 返回用户态继续执行
+```
+
+关键寄存器：
+
+- **VBAR_EL1**：向量基址寄存器，指向异常向量表（4 组 × 4 条目 = 16 条目，每组对应 EL0/EL1 不同栈指针组合）
+- **SPSR_EL1**：保存进入异常前的 PSTATE（条件标志、异常屏蔽位、当前 EL）
+- **ELR_EL1**：保存异常返回地址（对应 Cortex-M 的 LR 特殊编码）
+- **ESR_EL1**：异常综合寄存器，记录异常类别（EC）、具体原因（ISS）
+
+ARM64 的向量表**按异常来源类型细分**——同步异常（SVC/数据中止/未定义指令）、IRQ、FIQ、SError——四条独立向量入口。这比 NVIC 的"取向量地址→跳转"更复杂，但允许多核场景下不同核注册不同处理函数。
+
+:::tip[跨卷链接]
+ARM64 异常级的 `SPSR → PSTATE` 保存/恢复机制，与 [进程上下文切换中的寄存器保存](../../03-qiankun/01-process-and-thread/#上下文切换昂贵的角色转换) 是同构操作——差异在于前者是**硬件自动完成**（数十纳秒），后者是**软件遍历 `task_struct->thread`**（微秒级）。这也是 [裸机编程](../01-bare-metal/) 中 ARMv8-A 与 Cortex-M 的最大差异——裸机 AArch64 程序需要自己初始化 VBAR_EL1 和 SP_EL1，相当于手工搭建操作系统的异常地基。
+:::
+
+### RISC-V M-mode 中断委托机制
+
+RISC-V 定义了三种主要特权模式（从高到低）：
+
+| 模式 | 缩写 | 典型用途 | 类比 ARM64 |
+|------|------|---------|-----------|
+| **Machine** | M-mode | 固件（OpenSBI）、最底层陷阱处理 | EL3 |
+| **Supervisor** | S-mode | 操作系统内核（Linux） | EL1 |
+| **User** | U-mode | 用户进程 | EL0 |
+
+RISC-V 的精妙之处在于**中断/异常委托**（Delegation）机制——M-mode 固件可以通过写入 `medeleg`/`mideleg` CSR 将某些异常/中断"下放"给 S-mode 处理。Linux 启动时 OpenSBI 将绝大部分异常委托给 S-mode，自身仅保留 Machine Timer 等少数中断。
+
+核心 CSR 寄存器体系：
+
+| 寄存器 | 级别 | 功能 |
+|--------|------|------|
+| `mstatus.MIE` | M-mode | 全局机器模式中断使能（进入异常时自动保存到 MPIE） |
+| `mie` / `mip` | M-mode | M-mode 中断使能位 / 中断挂起位（MTIP/MSIP/MEIP） |
+| `mcause` | M-mode | 异常原因寄存器（Interrupt=1 时最高位置位，Exception Code 标识来源） |
+| `mtvec` | M-mode | 陷阱向量基址（支持 BASE + 4 × cause 的直接模式或单一入口的向量模式） |
+| `stvec` | S-mode | 监管模式陷阱向量基址（Linux 设置 `stvec` 而非 `mtvec`——因为异常已委托） |
+| `medeleg` / `mideleg` | M-mode | 异常委托 / 中断委托寄存器（某位置 1 = 该异常委托给 S-mode） |
+
+Mermaid 对比 ARM64 GIC 中断流向和 RISC-V PLIC + CLINT 中断流向：
+
+```mermaid
+---
+title: RISC-V M-mode 中断委托与 Linux S-mode 中断处理流程
+---
+sequenceDiagram
+    participant PLIC as PLIC 全局中断控制器
+    participant CLINT as CLINT 核本地中断
+    participant M as M-mode (OpenSBI)
+    participant S as S-mode (Linux 内核)
+    participant U as U-mode (进程)
+
+    CLINT->>M: Machine Timer 中断 (MTIP)
+    Note over M: mideleg[7]=0, 不委托
+    M->>M: OpenSBI 处理: 更新 time CSR
+
+    PLIC->>M: 外设中断到达
+    Note over M: mideleg[9]=1, 委托给 S-mode
+    M->>S: 陷阱委托, mcause=9, 跳转到 stvec
+    S->>S: Linux do_irq() 处理
+    S->>PLIC: claim (读 claim/complete 寄存器)
+    S->>S: 执行设备 ISR
+    S->>PLIC: complete (写 claim/complete 寄存器)
+    S->>U: sret (返回到 U-mode)
+
+    Note over S,U: 如果中断发生时正在 U-mode 运行
+    M->>S: 硬件自动切换到 S-mode, 保存 sepc/scause
+    S->>S: 处理完毕后 sret 返回 U-mode
+```
+
+#### M-mode vs S-mode 中断关键差异
+
+| 特性 | M-mode 中断 | S-mode 中断 |
+|------|-----------|-----------|
+| 向量基址寄存器 | `mtvec` | `stvec` |
+| 返回指令 | `mret` | `sret` |
+| 异常 PC 保存 | `mepc` | `sepc` |
+| 中断使能 | `mstatus.MIE` | `sstatus.SIE` |
+| 典型使用者 | OpenSBI / 裸机固件 | Linux 内核 |
+| 是否可以委托 | N/A（最高级） | 可进一步委托给 U-mode（不常见） |
+
+:::note[为什么 RISC-V 需要 M-mode？]
+ARM64 的 Secure Monitor（EL3）和 Hypervisor（EL2）是**可选**的——单内核系统可以只有 EL0/EL1。但 RISC-V 的 M-mode 是**强制存在**的最高特权级——每个 RISC-V Hart 至少需要 M-mode 来初始化 CSR、设置 `medeleg`、然后跳转到 S-mode。这就好比在一栋楼里 ARM64 说"地下室可以不要，一到三楼够用了"，而 RISC-V 说"每栋楼必须有一个地下室，哪怕只放总电闸"。这一约束简化了固件生态——OpenSBI 只需关注 M-mode，所有 RISC-V Linux 的 M-mode 层完全一致。
+:::
+
+---
+
 ## 跨卷连接
 
 中断系统是嵌入式领域的"脊椎"，向下延伸至硬件的每一个晶体管，向上支撑操作系统的全部调度逻辑：
@@ -503,11 +626,13 @@ void process_uart_data(void) {
 | 本章概念 | 依赖的底层原理 | 支撑的上层抽象 |
 |----------|---------------|---------------|
 | 中断信号同步 | [亚稳态与时钟域交叉](../../01-weichen/02-digital-logic/#时钟域交叉) | 分布式系统的时间同步 |
-| NVIC 优先级比较器 | [数字比较器电路](../../01-weichen/02-digital-logic/#组合逻辑) | [Linux CFQ/RT 调度器优先级](../../03-qiankun/01-process-and-thread/) |
-| 向量表硬件取指 | [Cache 命中与内存等待周期](../../01-weichen/04-memory-hierarchy/) | [缺页异常处理](../../03-qiankun/02-memory-management/) |
-| 尾链优化 | [流水线气泡与停顿](../../01-weichen/03-microarchitecture/#流水线冒险打破时空的魔咒) | [上下文切换优化](../../03-qiankun/01-process-and-thread/) |
-| 中断延迟测量 | [DWT 性能计数器](../../01-weichen/03-microarchitecture/) | 操作系统性能剖析工具（perf） |
-| 上半部/下半部模式 | 裸机 ISR 架构 | Linux [中断上下半部](../../03-qiankun/01-process-and-thread/)（tasklet/workqueue） |
+| NVIC 优先级比较器 | [数字比较器电路](../../01-weichen/02-digital-logic/#组合逻辑) | [实时调度类：SCHED_FIFO / SCHED_RR](../../03-qiankun/01-process-and-thread/#实时调度类sched_fifo--sched_rr--sched_deadline) |
+| 向量表硬件取指 | [Cache 组织形式与命中率](../../01-weichen/04-memory-hierarchy/#cache-组织形式容量速度与复杂度的三角博弈) | [缺页中断处理](../../03-qiankun/02-memory-management/#缺页中断处理do_page_fault-的决策树) |
+| 尾链优化 | [流水线冒险与停顿](../../01-weichen/03-microarchitecture/#流水线冒险打破时空的魔咒) | [上下文切换优化：惰性 FPU 与 PCID](../../03-qiankun/01-process-and-thread/#上下文切换优化惰性-fpu-与-pcid) |
+| 中断延迟测量 | [硬件性能计数器：DWT 与 PMU](../../01-weichen/03-microarchitecture/#硬件性能计数器dwtpmu-与-perf) | 操作系统性能剖析工具（perf） |
+| 上半部/下半部模式 | [裸机中断的上下半部设计](../../02-jiezi/01-bare-metal/#裸机中断的上下半部设计) | [中断下半部：tasklet、workqueue 与 threaded IRQ](../../03-qiankun/01-process-and-thread/#中断下半部taskletworkqueue-与-threaded-irq) |
+| ARM64 异常级 EL0↔EL1 切换 | [ARM64 寄存器与 PSTATE](../../01-weichen/05-instruction-set-architecture/#armv8v9-的-isa-亮点) | [系统调用入口：EL0 → EL1 硬件路径](../../03-qiankun/01-process-and-thread/#系统调用入口从-el0-到-el1-的硬件路径) |
+| RISC-V M-mode 中断委托 | [RISC-V 特权级与 CSR](../../01-weichen/05-instruction-set-architecture/#特权级与标准扩展) | [RISC-V 特权级启动链：OpenSBI → S-mode](../../03-qiankun/01-process-and-thread/#risc-v-特权级启动链opensbi-到-s-mode) |
 
 :::tip[卷二内部路径]
 - [**裸机编程**](../01-bare-metal/)：向量表的初始化与放置
