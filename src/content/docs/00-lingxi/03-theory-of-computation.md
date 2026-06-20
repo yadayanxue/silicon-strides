@@ -17,6 +17,26 @@ draft: false
 
 图灵机由一条无限长的纸带、一个读写头和有限状态控制器组成。尽管简单，任何现代编程语言能计算的函数，图灵机都能计算。
 
+### 图灵机的形式化定义
+
+图灵机是一个七元组 $M = (Q, \Sigma, \Gamma, \delta, q_0, q_{accept}, q_{reject})$：
+
+$$
+\begin{aligned}
+Q &: \text{有限状态集} \\
+\Sigma &: \text{输入字母表（不含空白符 } \sqcup \text{）} \\
+\Gamma &: \text{纸带字母表（} \Sigma \cup \{\sqcup\} \subseteq \Gamma \text{）} \\
+\delta &: Q \times \Gamma \to Q \times \Gamma \times \{L, R\} \quad \text{（转移函数）} \\
+q_0 &\in Q \quad \text{（初始状态）} \\
+q_{accept} &\in Q \quad \text{（接受状态）} \\
+q_{reject} &\in Q \quad \text{（拒绝状态，} q_{accept} \neq q_{reject} \text{）}
+\end{aligned}
+$$
+
+转移函数 $\delta(q, a) = (q', b, D)$ 的含义：当前状态 $q$，读取纸带符号 $a$，则转移到状态 $q'$，写入符号 $b$，读写头向方向 $D$（$L$ 左移或 $R$ 右移）移动一格。这 7 个参数定义了计算的**全部能力**——图灵完备性只需纸带、有限状态和读写移动。
+
+一个语言 $L$ 是**递归可枚举**的（RE），当且仅当存在图灵机 $M$ 使得 $M$ 接受 $L$ 中的字符串，且对 $L$ 外的字符串 $M$ 要么拒绝、要么永不停止。若 $M$ 对所有输入都停机，则 $L$ 是**可判定**的（Recursive）。RE 与 Recursive 的这一鸿沟——接受 vs 判定——正是停机问题的数学根基。
+
 ### 停机问题：不可判定的第一道墙
 
 **停机问题**：给定程序 P 和输入 I，判断 P(I) 是否最终停止。Turing 在 1936 年证明：**没有任何算法能解决停机问题**。
@@ -62,6 +82,28 @@ graph TD
 | **NP-Complete** | NP 中最难：若任一在 P 中，则 P=NP | 3-SAT、子集和、图着色 |
 | **PSPACE** | 多项式空间可解 | QBF、围棋（$n \times n$）的完美玩法 |
 
+### P 与 NP 的形式定义
+
+复杂度类 P 是多项式时间内可判定的语言类：
+
+$$
+P = \{L \mid \exists \text{ TM } M, \exists k \geq 0: M \text{ 在 } O(n^k) \text{ 步内判定 } L\}
+$$
+
+NP 是多项式时间内可验证的语言类——解可能难以找到，但候选解可在多项式时间内验证：
+
+$$
+NP = \{L \mid \exists \text{ poly-time verifier } V, \exists \text{ poly } p: x \in L \iff \exists y, |y| \leq p(|x|), V(x,y)=1\}
+$$
+
+NP 完全性由**多项式时间归约**定义。语言 $A$ 可归约到 $B$（记作 $A \leq_p B$），当且仅当存在多项式时间可计算函数 $f$ 使得：
+
+$$
+x \in A \iff f(x) \in B
+$$
+
+语言 $L$ 是 NP 完全的，若 $L \in NP$ 且对所有 $L' \in NP$，$L' \leq_p L$。Cook-Levin 定理（1971）证明了 **SAT 是第一个 NP 完全问题**——所有 NP 完全性证明的"种子"都由此出发。
+
 **P vs NP** 是 Clay 数学研究所七大千禧年问题之一。如果 P=NP，密码学将崩溃（整数分解在 NP 中），但蛋白质折叠和调度优化将变得高效。大多数理论计算机科学家相信 $P \neq NP$——但证明仍遥不可及。
 
 ---
@@ -90,6 +132,16 @@ graph LR
 | **PDA** (下推自动机) | 栈（LIFO） | 上下文无关语言 | 语法分析器（Yacc/Bison） |
 | **LBA** (线性有界自动机) | 有界纸带 | 上下文有关语言 | 类型检查（部分） |
 | **图灵机** | 无限纸带 | 递归可枚举语言 | 任何算法 |
+
+### 语言类包含关系
+
+Chomsky 谱系中的语言类呈严格包含关系（在非平凡字母表上）：
+
+$$
+\text{Regular} \subsetneq \text{Context-Free} \subsetneq \text{Context-Sensitive} \subsetneq \text{Recursive} \subsetneq \text{RE}
+$$
+
+这一层级关系与硬件资源的对应是计算理论最深刻的美学：从 [数字逻辑（有限状态机）](../../01-weichen/02-digital-logic/) 的寄存器到 [进程与线程（栈空间限制）](../../03-qiankun/01-process-and-thread/) 的运行期边界，每一级自动机对应一类硬件的物理边界。
 
 DFA 无法识别 $a^n b^n$（如括号匹配）——因为 DFA 只能用有限状态计数，无法"记住"前面读过多少个 a 以便与 b 的数量匹配。PDA 通过一个栈解决了这个问题：每读一个 a 就 push，每读一个 b 就 pop——这就是编程语言语法分析器的工作原理。
 

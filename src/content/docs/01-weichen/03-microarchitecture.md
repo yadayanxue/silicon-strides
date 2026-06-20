@@ -60,6 +60,30 @@ graph TD
     style F fill:#2196f3
 ```
 
+### 性能方程：衡量体系结构的标尺
+
+体系结构的根本目标是缩短程序执行时间。**CPU 性能方程**将微架构参数与程序员可感知的延迟联系起来：
+
+$$
+\text{CPU Time} = \text{Instruction Count} \times \text{CPI} \times \text{Cycle Time}
+$$
+
+其中 $CPI$（Cycles Per Instruction）受缓存缺失和分支误预测的叠加影响：
+
+$$
+CPI = CPI_{ideal} + MissRate_{L1} \times MissPenalty_{L1} + MissRate_{branch} \times MissPenalty_{branch}
+$$
+
+**Amdahl 定律**从并行化角度给出了性能提升的上界。若程序可并行部分占比 $f$，使用 $n$ 个处理器后的加速比：
+
+$$
+S(n) = \frac{1}{(1-f) + \frac{f}{n}}
+$$
+
+当 $n \to \infty$ 时，$S_{max} = \frac{1}{1-f}$——若程序仅 90% 可并行（$f=0.9$），即使无限处理器，加速比也绝不会超过 10 倍。这一铁律从单核超标量到多核 NoC 一律成立。
+
+Gustafson 定律提供了更乐观的视角：当问题规模随处理器数增加（弱扩展），加速比为 $S(n) = n - f(n-1)$——在 [数据流水线（Kafka 分区并行）](../../04-yuanhai/05-data-pipelines/) 的流式计算中，数据规模天然随并行度增长，Gustafson 比 Amdahl 更贴合实际。
+
 ---
 
 ## 单周期处理器：用面积换速度
@@ -158,6 +182,22 @@ graph TD
 
 **理想性能**：每周期 1 条指令出流水线 → **IPC=1**，**CPI=1**
 
+### 流水线的量化收益
+
+五级流水线将组合逻辑路径切分为 5 个近似等长的阶段。若原单周期设计的关键路径延迟为 $T$，理想流水线（各级平衡、无冒险停顿）的时钟周期可缩短至 $T/5$。对 $N$ 条指令的 $k$ 级流水线：
+
+$$
+\text{Speedup}_{pipeline} = \frac{\text{单周期执行时间}}{\text{流水线执行时间}} = \frac{N \cdot T}{(N + k - 1) \cdot T/k} \xrightarrow{N \gg k} k
+$$
+
+当 $N$ 远大于 $k$ 时，加速比趋近于 $k$——5 级流水线理论上可获得约 5 倍的性能提升。但现实中冒险停顿使有效 CPI 偏离理想值：
+
+$$
+CPI_{effective} = CPI_{ideal} + CPI_{stall}
+$$
+
+$CPI_{stall}$ 来自数据冒险、控制冒险和结构冒险的叠加——旁路可消除大部分数据停顿，但 load-use 冒险和分支冒险是 $CPI > 1$ 的主要来源。这一量化思维与 [编译原理（指令调度的 CPI 建模）](../../00-lingxi/05-compiler-theory/) 的软件层面优化互为补充。
+
 ### 流水线冒险：打破时空的魔咒
 
 流水线的核心危险：**指令间的数据依赖**。
@@ -253,6 +293,24 @@ label: add r1, r2, r3
 :::tip[分支预测准确率]
 现代高性能处理器的动态分支预测准确率通常在 **96-99%** 之间。例如 Intel Golden Cove（12 级乱序）和 AMD Zen 4 使用 TAGE + 感知器混合预测器，SPEC CPU 基准测试中达到约 98% 的准确率。但要注意：每 1% 的误预测率乘以 ~15 周期的误预测惩罚，意味着有效 CPI 增加约 0.15——在高 IPC 设计中，分支预测仍是最大的单点性能瓶颈之一。
 :::
+
+### 分支预测的量化代价
+
+分支误预测的惩罚周期数取决于流水线深度——误预测发现得越晚，需要清空的指令越多。对于 $k$ 级流水线，若分支在第 $r$ 级解析：
+
+$$
+\text{Misprediction Penalty} = r - 1 \text{ cycles}
+$$
+
+典型 5 级流水线中分支在 EX 阶段（第 3 级）解析，惩罚仅 2 周期。14 级深流水线中分支可能在 Stage 10 才解析，惩罚高达 9 周期——这正是 Intel NetBurst（Pentium 4，31 级流水线）走向失败的根本原因：深流水线成倍放大了误预测的代价。
+
+实际有效 CPI 中分支误预测的贡献：
+
+$$
+CPI_{branch} = CPI_{ideal} + (1 - \text{Accuracy}) \times \text{Penalty} \times \text{BranchFrequency}
+$$
+
+举例：分支指令占比 20%、预测准确率 98%、惩罚 15 周期时，$CPI_{branch} = 1 + 0.02 \times 15 \times 0.2 = 1.06$——仅 2% 的误预测率就吃掉 6% 的性能。这也解释了为什么现代处理器在分支预测器上投入巨大面积：从 GShare 到 TAGE 再到感知器预测器，准确率每提升 1%，在高 IPC 设计中可带来约 3% 的有效性能增益。
 
 #### 结构冒险（Structural Hazard）
 
