@@ -343,7 +343,7 @@ void DMA_IRQHandler(void) {
 ```
 
 :::tip[跨卷链接]
-DMA 与 Cache 的一致性问题是[存储层次的写策略](../../01-weichen/04-memory-hierarchy/#写策略数据一致性的根源)在嵌入式场景的直接体现。写回 Cache 使用脏位延迟写回 SRAM，而 DMA 绕过 Cache 直接访问 SRAM——二者之间没有硬件一致性协议（MOESI/MESI 常见于多核系统，但极少出现在 MCU 中）。嵌入式程序员必须通过软件显式管理一致性，这是 MCU 领域与桌面/服务器领域的关键差异之一。
+DMA 与 Cache 的一致性问题是[存储层次的写策略（写策略：数据一致性的根源）（写策略：数据一致性的根源）](../../01-weichen/04-memory-hierarchy/#写策略数据一致性的根源)在嵌入式场景的直接体现。写回 Cache 使用脏位延迟写回 SRAM，而 DMA 绕过 Cache 直接访问 SRAM——二者之间没有硬件一致性协议（MOESI/MESI 常见于多核系统，但极少出现在 MCU 中）。嵌入式程序员必须通过软件显式管理一致性，这是 MCU 领域与桌面/服务器领域的关键差异之一。
 :::
 
 ---
@@ -354,7 +354,7 @@ DMA 与 Cache 的一致性问题是[存储层次的写策略](../../01-weichen/0
 
 | 本章概念 | 依赖的底层原理 | 支撑的上层抽象 |
 |----------|---------------|---------------|
-| GPIO 推挽/开漏电路 | [CMOS 门电路——PMOS + NMOS 互补拓扑](../../01-weichen/02-digital-logic/#cmos-门电路实现) | [设备树与驱动模型](../../03-qiankun/) |
+| GPIO 推挽/开漏电路 | [CMOS 门电路——PMOS + NMOS 互补拓扑（CMOS 门电路实现）（CMOS 门电路实现）](../../01-weichen/02-digital-logic/#cmos-门电路实现) | [设备树与驱动模型](../../03-qiankun/) |
 | UART 异步帧同步 | [时钟域交叉与亚稳态](../../01-weichen/02-digital-logic/#时钟域交叉) | [串行通信协议栈（SLIP/PPP）](../../03-qiankun/07-application-protocols/) |
 | SPI 四种模式（CPOL/CPHA） | [建立时间与保持时间](../../01-weichen/02-digital-logic/#建立时间与保持时间) | [高速外设驱动架构（SDIO、QSPI）](../../03-qiankun/) |
 | I²C 线与仲裁 | 开漏输出物理层 | [多主总线与分布式锁](../../04-yuanhai/03-distributed-fundamentals/) |

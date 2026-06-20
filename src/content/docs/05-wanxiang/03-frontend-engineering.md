@@ -53,7 +53,7 @@ Flexbox（一维）和 Grid（二维）是现代 CSS 布局支柱。`contain: la
 | 概念 | 关联 |
 |------|------|
 | 浏览器合成器 | [GPU 多图层合成](../01-gpu-rendering-pipeline/) |
-| 虚拟 DOM Diff | [最长公共子序列——动态规划](../../00-lingxi/04-algorithm-theory/) |
+| 虚拟 DOM Diff | [动态规划：最优子结构的艺术](../../00-lingxi/04-algorithm-theory/#动态规划最优子结构的艺术) |
 | CSS Grid | [图论——二维约束求解](../../00-lingxi/04-algorithm-theory/) |
 
 :::tip[卷五内部路径]

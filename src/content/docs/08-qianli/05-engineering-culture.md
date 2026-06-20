@@ -46,7 +46,7 @@ Google 研究表明：**评审速度比评审完美程度更重要**——延迟
 |------|------|
 | 代码评审知识传播 | [开源协作——PR 驱动的开发模式](../03-devops-practices/) |
 | 技术债分类 | [MVC 分层——技术债跨层迁移成本](#) |
-| 无责复盘 | [RCU 宽限期——系统设计消除而非处罚并发访问](../../03-qiankun/04-synchronization/) |
+| 无责复盘 | [RCU：零开销读取的革命](../../03-qiankun/04-synchronization/#rcu零开销读取的革命) |
 
 :::tip[卷八内部路径]
 - [**设计模式与原则**](../01-design-patterns-and-principles/)：SOLID——减少技术债的代码级工具

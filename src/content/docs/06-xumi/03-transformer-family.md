@@ -46,7 +46,7 @@ RoPE 通过对 Q 和 K 向量施加旋转操作编码相对位置——旋转后
 
 ## FlashAttention
 
-将注意力矩阵切分为 SRAM 友好的 tile——利用 [GPU SRAM 的带宽优势](../../05-wanxiang/01-gpu-rendering-pipeline/) 避免写入 HBM。注意力计算 2-4 倍加速。
+将注意力矩阵切分为 SRAM 友好的 tile——利用 [GPU 并行架构](../../05-wanxiang/01-gpu-rendering-pipeline/#gpu-并行架构) 避免写入 HBM。注意力计算 2-4 倍加速。
 
 ---
 
@@ -54,8 +54,8 @@ RoPE 通过对 Q 和 K 向量施加旋转操作编码相对位置——旋转后
 
 | 概念 | 关联 |
 |------|------|
-| softmax 缩放 | [GPU Tensor Core 低精度矩阵乘法](../../05-wanxiang/01-gpu-rendering-pipeline/) |
-| FlashAttention tile | [Cache 分块——SRAM 友好数据布局](../../01-weichen/04-memory-hierarchy/) |
+| softmax 缩放 | [GPU 并行架构](../../05-wanxiang/01-gpu-rendering-pipeline/#gpu-并行架构) |
+| FlashAttention tile | [Cache 组织形式：容量、速度与复杂度的三角博弈](../../01-weichen/04-memory-hierarchy/#cache-组织形式容量速度与复杂度的三角博弈) |
 
 :::tip[卷六内部路径]
 - [**深度学习**](../02-deep-learning/)：Layer Norm——Transformer 训练必需品

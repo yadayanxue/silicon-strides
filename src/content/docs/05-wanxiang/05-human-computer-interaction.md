@@ -35,7 +35,7 @@ WCAG 四原则：可感知、可操作、可理解、健壮。ARIA 属性补充 
 
 | 概念 | 关联 |
 |------|------|
-| Fitts 法则 | [DMA 乒乓缓冲——距离 vs 延迟的工程折衷](../../02-jiezi/04-peripheral-drivers/) |
+| Fitts 法则 | [DMA：解放 CPU 的数据搬运工](../../02-jiezi/04-peripheral-drivers/#dma解放-cpu-的数据搬运工) |
 | 交互范式演进 | [CLI → GUI → 自然语言 VUI](../../03-qiankun/01-process-and-thread/) |
 
 :::tip[卷五内部路径]

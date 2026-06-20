@@ -124,7 +124,7 @@ graph TD
 - **挂起态是"隐身"模式**：挂起的任务对调度器不可见，不消耗任何 CPU 时间，也不会被唤醒——直到显式调用 `vTaskResume()`。
 
 :::tip[跨卷链接]
-任务状态机的实现依赖于 [ARM Cortex-M 的 NVIC 与 PendSV](../../01-weichen/05-instruction-set-architecture/#arm-设计哲学能效为先的帝国) 异常机制。PendSV 是 Cortex-M 为操作系统量身定制的异常——可挂起、可屏蔽、优先级可配置为最低，使上下文切换在所有硬件中断处理完毕后才执行。
+任务状态机的实现依赖于 [ARM Cortex-M 的 NVIC 与 PendSV（ARM 设计哲学：能效为先的帝国）（ARM 设计哲学：能效为先的帝国）](../../01-weichen/05-instruction-set-architecture/#arm-设计哲学能效为先的帝国) 异常机制。PendSV 是 Cortex-M 为操作系统量身定制的异常——可挂起、可屏蔽、优先级可配置为最低，使上下文切换在所有硬件中断处理完毕后才执行。
 :::
 
 ---
@@ -229,7 +229,7 @@ void vDataProcessorTask(void *pvParameters) {
 }
 ```
 
-`portYIELD_FROM_ISR(xHigherPriorityTaskWoken)` 是这段代码的精华：它不在 ISR 内部强制切换（那会破坏中断嵌套），而是将切换请求推迟到所有嵌套中断返回之后，由 [PendSV 异常](../../01-weichen/05-instruction-set-architecture/#arm-设计哲学能效为先的帝国) 执行实际切换。
+`portYIELD_FROM_ISR(xHigherPriorityTaskWoken)` 是这段代码的精华：它不在 ISR 内部强制切换（那会破坏中断嵌套），而是将切换请求推迟到所有嵌套中断返回之后，由 [PendSV 异常（ARM 设计哲学：能效为先的帝国）（ARM 设计哲学：能效为先的帝国）](../../01-weichen/05-instruction-set-architecture/#arm-设计哲学能效为先的帝国) 执行实际切换。
 
 ### 互斥量与优先级继承
 
@@ -266,7 +266,7 @@ sequenceDiagram
 ```
 
 :::tip[跨卷链接]
-优先级继承协议的理论基础是卷三[同步原语](../../03-qiankun/04-synchronization/)中死锁避免与优先级反转的完整分析。信号量的底层实现依赖于 [RISC-V A 扩展的原子指令](../../01-weichen/05-instruction-set-architecture/#cisc-与-risc两套哲学的五十年对决)（`lr.w` / `sc.w`）或 ARM 的 `LDREX` / `STREX` 排他加载/存储。
+优先级继承协议的理论基础是卷三[同步原语](../../03-qiankun/04-synchronization/)中死锁避免与优先级反转的完整分析。信号量的底层实现依赖于 [RISC-V A 扩展的原子指令（CISC 与 RISC：两套哲学的五十年对决）（CISC 与 RISC：两套哲学的五十年对决）](../../01-weichen/05-instruction-set-architecture/#cisc-与-risc两套哲学的五十年对决)（`lr.w` / `sc.w`）或 ARM 的 `LDREX` / `STREX` 排他加载/存储。
 :::
 
 ---
@@ -439,8 +439,8 @@ RTOS 是裸机之上、操作系统之下的承上启下层。它将第二章的
 
 | 本章概念 | 依赖的底层原理 | 支撑的上层抽象 |
 |----------|---------------|---------------|
-| 任务状态机 | [中断控制器与 NVIC 向量跳转](../02-interrupts/#中断控制器硬件仲裁者) | [进程调度与 CFS](../../03-qiankun/01-process-and-thread/) |
-| 抢占式调度 | [流水线刷新与异常入口](../../01-weichen/03-microarchitecture/#流水线冒险打破时空的魔咒) | [Linux 实时调度类 SCHED_FIFO](../../03-qiankun/01-process-and-thread/) |
+| 任务状态机 | [中断控制器与 NVIC 向量跳转](../02-interrupts/#中断控制器硬件仲裁者) | [调度算法：CFS 与 EEVDF](../../03-qiankun/01-process-and-thread/#调度算法cfs-与-eevdf) |
+| 抢占式调度 | [流水线刷新与异常入口](../../01-weichen/03-microarchitecture/#流水线冒险打破时空的魔咒) | [实时调度类：SCHED_FIFO / SCHED_RR / SCHED_DEADLINE](../../03-qiankun/01-process-and-thread/#实时调度类sched_fifo--sched_rr--sched_deadline) |
 | 信号量与优先级继承 | [RISC-V 原子指令（lr.w/sc.w）](../../01-weichen/05-instruction-set-architecture/#cisc-与-risc两套哲学的五十年对决) | [同步原语与死锁预防](../../03-qiankun/04-synchronization/) |
 | 消息队列 | [SRAM 存储单元与写策略](../../01-weichen/04-memory-hierarchy/#cache-组织形式容量速度与复杂度的三角博弈) | [管道与 IPC](../../03-qiankun/01-process-and-thread/) |
 | 动态内存管理 | [存储金字塔与 SRAM/Flash 边界](../../01-weichen/04-memory-hierarchy/#存储金字塔每一纳秒都有代价) | [虚拟内存管理](../../03-qiankun/02-memory-management/) |

@@ -305,7 +305,7 @@ void *pop(Node **head) {
 | 自旋锁 CAS + 内存屏障 | [RISC-V lr.w/sc.w 原子指令与弱内存序](../../01-weichen/05-instruction-set-architecture/) | [数据库无锁索引](../../04-yuanhai/02-storage-engine/) |
 | 死锁四条件 + 银行家算法 | [图论——资源分配图与环检测](../../00-lingxi/04-algorithm-theory/) | [PostgreSQL DeadLockCheck](../../04-yuanhai/01-relational-database/) |
 | RCU 宽限期 | [per-CPU 变量与上下文切换](../01-process-and-thread/) | [内核网络栈路由表 RCU 保护](../05-network-protocol-stack/) |
-| futex + 读写锁 | [用户态/内核态切换代价](../01-process-and-thread/) | [Go runtime.mutex](../../08-qianli/01-design-patterns-and-principles/) |
+| futex + 读写锁 | [用户态/内核态切换代价](../01-process-and-thread/) | [Go runtime.mutex（Go 并发模型：G:P:M 调度）](../../08-qianli/01-design-patterns-and-principles/#go-并发模型gpm-调度) |
 
 :::tip[卷三内部路径]
 - [**进程与线程**](../01-process-and-thread/)：上下文切换——RCU 宽限期的检测基础

@@ -49,7 +49,7 @@ $$
 当芯片从深度睡眠中唤醒，所有时钟域同时启动，电源轨必须在一瞬间为数百个模块的电容充电——这就是**浪涌电流**（Inrush Current）。如果不加以控制，浪涌电流可能触发电源管理芯片的过流保护，或在电池供电场景中导致电压瞬间跌落至复位阈值以下。
 
 :::tip[跨卷链接]
-CMOS 功耗的物理根源在于[MOSFET 的亚阈值漏电机制](../../01-weichen/01-semiconductor-physics/#mosfet-结构与-i-v-特性)。当栅极电压 $V_{GS}$ 低于阈值电压但高于 0 时，沟道并未完全关断——载流子仍然以扩散方式从源极飘移到漏极，形成指数衰减的亚阈值电流。先进工艺节点（如 7nm、5nm）中，这一漏电流已成为总功耗的主要成分，推动了 FinFET 和 GAA（Gate-All-Around）晶体管架构的诞生。
+CMOS 功耗的物理根源在于[MOSFET 的亚阈值漏电机制（MOSFET 结构与 I-V 特性）（MOSFET 结构与 I-V 特性）](../../01-weichen/01-semiconductor-physics/#mosfet-结构与-i-v-特性)。当栅极电压 $V_{GS}$ 低于阈值电压但高于 0 时，沟道并未完全关断——载流子仍然以扩散方式从源极飘移到漏极，形成指数衰减的亚阈值电流。先进工艺节点（如 7nm、5nm）中，这一漏电流已成为总功耗的主要成分，推动了 FinFET 和 GAA（Gate-All-Around）晶体管架构的诞生。
 :::
 
 ---
@@ -252,11 +252,11 @@ Tickless 模式下，`vTaskDelay()`、`xQueueReceive(..., timeout)` 等阻塞调
 
 | 本章概念 | 依赖的底层原理 | 支撑的上层抽象 |
 |----------|---------------|---------------|
-| 动态功耗 $P = \alpha C V^2 f$ | [CMOS 反相器充放电与负载电容](../../01-weichen/01-semiconductor-physics/#cmos-反相器与功耗) | [DVFS 动态调频调压策略](../../03-qiankun/) |
+| 动态功耗 $P = \alpha C V^2 f$ | [CMOS 反相器充放电与负载电容（CMOS 反相器与功耗）（CMOS 反相器与功耗）](../../01-weichen/01-semiconductor-physics/#cmos-反相器与功耗) | [DVFS 动态调频调压策略](../../03-qiankun/) |
 | 亚阈值漏电流 | [MOSFET 亚阈值区与短沟道效应](../../01-weichen/01-semiconductor-physics/#mosfet-结构与-i-v-特性) | [先进工艺节点的功耗墙](../../01-weichen/01-semiconductor-physics/) |
 | 睡眠模式分层 | [时钟树与 PLL 配置](../01-bare-metal/#systeminit唤醒时钟树) | [操作系统电源管理（ACPI S-State）](../../03-qiankun/02-memory-management/) |
 | 时钟门控 | [数字逻辑的时钟分配网络](../../01-weichen/02-digital-logic/#时序逻辑) | [调度器空闲任务与 CPU 停机](../../03-qiankun/01-process-and-thread/) |
-| Tickless 空闲模式 | SysTick 滴答定时器 | [Linux NO_HZ / 动态滴答内核](../../03-qiankun/01-process-and-thread/) |
+| Tickless 空闲模式 | [SysTick 滴答定时器](../03-rtos-fundamentals/#systick-心跳与-pendsv-上下文切换) | [Linux NO_HZ / 动态滴答内核](../../03-qiankun/01-process-and-thread/) |
 | 唤醒延迟预算 | [PLL 锁定时间与振荡器起振](../../01-weichen/02-digital-logic/#组合逻辑) | [操作系统电源状态的延迟 QoS](../../03-qiankun/01-process-and-thread/) |
 
 :::tip[卷二内部路径]

@@ -242,7 +242,7 @@ func:
 :::
 
 :::note[跨卷桥梁]
-- **卷三 · 乾坤**：操作系统的 [系统调用](../../03-qiankun/01-process-and-thread/)（`ecall` / `syscall` 指令）本质是 ISA 级特权模式切换——从 U-mode 切换到 S-mode。
+- **卷三 · 乾坤**：操作系统的 [系统调用（系统调用入口：从 EL0 到 EL1 的硬件路径）](../../03-qiankun/01-process-and-thread/#系统调用入口从-el0-到-el1-的硬件路径)（`ecall` / `syscall` 指令）本质是 ISA 级特权模式切换——从 U-mode 切换到 S-mode。
 - **卷二 · 芥子**：RISC-V 的 M-mode 和 Core-Local Interrupt Controller 是 [裸机中断处理](../../02-jiezi/01-bare-metal/) 的硬件基础。
 - **卷六 · 须弥**：[深度学习推理引擎](../../06-xumi/02-deep-learning/)（如 ONNX Runtime）将计算图编译为 x86 AVX-512、ARM NEON 或 RISC-V V 扩展的 SIMD 指令——ISA 的向量能力直接决定了 AI 推理的性能上限。
 - **卷七 · 天枢**：ARM 的 TrustZone 和 RISC-V 的 PMP（Physical Memory Protection）是 [可信执行环境](../../07-tianshu/05-system-security/)（TEE）的 ISA 级安全基石。

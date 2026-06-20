@@ -66,7 +66,7 @@ $$
 
 | 概念 | 关联 |
 |------|------|
-| CAP 定理 | [Cache MESI 一致性协议——多核的 CAP](../../01-weichen/04-memory-hierarchy/) |
+| CAP 定理 | [Cache 一致性协议：多核世界的交通规则](../../01-weichen/04-memory-hierarchy/#cache-一致性协议多核世界的交通规则) |
 | 向量时钟 | [Git commit 的 DAG 拓扑排序](../../08-qianli/03-devops-practices/) |
 | 2PC | [数据库 WAL 两阶段写](../02-storage-engine/) |
 

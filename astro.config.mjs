@@ -30,6 +30,10 @@ export default defineConfig({
       head: [
         {
           tag: 'script',
+          content: 'window.__savedHash=window.location.hash;if(window.__savedHash){var u=new URL(window.location);u.hash="";history.replaceState(null,"",u)}',
+        },
+        {
+          tag: 'script',
           attrs: {
             src: BASE + 'mermaid-loader.js',
             type: 'module',

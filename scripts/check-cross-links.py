@@ -8,10 +8,28 @@ DOCS = Path("src/content/docs")
 errors = 0
 fragments = set()
 
-# 1. 收集所有跨卷 fragment
+# 0. 路径深度校验：跨卷链接不得使用 ../../../
+print("=== 路径深度校验 ===\n  禁止跨卷 ../../../ 链接")
+depth_errors = 0
 for md in DOCS.rglob("*.md"):
     text = md.read_text()
-    for m in re.finditer(r'\[[^\]]*\]\(\.\./[^)]*#([^)]*)\)', text):
+    for m in re.finditer(r'\[[^\]]*\]\(\.\./\.\./\.\./[0-9][0-9]-[^)]*\)', text):
+        rel = str(md.relative_to(DOCS))
+        print(f"  ❌ {rel}: {m.group(0)[:100]}")
+        depth_errors += 1
+        errors += 1
+
+if depth_errors == 0:
+    print("  ✅ 路径深度全部正确")
+else:
+    print(f"  ❌ {depth_errors} 条路径深度错误（应使用 ../../ 而非 ../../../）")
+print()
+
+# 1. 收集所有跨卷 fragment
+frag_pat = re.compile(r'\[[^\]]*\]\(\.\./[^)]*#([^)]*)\)')
+for md in DOCS.rglob("*.md"):
+    text = md.read_text()
+    for m in frag_pat.finditer(text):
         fragments.add(m.group(1))
 
 print(f"=== 跨卷 fragment 链接校验 ===\n  共 {len(fragments)} 条去重 fragment")

@@ -482,7 +482,7 @@ graph TD
 
 ### DWT：Cortex-M 的轻量级周期计数器
 
-在 [中断延迟测量](../../02-jiezi/02-interrupts/#中断延迟分析从信号到达-isr-第一行代码) 中，裸机程序员依赖 DWT（Data Watchpoint and Trace）的 `CYCCNT` 寄存器精确测量代码段的时钟周期数：
+在 [中断延迟测量（中断延迟分析：从信号到达 ISR 第一行代码）（中断延迟分析：从信号到达 ISR 第一行代码）](../../02-jiezi/02-interrupts/#中断延迟分析从信号到达-isr-第一行代码) 中，裸机程序员依赖 DWT（Data Watchpoint and Trace）的 `CYCCNT` 寄存器精确测量代码段的时钟周期数：
 
 ```c
 // DWT 周期计数器——裸机性能分析的基石
@@ -556,7 +556,7 @@ perf report
 `perf stat` 使用**计数模式**（Counting Mode）——PMU 配置为递增计数器，结束时读取总值。`perf record` 使用**采样模式**（Sampling Mode）——PMU 配置为每 N 个事件触发一次中断，内核在中断中记录当前 PC 和调用栈。后者是火焰图的技术基础。
 
 :::tip[跨卷链接]
-PMU 的采样中断本质上是一个 **NMI（不可屏蔽中断）**——它必须能打断内核的任意代码路径。这与 [中断系统中的 NVIC NMI 和 GIC 中断优先级](../../02-jiezi/02-interrupts/) 共享相同的中断抢占语义。而 `perf stat` 的计数模式无需中断——PMU 直接通过 `MSR`（x86）或 `PMCR`（ARM）寄存器读取，延迟仅数十纳秒，类似 [DWT CYCCNT 的裸机直接访问](#dwtcortex-m-的轻量级周期计数器)。
+PMU 的采样中断本质上是一个 **NMI（不可屏蔽中断）**——它必须能打断内核的任意代码路径。这与 [四大中断控制器对比：NVIC vs GIC vs PLIC vs APIC](../../02-jiezi/02-interrupts/#四大中断控制器对比nvic-vs-gic-vs-plic-vs-apic) 共享相同的中断抢占语义。而 `perf stat` 的计数模式无需中断——PMU 直接通过 `MSR`（x86）或 `PMCR`（ARM）寄存器读取，延迟仅数十纳秒，类似 [DWT CYCCNT 的裸机直接访问](#dwtcortex-m-的轻量级周期计数器)。
 :::
 
 ---
@@ -594,7 +594,7 @@ flowchart LR
 
 ### 体系结构 ↔ AI Agent（卷六 · 须弥）
 
-- [AI Agent](../../06-xumi/05-ai-agents/)：大模型推理需要**向量单元（Vector ALU）**而非标量加法器，SIMD/张量核是吞吐率的来源
+- [Agent 架构](../../06-xumi/05-ai-agents/#agent-架构)：大模型推理需要**向量单元（Vector ALU）**而非标量加法器，SIMD/张量核是吞吐率的来源
 - [深度学习](../../06-xumi/02-deep-learning/)：Transformer 解码器需要**高带宽缓存层次**存储 KV 缓存，访存往往成为瓶颈
 - 多核 Agent 协同需要**多核同步原语**（锁、屏障），详见 [卷三 · 同步原语](../../03-qiankun/04-synchronization/)
 

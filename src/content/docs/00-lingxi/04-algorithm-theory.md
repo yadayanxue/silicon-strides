@@ -86,8 +86,8 @@ Dijkstra 不能处理负权边——如果图中存在负权边，已"确定"最
 |------|-------------|
 | Dijkstra 最短路径 | [OSPF 链路状态路由——全网拓扑 + Dijkstra](../../03-qiankun/05-network-protocol-stack/) |
 | Bellman-Ford | [RIP 距离向量路由——逐跳 Bellman-Ford 迭代](../../03-qiankun/05-network-protocol-stack/) |
-| Huffman 编码 | [HPACK HTTP/2 头部压缩——静态字典 + Huffman 编码](../../03-qiankun/07-application-protocols/) |
-| BFS/DFS | [CFS 调度器的红黑树——BFS 的最左节点选择](../../03-qiankun/01-process-and-thread/) |
+| Huffman 编码 | [HTTP/2 帧格式——多路复用的结构化基础](../../03-qiankun/07-application-protocols/#http2-帧格式多路复用的结构化基础) |
+| BFS/DFS | [调度算法：CFS 与 EEVDF](../../03-qiankun/01-process-and-thread/#调度算法cfs-与-eevdf) |
 | 动态规划（编辑距离） | [GNU diff——最长公共子序列的文件比较](../../08-qianli/03-devops-practices/) |
 
 :::tip[卷零内部路径]

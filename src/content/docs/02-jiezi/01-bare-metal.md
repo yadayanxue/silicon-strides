@@ -422,7 +422,7 @@ void process_uart_data(void) {
 }
 ```
 
-这一模式向上延伸为操作系统的 [tasklet 与 workqueue 机制](../../03-qiankun/01-process-and-thread/#中断下半部taskletworkqueue-与-threaded-irq)——Linux 内核将"上半部/下半部"思想系统化为软中断、tasklet、workqueue 三级。裸机程序员写的 `new_data_ready = true` 标志位，就是操作系统中 `raise_softirq()` 的微观前身。
+这一模式向上延伸为操作系统的 [tasklet 与 workqueue 机制（中断下半部：tasklet、workqueue 与 threaded IRQ）（中断下半部：tasklet、workqueue 与 threaded IRQ）](../../03-qiankun/01-process-and-thread/#中断下半部taskletworkqueue-与-threaded-irq)——Linux 内核将"上半部/下半部"思想系统化为软中断、tasklet、workqueue 三级。裸机程序员写的 `new_data_ready = true` 标志位，就是操作系统中 `raise_softirq()` 的微观前身。
 
 ---
 

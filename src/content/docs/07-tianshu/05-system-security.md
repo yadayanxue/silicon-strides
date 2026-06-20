@@ -46,7 +46,7 @@ graph LR
 | 类型 | 原理 | 防御 |
 |------|------|------|
 | **缓冲区溢出** | 写超过 buffer 的数据覆盖返回地址 | Stack Canary、ASLR、NX bit |
-| **竞态条件** | TOCTOU——检查和使用的窗口 | [原子操作与 RCU](../../03-qiankun/04-synchronization/) |
+| **竞态条件** | TOCTOU——检查和使用的窗口 | [RCU：零开销读取的革命](../../03-qiankun/04-synchronization/#rcu零开销读取的革命) |
 | **侧信道** | 从时间/功耗/电磁辐射推断秘密 | 恒定时间算法 |
 
 ---
@@ -56,9 +56,9 @@ graph LR
 | 概念 | 关联 |
 |---------|---------|
 | seccomp-bpf | [eBPF 内核安全执行引擎](../../03-qiankun/08-network-programming/) |
-| ARM TrustZone | [Cortex-M 安全启动](../../02-jiezi/01-bare-metal/) |
+| ARM TrustZone | [裸机编程的架构全景：不止 Cortex-M](../../02-jiezi/01-bare-metal/#裸机编程的架构全景不止-cortex-m) |
 | Stack Canary | [函数栈帧与返回地址布局](../../01-weichen/05-instruction-set-architecture/) |
-| NX bit | [MMU PTE 权限位](../../03-qiankun/02-memory-management/) |
+| NX bit | [PTE 位字段逐位解读](../../03-qiankun/02-memory-management/#pte-位字段逐位解读) |
 
 :::tip[卷七内部路径]
 - [**对称加密**](../01-symmetric-cryptography/)：AES 侧信道防御

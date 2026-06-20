@@ -137,10 +137,10 @@ $ ls -li
 | 本章概念 | 依赖的底层原理 | 支撑的上层抽象 |
 |----------|---------------|---------------|
 | Page Cache | [DRAM 刷新周期](../../01-weichen/04-memory-hierarchy/) | [数据库 Buffer Pool](../../04-yuanhai/01-relational-database/) |
-| ext4 extent 树 + 日志三模式 | [WAL 的 REDO Log 语义](../../04-yuanhai/02-storage-engine/) | [Raft 的 RSM 日志复制](../../04-yuanhai/04-consensus-protocols/) |
-| 硬链接 / 软链接 | [inode 引用计数——类似智能指针](../02-memory-management/) | [Docker OverlayFS 镜像分层——硬链接白名单](../../08-qianli/03-devops-practices/) |
+| ext4 extent 树 + 日志三模式 | [WAL 的 REDO Log 语义](../../04-yuanhai/02-storage-engine/) | [Raft：为可理解性而设计](../../04-yuanhai/04-consensus-protocols/#raft为可理解性而设计) |
+| 硬链接 / 软链接 | [inode 引用计数——类似智能指针](../02-memory-management/) | [CI/CD 与 Docker](../../08-qianli/03-devops-practices/#cicd-与-docker) |
 | COW 写时复制 | [虚拟内存 COW 语义](../02-memory-management/) | [Btrfs snapshot——文件系统级 COW](../../04-yuanhai/02-storage-engine/) |
-| 直接 I/O | [DMA 零拷贝传输](../../02-jiezi/04-peripheral-drivers/) | [io_uring 内核旁路 I/O](../08-network-programming/) |
+| 直接 I/O | [DMA：解放 CPU 的数据搬运工](../../02-jiezi/04-peripheral-drivers/#dma解放-cpu-的数据搬运工) | [io_uring 内核旁路 I/O](../08-network-programming/) |
 
 :::tip[卷三内部路径]
 - [**内存管理**](../02-memory-management/)：Page Cache 与 mmap

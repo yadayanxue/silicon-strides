@@ -104,9 +104,9 @@ NIST 在 2024 年正式标准化的后量子密码算法中，**Kyber**（密钥
 
 | 数学结构 | 密码学应用 | 卷七章节 |
 |---------|---------|---------|
-| 模运算与大数分解 | RSA——$C = M^e \bmod n$ | [RSA 非对称加密](../../07-tianshu/02-asymmetric-cryptography/) |
-| $GF(2^8)$ 多项式乘法 | AES SubBytes + MixColumns | [AES 对称加密的 S-Box 设计](../../07-tianshu/01-symmetric-cryptography/) |
-| 椭圆曲线点加群 | ECDSA——$R = kG$ 签名 | [ECDSA/EdDSA 数字签名](../../07-tianshu/03-hash-and-signature/) |
+| 模运算与大数分解 | RSA——$C = M^e \bmod n$ | [RSA：大数分解的数学基础](../../07-tianshu/02-asymmetric-cryptography/#rsa大数分解的数学基础) |
+| $GF(2^8)$ 多项式乘法 | AES SubBytes + MixColumns | [AES：当代对称加密之王](../../07-tianshu/01-symmetric-cryptography/#aes当代对称加密之王) |
+| 椭圆曲线点加群 | ECDSA——$R = kG$ 签名 | [数字签名](../../07-tianshu/03-hash-and-signature/#数字签名) |
 | 离散对数 | Diffie-Hellman——$g^{ab}$ 共享密钥 | [DH 密钥交换协议](../../07-tianshu/02-asymmetric-cryptography/) |
 | LWE 格问题 | Kyber 密钥封装 | [后量子密码标准化](../../07-tianshu/02-asymmetric-cryptography/) |
 

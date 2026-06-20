@@ -35,7 +35,7 @@ draft: false
 
 ## 函数式设计
 
-**纯函数**（相同输入 always 相同输出）和**不可变性**是函数式的核心。Monad 将副作用封装在类型系统中——Rust `Result<T,E>` = $T \lor E$，是 [Curry-Howard 同构](../../00-lingxi/02-formal-logic/) 的编程实践。
+**纯函数**（相同输入 always 相同输出）和**不可变性**是函数式的核心。Monad 将副作用封装在类型系统中——Rust `Result<T,E>` = $T \lor E$，是 [Curry-Howard 同构：程序即证明](../../00-lingxi/02-formal-logic/#curry-howard-同构程序即证明) 的编程实践。
 
 ### Go 并发模型：G:P:M 调度
 
@@ -93,7 +93,7 @@ Go 调度器的核心规则：
 3. **Work-Stealing**——当 P 的本地队列为空时，它从全局队列或其它 P 的队列中"偷"一半 G
 
 :::tip[跨卷链接]
-G:P:M 的 Work-Stealing 策略与 [CFS 调度器的红黑树](../../03-qiankun/01-process-and-thread/#调度算法cfs-与-eevdf) 有着相通的公平性哲学——CFS 追求 CPU 时间公平（`vruntime` 最小优先），Go 追求 P 的利用率公平（空闲 P 主动偷取任务）。但实现层面截然不同：CFS 在**内核态**操作红黑树（O(log n)），Go 在**用户态**操作环形队列（O(1)）。这也是为什么 Go 能支撑百万级 goroutine——调度开销不经过内核上下文切换。
+G:P:M 的 Work-Stealing 策略与 [CFS 调度器的红黑树（调度算法：CFS 与 EEVDF）（调度算法：CFS 与 EEVDF）](../../03-qiankun/01-process-and-thread/#调度算法cfs-与-eevdf) 有着相通的公平性哲学——CFS 追求 CPU 时间公平（`vruntime` 最小优先），Go 追求 P 的利用率公平（空闲 P 主动偷取任务）。但实现层面截然不同：CFS 在**内核态**操作红黑树（O(log n)），Go 在**用户态**操作环形队列（O(1)）。这也是为什么 Go 能支撑百万级 goroutine——调度开销不经过内核上下文切换。
 
 G:P:M 的 P 数量控制（`GOMAXPROCS`）与 [CPU 亲和性与 NUMA 调度](../../01-weichen/04-memory-hierarchy/) 直接相关——合理设置 P 的数量可以避免跨 NUMA 节点的缓存行乒乓（Cache Line Bouncing）。
 :::
@@ -104,10 +104,10 @@ G:P:M 的 P 数量控制（`GOMAXPROCS`）与 [CPU 亲和性与 NUMA 调度](../
 
 | 概念 | 关联 |
 |------|------|
-| 观察者模式 | [epoll 事件驱动——发布-订阅](../../03-qiankun/08-network-programming/) |
-| 策略模式 | [TCP 拥塞控制——算法族可替换](../../03-qiankun/06-transport-tcp-udp-quic/) |
-| SOLID 依赖反转 | [VFS 抽象——依赖接口而非 ext4/XFS 实现](../../03-qiankun/03-filesystem/) |
-| Go G:P:M Work-Stealing | [CFS 红黑树 `vruntime` 公平调度](../../03-qiankun/01-process-and-thread/#调度算法cfs-与-eevdf) |
+| 观察者模式 | [I/O 多路复用：select → poll → epoll](../../03-qiankun/08-network-programming/#io-多路复用select--poll--epoll) |
+| 策略模式 | [拥塞控制：从 Tahoe 到 BBR](../../03-qiankun/06-transport-tcp-udp-quic/#拥塞控制从-tahoe-到-bbr) |
+| SOLID 依赖反转 | [ext4 磁盘布局：inode 与 extent 树](../../03-qiankun/03-filesystem/#ext4-磁盘布局inode-与-extent-树) |
+| Go G:P:M Work-Stealing | [CFS 红黑树 `vruntime` 公平调度（调度算法：CFS 与 EEVDF）（调度算法：CFS 与 EEVDF）](../../03-qiankun/01-process-and-thread/#调度算法cfs-与-eevdf) |
 
 :::tip[卷八内部路径]
 - [**系统设计**](../02-system-design/)：设计模式在分布式中的规模延伸

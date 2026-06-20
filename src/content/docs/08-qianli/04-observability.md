@@ -49,7 +49,7 @@ graph LR
 | 概念 | 关联 |
 |------|------|
 | Histogram P99 | [快速选择——分位数近似](../../00-lingxi/04-algorithm-theory/) |
-| 链路追踪 | [TCP IP 分片 ID——端到端标识传播](../../03-qiankun/05-network-protocol-stack/) |
+| 链路追踪 | [TCP/IP 四层模型](../../03-qiankun/05-network-protocol-stack/#tcpip-四层模型) |
 
 :::tip[卷八内部路径]
 - [**系统设计**](../02-system-design/)：熔断器——Error Budget 耗尽后的自动保护

@@ -33,7 +33,7 @@ $$
 \neg (A \lor B) \equiv \neg A \land \neg B
 $$
 
-这两个定律在 [CMOS 门电路](../../01-weichen/02-digital-logic/#cmos-门电路实现)中直接体现——NAND 门用四个晶体管实现（PMOS 并联 + NMOS 串联），NOR 门用互补拓扑（PMOS 串联 + NMOS 并联）。这种"推-拉"对称关系正是德摩根定律的硅基实现。
+这两个定律在 [CMOS 门电路（CMOS 门电路实现）（CMOS 门电路实现）](../../01-weichen/02-digital-logic/#cmos-门电路实现)中直接体现——NAND 门用四个晶体管实现（PMOS 并联 + NMOS 串联），NOR 门用互补拓扑（PMOS 串联 + NMOS 并联）。这种"推-拉"对称关系正是德摩根定律的硅基实现。
 
 ```mermaid
 ---
@@ -108,8 +108,8 @@ graph TD
 
 | 本章概念 | 在 CS 中的直接应用 |
 |----------|------------------|
-| 命题逻辑与真值表 | [组合逻辑门——AND/OR/NOT 的真值表实现](../../01-weichen/02-digital-logic/#基本逻辑门与真值表) |
-| 德摩根定律 | [CMOS NAND/NOR 门的互补晶体管拓扑](../../01-weichen/02-digital-logic/#cmos-门电路实现) |
+| 命题逻辑与真值表 | [组合逻辑门——AND/OR/NOT 的真值表实现（基本逻辑门与真值表）（基本逻辑门与真值表）](../../01-weichen/02-digital-logic/#基本逻辑门与真值表) |
+| 德摩根定律 | [CMOS NAND/NOR 门的互补晶体管拓扑（CMOS 门电路实现）（CMOS 门电路实现）](../../01-weichen/02-digital-logic/#cmos-门电路实现) |
 | 一阶逻辑量词 | [SQL WHERE/∀/∃ 语义——集合构造符号的工程实现](../../04-yuanhai/01-relational-database/) |
 | 柯里霍华德同构 | [Rust 所有权类型的仿射逻辑基础——借用检查器即证明检查器](../../08-qianli/01-design-patterns-and-principles/) |
 | 类型推导（Hindley-Milner） | [编译原理——HM 类型系统的 unification 算法](../05-compiler-theory/) |

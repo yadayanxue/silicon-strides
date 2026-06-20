@@ -107,11 +107,11 @@ $$
 | 本章概念 | 在 CS 中的直接应用 |
 |----------|------------------|
 | 集合与笛卡尔积 | [关系型代数的 SQL JOIN](../../04-yuanhai/01-relational-database/) |
-| 矩阵乘法的几何变换 | [GPU 顶点着色器的 MVP 矩阵变换管线](../../05-wanxiang/01-gpu-rendering-pipeline/) |
+| 矩阵乘法的几何变换 | [顶点处理与 MVP 变换](../../05-wanxiang/01-gpu-rendering-pipeline/#顶点处理与-mvp-变换) |
 | 特征值分解与 SVD | [PCA 降维与推荐系统的协同过滤](../../06-xumi/01-machine-learning-basics/) |
 | 贝叶斯定理 | [朴素贝叶斯分类器的条件独立性假设](../../06-xumi/01-machine-learning-basics/) |
-| 信息熵与 KL 散度 | [霍夫曼编码——HTTP/2 HPACK 头部压缩](../../03-qiankun/07-application-protocols/) |
-| 幂集的指数增长 | [n 位寄存器状态空间——组合逻辑的真值表行数](../../01-weichen/02-digital-logic/) |
+| 信息熵与 KL 散度 | [HTTP/2 帧格式——多路复用的结构化基础](../../03-qiankun/07-application-protocols/#http2-帧格式多路复用的结构化基础) |
+| 幂集的指数增长 | [n 位寄存器状态空间——组合逻辑的真值表行数（组合逻辑）](../../01-weichen/02-digital-logic/#组合逻辑) |
 
 :::tip[卷零内部路径]
 - [**形式逻辑**](../02-formal-logic/)：数学证明的形式化系统——柯里霍华德同构

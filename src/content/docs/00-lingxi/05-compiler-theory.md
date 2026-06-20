@@ -85,7 +85,7 @@ Chaitin-Briggs 算法是 GCC 和 LLVM 使用的寄存器分配器，其核心是
 | **分代收集** | 年轻代高频回收、老年代低频 | 符合"大多数对象早死"规律 | 跨代引用需要写屏障 |
 
 :::tip[跨卷链接]
-分代收集利用了与 [CPU Cache 的时间局部性](../../01-weichen/04-memory-hierarchy/#局部性原理预测未来的艺术) 相同的经验规律：刚分配的对象最可能很快变成垃圾（类似刚访问的数据最可能再次被访问）。
+分代收集利用了与 [CPU Cache 的时间局部性（局部性原理：预测未来的艺术）（局部性原理：预测未来的艺术）](../../01-weichen/04-memory-hierarchy/#局部性原理预测未来的艺术) 相同的经验规律：刚分配的对象最可能很快变成垃圾（类似刚访问的数据最可能再次被访问）。
 :::
 
 ---
@@ -94,11 +94,11 @@ Chaitin-Briggs 算法是 GCC 和 LLVM 使用的寄存器分配器，其核心是
 
 | 编译技术 | 在系统中的映射 |
 |---------|------------|
-| DFA 词法分析 | [CPU FSM 控制器——取指/译码/执行状态机](../../01-weichen/02-digital-logic/#时序逻辑) |
-| SSA 形式的 use-def 链 | [数据冒险——流水线前递的 def-use 距离分析](../../01-weichen/03-microarchitecture/#流水线冒险打破时空的魔咒) |
-| 循环向量化 | [GPU SIMT——Warp 线程束执行 SIMD 指令](../../05-wanxiang/01-gpu-rendering-pipeline/) |
+| DFA 词法分析 | [CPU FSM 控制器——取指/译码/执行状态机（时序逻辑）（时序逻辑）](../../01-weichen/02-digital-logic/#时序逻辑) |
+| SSA 形式的 use-def 链 | [数据冒险——流水线前递的 def-use 距离分析（流水线冒险：打破时空的魔咒）（流水线冒险：打破时空的魔咒）](../../01-weichen/03-microarchitecture/#流水线冒险打破时空的魔咒) |
+| 循环向量化 | [GPU 并行架构](../../05-wanxiang/01-gpu-rendering-pipeline/#gpu-并行架构) |
 | 寄存器分配的图着色 | [图算法——贪心着色 + 溢出代价模型](../04-algorithm-theory/) |
-| 垃圾回收的分代假设 | [Cache 替换策略——LRU 近似（年轻对象 vs 长期存活）](../../03-qiankun/02-memory-management/) |
+| 垃圾回收的分代假设 | [Cache 替换策略——LRU 近似（年轻对象 vs 长期存活）（分段 vs 分页）](../../03-qiankun/02-memory-management/#分段-vs-分页) |
 
 :::tip[卷零内部路径]
 - [**形式逻辑**](../02-formal-logic/)：类型系统与柯里霍华德同构——类型检查即证明验证

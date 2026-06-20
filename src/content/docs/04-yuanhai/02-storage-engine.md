@@ -67,8 +67,8 @@ WAL 规则：**日志必须先于数据持久化**。`innodb_flush_log_at_trx_co
 
 | 概念 | 关联 |
 |------|------|
-| LSM Tree 分层压缩 | [DRAM 行缓冲刷新周期](../../01-weichen/04-memory-hierarchy/) |
-| WAL 与 REDO Log | [ext4 日志有序模式](../../03-qiankun/03-filesystem/) |
+| LSM Tree 分层压缩 | [DRAM 内部结构：一个单元的微观世界](../../01-weichen/04-memory-hierarchy/#dram-内部结构一个单元的微观世界) |
+| WAL 与 REDO Log | [ext4 磁盘布局：inode 与 extent 树](../../03-qiankun/03-filesystem/#ext4-磁盘布局inode-与-extent-树) |
 | 列式 SIMD 向量化 | [GPU SIMD 数据并行](../../01-weichen/05-instruction-set-architecture/) |
 
 :::tip[卷四内部路径]
