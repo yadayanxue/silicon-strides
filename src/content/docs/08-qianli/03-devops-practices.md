@@ -70,6 +70,31 @@ graph LR
 
 Git 作为单一事实来源——ArgoCD/Flux 持续同步 Git → K8s。任何人直接修改集群会被自动回滚。
 
+### GitOps 差异检测与自愈循环
+
+ArgoCD 每 3 分钟（可配置）执行一次**差异检测**（Reconciliation Loop）：
+
+1. **获取期望状态**（Desired State）：从 Git 仓库 `HEAD` 解析 YAML manifest（`kustomize build` 或 `helm template`）
+2. **获取实际状态**（Actual State）：通过 K8s API 获取集群中对应资源对象的当前 spec
+3. **计算差异**：`diff(Desired, Actual)`——对比两个 JSON/yaml 树的字段级差异
+4. **自愈**：若有差异（drifted），将期望状态 `kubectl apply` 到集群，使其收敛
+
+$$
+\text{State}_{t+1} = \text{State}_{t} \xrightarrow{\text{reconcile}} \text{Git HEAD}
+$$
+
+这一循环与 [共识协议的自愈复制状态机](../04-consensus-protocols/) 共享同一个控制论范式：**声明式期望状态驱动的负反馈闭环**。区别仅在于时间尺度——Raft 在毫秒级同步日志，GitOps 在分钟级同步配置。
+
+Prune（级联删除）：Git 中删除的 YAML 会被 ArgoCD 检测为"desired 中缺失 → actual 中多余"，触发自动 `kubectl delete`——实现完整的**声明式生命周期管理**。
+
+:::tip[GitOps vs ChatOps vs ClickOps]
+- **GitOps**：Git 是唯一的事实来源，审计日志 = git log，回滚 = git revert
+- **ChatOps**：Slack/Teams 聊天命令触发操作——操作记录在聊天历史中
+- **ClickOps**：通过 Cloud Console 点击操作——最难审计、最易漂移
+
+GitOps 的哲学等价于函数式编程的**不可变性原则**——状态从不原地修改，而是通过声明新期望状态来"替换"。这不是巧合：声明式基础设施管理的本质是 [函数式设计中不可变数据结构的分布式推广](../../00-lingxi/02-formal-logic/#curry-howard-同构程序即证明)。
+:::
+
 ---
 
 ## 跨卷连接

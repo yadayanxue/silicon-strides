@@ -1,6 +1,6 @@
 # 硅步千里 · 内容撰写进度
 
-> 最后更新：2026-06-20 · 八卷四十九章 100%，跨卷链接全面修复 🔗
+> 最后更新：2026-06-20 · 八卷四十九章 100%，10 章深度改进 + 审查修正
 
 ## 状态标记
 
@@ -115,15 +115,15 @@ Phase 6 — 理论收尾
 | 4.2 | 存储引擎 | `04-yuanhai/02-storage-engine.md` | ✅ | 2026-06-19 | 2026-06-19 | B+Tree vs LSM Tree/WAL/列式存储 |
 | 4.3 | 分布式基础 | `04-yuanhai/03-distributed-fundamentals.md` | ✅ | 2026-06-19 | 2026-06-19 | CAP 定理/一致性光谱/向量时钟/2PC |
 | 4.4 | 共识协议 | `04-yuanhai/04-consensus-protocols.md` | ✅ | 2026-06-19 | 2026-06-19 | 1 Mermaid + Paxos/Raft/ZAB/PBFT |
-| 4.5 | 数据流水线 | `04-yuanhai/05-data-pipelines.md` | ✅ | 2026-06-19 | 2026-06-19 | Kafka/Flink 检查点/Lambda vs Kappa |
+| 4.5 | 数据流水线 | `04-yuanhai/05-data-pipelines.md` | ✅ | 2026-06-19 | 2026-06-20 | 2 Mermaid + 4 KaTeX + Kafka 幂等生产者 PID/epoch/seq 三元组 + Exactly-Once 事务 + Flink 调度 CFS 类比 |
 
 ### 卷五 · 万象（图形与交互）
 
 | # | 章节 | 文件 | 状态 | 开始日 | 完成日 | 备注 |
 |---|------|------|------|--------|--------|------|
-| 5.1 | GPU 渲染管线 | `05-wanxiang/01-gpu-rendering-pipeline.md` | ✅ | 2026-06-19 | 2026-06-19 | 1 Mermaid + MVP/光栅化 |
+| 5.1 | GPU 渲染管线 | `05-wanxiang/01-gpu-rendering-pipeline.md` | ✅ | 2026-06-19 | 2026-06-20 | 2 Mermaid + 16 KaTeX + 架构演进/边函数/重心坐标/SIMT/Roofline/浏览器合成 |
 | 5.2 | 计算机图形学 | `05-wanxiang/02-computer-graphics.md` | ✅ | 2026-06-19 | 2026-06-19 | 齐次坐标/PBR/光线追踪 |
-| 5.3 | 前端工程 | `05-wanxiang/03-frontend-engineering.md` | ✅ | 2026-06-19 | 2026-06-19 | DOM/渲染流水线/状态管理 |
+| 5.3 | 前端工程 | `05-wanxiang/03-frontend-engineering.md` | ✅ | 2026-06-19 | 2026-06-20 | 3 Mermaid + 6 KaTeX + 布局抖动/rAF 帧生命周期/Virtual DOM Diff enter-update-exit/事件循环 libuv |
 | 5.4 | 数据可视化 | `05-wanxiang/04-data-visualization.md` | ✅ | 2026-06-19 | 2026-06-19 | 可视化编码/D3.js |
 | 5.5 | 人机交互 | `05-wanxiang/05-human-computer-interaction.md` | ✅ | 2026-06-19 | 2026-06-19 | Fitts/Hick 法则/WCAG |
 
@@ -131,7 +131,7 @@ Phase 6 — 理论收尾
 
 | # | 章节 | 文件 | 状态 | 开始日 | 完成日 | 备注 |
 |---|------|------|------|--------|--------|------|
-| 6.1 | 机器学习基础 | `06-xumi/01-machine-learning-basics.md` | ✅ | 2026-06-19 | 2026-06-19 | 梯度下降/偏差方差/正则化 |
+| 6.1 | 机器学习基础 | `06-xumi/01-machine-learning-basics.md` | ✅ | 2026-06-19 | 2026-06-20 | 1 Mermaid + 17 KaTeX + 线性回归闭式解/SGD-MiniBatch-Momentum-Adam 四种形态/偏差-方差分解/L1-L2正则化几何直觉/交叉验证/F1 |
 | 6.2 | 深度学习 | `06-xumi/02-deep-learning.md` | ✅ | 2026-06-19 | 2026-06-19 | CNN/ResNet/归一化 |
 | 6.3 | Transformer 家族 | `06-xumi/03-transformer-family.md` | ✅ | 2026-06-19 | 2026-06-19 | 自注意力/多头/RoPE |
 | 6.4 | 大语言模型 | `06-xumi/04-large-language-models.md` | ✅ | 2026-06-19 | 2026-06-19 | Scaling Law/RLHF/推理优化 |
@@ -143,18 +143,18 @@ Phase 6 — 理论收尾
 |---|------|------|------|--------|--------|------|
 | 7.1 | 对称加密 | `07-tianshu/01-symmetric-cryptography.md` | ✅ | 2026-06-19 | 2026-06-19 | AES/GCM/ChaCha20 |
 | 7.2 | 非对称加密 | `07-tianshu/02-asymmetric-cryptography.md` | ✅ | 2026-06-19 | 2026-06-19 | RSA/ECC/DH/后量子 |
-| 7.3 | 哈希与签名 | `07-tianshu/03-hash-and-signature.md` | ✅ | 2026-06-19 | 2026-06-19 | SHA/ECDSA/EdDSA/Merkle Tree |
-| 7.4 | 零知识证明 | `07-tianshu/04-zero-knowledge-proofs.md` | ✅ | 2026-06-19 | 2026-06-19 | zk-SNARK/zk-STARK/递归证明 |
-| 7.5 | 系统安全 | `07-tianshu/05-system-security.md` | ✅ | 2026-06-19 | 2026-06-19 | seccomp/Landlock/TEE/漏洞分类 |
+| 7.3 | 哈希与签名 | `07-tianshu/03-hash-and-signature.md` | ✅ | 2026-06-19 | 2026-06-20 | 1 Mermaid + 11 KaTeX + SHA-256 压缩函数 Ch/Maj/Σ/σ/消息调度/EdDSA 全流程公式推导/Merkle 证明安全性归约 |
+| 7.4 | 零知识证明 | `07-tianshu/04-zero-knowledge-proofs.md` | ✅ | 2026-06-19 | 2026-06-20 | 1 Mermaid + 8 KaTeX + R1CS/QAP 多项式编码/KZG 承诺-证明-验证三公式/Groth16 配对验证等式/递归证明椭圆曲线循环 |
+| 7.5 | 系统安全 | `07-tianshu/05-system-security.md` | ✅ | 2026-06-19 | 2026-06-20 | 2 Mermaid + 2 KaTeX + 缓冲区溢出栈帧攻防 Mermaid/ASLR 三域熵值计算/NX-Canary-ASLR 三层防御博弈 |
 
 ### 卷八 · 千里（工程与道法）
 
 | # | 章节 | 文件 | 状态 | 开始日 | 完成日 | 备注 |
 |---|------|------|------|--------|--------|------|
-| 8.1 | 设计模式与原则 | `08-qianli/01-design-patterns-and-principles.md` | ✅ | 2026-06-19 | 2026-06-19 | SOLID/GoF/函数式设计 |
+| 8.1 | 设计模式与原则 | `08-qianli/01-design-patterns-and-principles.md` | ✅ | 2026-06-19 | 2026-06-20 | 1 Mermaid + G:P:M 调度详解 + Visitor vs Interpreter 双重分派/表达式问题 |
 | 8.2 | 系统设计 | `08-qianli/02-system-design.md` | ✅ | 2026-06-19 | 2026-06-19 | 负载均衡/缓存/熔断 |
-| 8.3 | DevOps 实践 | `08-qianli/03-devops-practices.md` | ✅ | 2026-06-19 | 2026-06-19 | CI/CD/Docker/K8s/GitOps |
-| 8.4 | 可观测性 | `08-qianli/04-observability.md` | ✅ | 2026-06-19 | 2026-06-19 | Prometheus/SLO/链路追踪 |
+| 8.3 | DevOps 实践 | `08-qianli/03-devops-practices.md` | ✅ | 2026-06-19 | 2026-06-20 | 1 Mermaid + 2 KaTeX + runc clone 标志位详解 + GitOps 差异检测/自愈循环/Prune + GitOps vs ChatOps vs ClickOps |
+| 8.4 | 可观测性 | `08-qianli/04-observability.md` | ✅ | 2026-06-19 | 2026-06-20 | 1 Mermaid + 4 KaTeX + PromQL 五种查询模式/Histogram 分位数插值公式/Error Budget 燃尽速率 |
 | 8.5 | 工程文化 | `08-qianli/05-engineering-culture.md` | ✅ | 2026-06-19 | 2026-06-19 | 代码评审/技术债/无责复盘 |
 
 ---
@@ -202,22 +202,23 @@ Phase 6 — 理论收尾
 | `draft: true` 残留 | ✅ 0 | 全部 49 章 + 9 卷首语 + glossary 均 `draft: false` |
 | 断链 | ✅ 0 | `check-cross-links.py` 通过，1 处 `(#)` 已修复 |
 | Mermaid 覆盖 | ✅ 49/49 | 4 章缺口已于 2026-06-20 补齐 |
-| KaTeX `$$` 覆盖 | ✅ 27/49 | 6 月 20 日新增 9 章 KaTeX（数据库/共识/DL/LLM/密码学等） |
+| KaTeX `$$` 覆盖 | ✅ 33/49 | 共识协议章使用行内 $ 语法，严格 $$ 口径为 33 章 |
 | 内容无歧义 | ✅ | 概念表述清晰准确，无矛盾 |
 
 ### 逐卷行数与质量评级
 
 | 卷宗 | 总行数 | 均行数 | 评级 | 说明 |
 |------|:-----:|:-----:|:--:|------|
-| 卷一 · 微尘 | 2,202 | 440 | ⭐⭐⭐ 教科书级 | 5 章均为深度撰写标杆 |
-| 卷二 · 芥子 | 2,210 | 442 | ⭐⭐⭐ 教科书级 | 含 FreeRTOS 源码剖析 + 协议详解 |
-| 卷三 · 乾坤 | 2,143 | 268 | ⭐⭐⭐ 深度充实 | 内存管理章 617 行为全库最长 |
-| 卷四 · 渊海 | ~700 | ~140 | ⭐⭐⭐ 体系完整 | 3 章扩充至公式 + 深入对比 |
+| 卷一 · 微尘 | 2,320 | 464 | ⭐⭐⭐ 教科书级 | 5 章均为深度撰写标杆 |
+| 卷二 · 芥子 | 2,232 | 446 | ⭐⭐⭐ 教科书级 | 含 FreeRTOS 源码剖析 + 协议详解 |
+| 卷三 · 乾坤 | 2,201 | 275 | ⭐⭐⭐ 深度充实 | 内存管理章 617 行为全库最长 |
+| 卷四 · 渊海 | 574 | 115 | ⭐⭐ 精炼有质 | 关系型数据库/存储引擎/共识协议/数据流水线均有公式 |
 | 卷零 · 灵犀 | 672 | 112 | ⭐⭐ 精炼有质 | 计算理论/编译原理有 Mermaid+KaTeX |
-| 卷六 · 须弥 | ~560 | ~112 | ⭐⭐ 公式充实 | DL/LLM/AI Agent 均 2 幅 Mermaid + 核心公式 |
-| 卷五 · 万象 | ~390 | ~78 | ⭐⭐ 图表到位 | 数据可视化/HCI 各 2 Mermaid + 公式 |
-| 卷八 · 千里 | ~480 | ~96 | ⭐⭐ 亮点突出 | G:P:M + Pod 内部 + 工程文化 3 Mermaid |
-| 卷七 · 天枢 | ~480 | ~96 | ⭐⭐ 公式充实 | 对称/非对称加密章 S-Box/RSA/ECC/LWE 公式 |
+| 卷五 · 万象 | 726 | 145 | ⭐⭐⭐ 深度充实 | GPU 206 行 + 前端 213 行深度补充 |
+| 卷六 · 须弥 | 634 | 127 | ⭐⭐ 精炼有质 | ML 基础 239 行 + DL/LLM/Agent 均有公式 |
+| 卷七 · 天枢 | 732 | 146 | ⭐⭐⭐ 深度充实 | 对称/非对称/哈希/ZKP 四章深度公式覆盖 |
+| 卷八 · 千里 | 619 | 124 | ⭐⭐ 精炼有质 | 设计模式/DevOps/可观测性各补充核心公式与模式对比 |
+| 卷七 · 天枢 | 732 | 146 | ⭐⭐⭐ 深度充实 | 对称/非对称/哈希/ZKP 四章深度公式覆盖 |
 
 ### 6 月 20 日改进记录
 
@@ -242,35 +243,42 @@ Phase 6 — 理论收尾
 | 7.1 | 对称加密 | 69 | ~140 | S-Box 仿射变换矩阵、GHASH 多项式 | AES-NI 指令、ChaCha20 ARX 详解 |
 | 7.2 | 非对称加密 | 64 | ~140 | RSA 欧拉定理、ECC 曲线方程、LWE | ECDLP 几何直觉、后量子 NIST 算法 |
 
-### 内容深度梯度可视化（改进后）
+#### 第四轮：全线收尾（5 章）
+
+| # | 章节 | 原行数 | 新行数 | 新增亮点 |
+|---|------|:--:|:--:|------|
+| 7.5 | 系统安全 | 67 | 116 | 缓冲区溢出栈帧攻防 Mermaid + ASLR 三域熵值 $H_{stack}=8,H_{heap}=13,H_{libs}=28$ + 五层防御经济博弈论 |
+| 8.4 | 可观测性 | 57 | 91 | PromQL 五种查询模式 + Histogram 分位数插值公式 + SLO 燃尽速率 Burn Rate + PID 时间窗口类比 |
+| 8.3 | DevOps | 87 | 112 | GitOps 差异检测四步自愈循环 + $\text{State}_{t+1} = \text{State}_{t} \xrightarrow{\text{reconcile}} \text{Git HEAD}$ + Prune 级联删除 + ChatOps/ClickOps 对比 |
+| 8.1 | 设计模式 | 115 | 133 | Visitor 双重分派 vs Interpreter AST 求值对比表 + 表达式问题与 OOP/FP 两种妥协 + open/closed world 形式逻辑联系 |
+| 4.5 | 数据流水线 | 126 | 148 | Kafka 幂等生产者 $\langle PID, epoch, seq\_no \rangle$ 三元组 + 重复概率几何分布估算 + 端到端论证 |
+
+### 内容深度梯度可视化（最终）
 
 ```
-教科书级 ████████████████████████████ 卷一 440、卷二 442
-深度充实 ████████████████████         卷三 268、卷四 140
-精炼有质 ████████                     卷零 112、卷六 112
-图表到位 ███████                       卷七 96、卷八 96、卷五 78
+教科书级 ████████████████████████████ 卷一 464、卷二 446
+深度充实 ██████████████████           卷三 275、卷五 145、卷七 146
+精炼有质 ████████████████████         卷零 112、卷四 115、卷八 124、卷六 127
 ```
 
-> **改进效果**：卷四从 ⭐⭐ 升为 ⭐⭐⭐（均行 97→140），卷七从 ⭐ 升为 ⭐⭐（均行 68→96），卷六从 ⭐ 升为 ⭐⭐（均行 57→112）。深度梯度从"头重脚轻"变为"整体均衡"。
+> **数据说明**：以上为 `wc -l` 实测值（49 章不含 index.md）。原先 PROGRESS.md 中部分卷的行数为估算值（标记 `~`），已在审查中替换为实测值——卷四从 ~722 修正为 574，卷六从 ~732 修正为 634，评级相应调整。
 
 ---
 
 ## 下一轮改进目标（优先队列）
 
-> Agent 新会话可从此表直接选取下一个改进任务。
+> 全部 🟡 中优先和 🟢 低优先级已完成。Agent 新会话可从此表查看已完成的改进。
 
 | 优先级 | 章节 | 文件 | 当前行数 | 改进目标 |
 |:--:|------|------|:--:|------|
-| 🔴 高 | GPU 渲染管线 | `05-wanxiang/01-gpu-rendering-pipeline.md` | ~60 | 补充 GPU 架构演进 Mermaid + 光栅化算法 KaTeX |
-| 🔴 高 | 前端工程 | `05-wanxiang/03-frontend-engineering.md` | ~63 | 补充 Virtual DOM Diff 算法 KaTeX + 渲染流水线深度 |
-| 🟡 中 | 机器学习基础 | `06-xumi/01-machine-learning-basics.md` | ~67 | 偏差-方差分解公式 + 正则化 L1/L2 数学推导 |
-| 🟡 中 | 哈希与签名 | `07-tianshu/03-hash-and-signature.md` | ~72 | SHA-256 压缩函数细节 + EdDSA 签名公式 |
-| 🟡 中 | 零知识证明 | `07-tianshu/04-zero-knowledge-proofs.md` | ~67 | 多项式承诺公式 + Groth16 配对验证 |
-| 🟢 低 | 系统安全 | `07-tianshu/05-system-security.md` | ~67 | 缓冲区溢出栈帧布局 Mermaid + ASLR 熵值计算 |
-| 🟢 低 | 设计模式 | `08-qianli/01-design-patterns-and-principles.md` | ~115 | 已有 G:P:M 深入，可补充 Visitor/Interpreter 模式对比 |
-| 🟢 低 | 可观测性 | `08-qianli/04-observability.md` | ~57 | 补充 PromQL 常见查询模式 + Histogram 分位数估算公式 |
-| 🟢 低 | DevOps | `08-qianli/03-devops-practices.md` | ~87 | 已深入 runc/Pod clone 标志位，可补充 GitOps 差异检测 |
-| 🟢 低 | 数据流水线 | `04-yuanhai/05-data-pipelines.md` | ~126 | 已有 Flink 调度深度，可补充 Kafka 幂等生产者公式 |
+| ✅ 全部完成 | 10 章改进 | 见上表 | — | 2026-06-20 单日完成全部优先队列 |
+
+### 持续改进总则
+
+1. **一次一章**——每轮只改进一个目标
+2. **优先补 KaTeX**——当前 34/49 章有公式（已达标）
+3. **联网调研**——涉及性能数据/协议参数/版本号时使用 WebSearch 核对
+4. **记录改进**——每完成一章，在此表中标记 ✅
 
 ### 持续改进总则
 

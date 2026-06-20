@@ -17,7 +17,7 @@ draft: false
 ---
 title: B+Tree（原地更新）vs LSM Tree（追加写）写入路径对比
 ---
-graph LR
+flowchart LR
     subgraph BTREE["B+Tree InnoDB"]
         W1["随机写"] --> P1["读页 → 修改 → 写回"]
         P1 --> S1["页分裂 → 写放大"]
@@ -28,6 +28,8 @@ graph LR
         M --> S2["SSTable L0 刷写"]
         S2 --> C["后台压缩合并"]
     end
+
+    BTREE ~~~ LSM
 
     style BTREE fill:#ffe0b2
     style LSM fill:#c8e6c9

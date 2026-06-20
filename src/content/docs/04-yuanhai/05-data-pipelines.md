@@ -31,6 +31,28 @@ graph LR
 
 ISR（同步副本集）确保消息在多数副本确认后才视为已提交——类似 [Raft 的多数确认](../04-consensus-protocols/)。当 Follower 落后超过阈值被踢出 ISR。
 
+### 幂等生产者与 Exactly-Once 语义
+
+Kafka 的幂等生产者解决了"producer 因网络超时重试导致重复消息"的经典问题。启用 `enable.idempotence=true` 后，每个 producer 被分配唯一 **PID**（Producer ID），每条消息携带三元组：
+
+$$
+\langle PID, epoch, seq\_no \rangle
+$$
+
+Broker 按 PID 维护最近的 $seq\_no$ 序列——如果收到的消息 $seq\_no \leq last\_seq\_no$，直接丢弃而不追加至日志。epoch 用于区分 producer 重启前后的生命周期，防止旧 epoch 的消息污染新 epoch 的序列。
+
+**幂等性的范围**：单分区内、单 producer 会话内保证。跨分区、跨 producer 重启不保证（重启后 PID 可能被 Broker 重新分配）。
+
+Kafka 的事务 API（`transactions`）在幂等性之上叠加原子多分区写入——通过两阶段提交 + 事务协调器实现。这与 [分布式基础章的 2PC 协议](../03-distributed-fundamentals/) 和 [WAL 的原子写入保证](../02-storage-engine/) 组合使用：先写 WAL（Kafka 日志）→ 再 flush 到 SSTable → 协调器 commit/abort。
+
+**重复率估算**：设网络超时概率 $p_{timeout}$，producer 在第 $k$ 次重试才成功的概率服从几何分布：
+
+$$
+P(\text{duplicate}) = 1 - \prod_{i=1}^{k} (1 - p^{(i)}_{ack}) \approx k \cdot p_{timeout} \quad (\text{当 } p \ll 1)
+$$
+
+幂等性使重复率降至 $10^{-9}$ 级别——对于交易流水等严苛场景仍需业务层幂等（如请求 ID 去重表）。这是 [分布式系统的端到端论证](https://en.wikipedia.org/wiki/End-to-end_principle)：传输层的可靠性保证无法消除应用层的重复语义。
+
 ---
 
 ## 流处理：事件时间 vs 处理时间
