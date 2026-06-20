@@ -82,7 +82,7 @@ graph TD
         ARROW["A → B"] --> FUNC_IMPL["函数 fn(A) -> B"]
         PROD["(A, B)"] --> STRUCT["struct / record"]
         SUM["A | B"] --> ENUM["enum / either"]
-        UNIV["泛型 T"] --> GENERIC["fn<T>(x: T)"]
+        UNIV["泛型 T"] --> GENERIC["fn#60;T#62;(x: T)"]
     end
 
     LOGIC -.->|"同构"| CS

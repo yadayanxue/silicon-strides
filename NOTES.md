@@ -26,6 +26,7 @@
 - [ ] Admonition 行首裸 `:::`
 - [ ] KaTeX `$` 前后与中文间有空格
 - [ ] 替换 Mermaid 块时包含闭合 ` ``` `
+- [ ] Mermaid 标签中的泛型尖括号用 `#60;` / `#62;`（不用 `<>`，会被浏览器 HTML 解析器吞掉）
 - [ ] 链接用相对路径，不用绝对 `/01-weichen/...`
 
 ### 增量编辑规则
@@ -148,3 +149,8 @@
 **症状**：NOTES.md 规则靠人手工 grep，导致 `../../../`、缺 fragment 等问题反复出现。
 **根因**：规则写在笔记里，没变成机器门禁。Agent 工作流只要求 `npm run build`，不强制跑其他检查。
 **方案**：将所有可自动化的检查收敛到 `check-cross-links.py`，Agent 工作流强制运行。待执行。
+
+### 22. Mermaid 标签中的 `<T>` 被浏览器 HTML 解析器吞掉
+**症状**：`fn<T>(x: T)` 在渲染后变为 `fn<t>(x: T)`（`<T>` 被当作 HTML 标签），Mermaid 解析失败，图不显示。
+**根因**：remark-mermaid 将 Mermaid 源码嵌入 `<div class="mermaid">`，浏览器 HTML 解析器将标签内的 `<T>` 等模式当作 HTML 标签，lowercase 处理并破坏文本。Astro 在处理 `type: 'html'` 节点时完全解码所有 HTML 实体，因此 `&lt;` `&amp;lt;` 等转义均无效。
+**方案**：在 .md 源文件中使用 Mermaid 的 Unicode escape 语法 `#60;` 替代 `<`，`#62;` 替代 `>`。例如 `fn#60;T#62;(x: T)`。Mermaid 渲染为 `<` `>` 字符，但 HTML 源码中不含尖括号，浏览器不误解析。仅适用于 Mermaid 节点标签中的泛型尖括号等非 HTML 语义的 `<>`——Mermaid 原生 HTML 标签（`<br/>` `<sub>` `<sup>`）不需要转义。 ✅

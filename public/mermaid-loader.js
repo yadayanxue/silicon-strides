@@ -25,19 +25,19 @@
     var containers = document.querySelectorAll('.mermaid');
     if (containers.length === 0) return; // 页面无 Mermaid 图，不加载 CDN
 
-	    loadMermaid(primaryCDN)
-	      .then(function (mermaid) {
-	        mermaid.initialize({ startOnLoad: false, theme: 'default' });
-	        return mermaid.run({ querySelector: '.mermaid' });
-	      })
-	      .then(function () {
-	        // Mermaid 渲染完成，恢复锚点——此时页面高度已稳定，一次定位到位
-	        if (window.__savedHash) {
-	          requestAnimationFrame(function () {
-	            window.location.hash = window.__savedHash.slice(1);
-	          });
-	        }
-	      })
+    loadMermaid(primaryCDN)
+      .then(function (mermaid) {
+        mermaid.initialize({ startOnLoad: false, theme: 'default' });
+        return mermaid.run({ querySelector: '.mermaid' });
+      })
+      .then(function () {
+        // Mermaid 渲染完成，恢复锚点——此时页面高度已稳定，一次定位到位
+        if (window.__savedHash) {
+          requestAnimationFrame(function () {
+            window.location.hash = window.__savedHash.slice(1);
+          });
+        }
+      })
       .catch(function () {
         console.warn('Mermaid CDN 加载失败，流程图将不显示');
       });
